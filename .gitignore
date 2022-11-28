@@ -14,5 +14,5 @@ package-lock.json
 **/*config.*
 /public/*.js
 /public/*.html
-!*/tsconfig.json
-!*/tailwind.config.js
+!**/tsconfig.json
+!**/tailwind.config.js
