@@ -9,9 +9,11 @@ export default function Header(){
     const link = "#"+buttonContent.toLowerCase().replaceAll(" ", "");
     return (
       <li key={link} className="grow hover:shadow-lg">
-        <button className="bg-[#312244]">
-          <a href={link}>{buttonContent}</a>
-        </button>
+        <a href={link}>
+          <button className="bg-[#312244]">
+            {buttonContent}
+          </button>
+        </a>
       </li>
     );
   }
