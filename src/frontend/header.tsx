@@ -10,7 +10,7 @@ export default function Header(){
     return (
       <li key={link} className="grow hover:shadow-lg">
         <a href={link}>
-          <button className="bg-[#312244]">
+          <button className="bg-[#312244] hover:bg-[#251a33]">
             {buttonContent}
           </button>
         </a>
@@ -23,7 +23,7 @@ export default function Header(){
         <h1 className="font-bold text-2xl py-2">My Friday Night List</h1>
         <div className="flex">
           <div className="flex w-72">
-            <input className="outline-none w-72 rounded-lg bg-[#212F45]" type="text" placeholder="   Search..." />
+            <input className="outline-none w-72 rounded-lg bg-[#212F45] pl-4" type="text" placeholder="Search..." />
           </div>
           <ul className="flex space-x-12">
             {buttonMap.map(HeaderButtonsCB)}
