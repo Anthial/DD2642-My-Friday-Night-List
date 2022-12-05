@@ -6,11 +6,10 @@ import Header from "./frontend/header"
 import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter.jsx"
 import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter.jsx"
 import {HashRouter, Route, Routes} from "react-router-dom"
-
+import PersonalList from "./frontend/presenters/personalListPresenter";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [count, setCount] = useState(0);
   return (
     <HashRouter>
     <div>
@@ -19,6 +18,7 @@ function App() {
         <Routes>
           <Route path="account" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route> {/** Change from account to details in the future*/}
           <Route path="account/trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
+          <Route path="mylist" element={<PersonalList></PersonalList>}></Route>
         </Routes>
       
       {/*<CherryworksButton x={count}></CherryworksButton>
@@ -29,4 +29,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

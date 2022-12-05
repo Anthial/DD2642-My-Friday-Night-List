@@ -2,12 +2,14 @@
 import {Link} from "react-router-dom"
 
 
+
 export default function Header(){
   const buttonMap = ["Search",
                     "My List",
                     "Account"]
 
   function HeaderButtonsCB(buttonContent: string){
+
     const link = buttonContent.toLowerCase().replaceAll(" ", "");
     return (
       <li key={link} className="grow hover:shadow-lg">
