@@ -1,4 +1,6 @@
 // Init Header
+import {Link} from "react-router-dom"
+
 
 export default function Header(){
   const buttonMap = ["Search",
@@ -6,14 +8,14 @@ export default function Header(){
                     "Account"]
 
   function HeaderButtonsCB(buttonContent: string){
-    const link = "#"+buttonContent.toLowerCase().replaceAll(" ", "");
+    const link = buttonContent.toLowerCase().replaceAll(" ", "");
     return (
       <li key={link} className="grow hover:shadow-lg">
-        <a href={link}>
+        <Link to={link}>
           <button className="bg-[#312244] hover:bg-[#251a33]">
             {buttonContent}
           </button>
-        </a>
+        </Link>
       </li>
     );
   }
