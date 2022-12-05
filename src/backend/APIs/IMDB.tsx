@@ -1,0 +1,38 @@
+import {IMDB_API_KEY, TENOR_API_KEY} from "./apiConfig"
+
+
+function handleResponse(response: any){
+    if (response.status !== 200){
+        throw new Error("Could not access data, status: " + response.status);
+    }
+    return response.json();
+
+}
+
+function readJSON(json: any){
+    //console.log(json);
+    console.log(json.results);
+    return json.results;
+}
+
+function fetchSearchResults(query: string){
+    const url =  `https://imdb-api.com/en/API/SearchSeries/${IMDB_API_KEY}/${query}`;
+    return fetch(url, {"method": "GET"}).then(handleResponse).then(readJSON);
+}
+
+function fetchEpisodes(id:string, season: string){
+    const url = `https://imdb-api.com/en/API/SeasonEpisodes/${IMDB_API_KEY}/${id}/${season}`;
+    return fetch(url, {"method": "GET"}).then(handleResponse).then(readJSON);
+}
+
+function fetchTrivia(id:string){
+    const url = `https://imdb-api.com/en/API/FAQ/${IMDB_API_KEY}/${id}`;
+    return fetch(url, {"method": "GET"}).then(handleResponse).then(readJSON);;
+}
+
+function fetchTestTenor(query:string){
+    const url = `https://g.tenor.com/v1/search?q=${query}&key=${TENOR_API_KEY}`
+    return fetch(url, {"method": "GET"}).then(handleResponse).then(readJSON);
+}
+
+export {fetchSearchResults, fetchEpisodes, fetchTrivia, fetchTestTenor}
