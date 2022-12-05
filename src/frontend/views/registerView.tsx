@@ -1,24 +1,23 @@
-function LoginView(props) {
-  const hideUserinfoString = true;
-
+function RegisterView(props) {
   function usernameValueChangedACB(e) {
     props.onUsernameChange(e.target.value);
   }
   function passwordValueChangedACB(e) {
     props.onPasswordChange(e.target.value);
   }
+  function repeatedPasswordValueChangedACB(e) {
+    props.onRepeatedPasswordChange(e.target.value);
+  }
   function loginButtonPressedACB() {
-    /* if() the input value of either username or password is null/empty. Maybe do this is presenter, but how? */
-    props.attemptLogin();
+    props.attemptRegistration();
   }
   function userRegisterACB() {
-    //show register view
   }
   return (
     <div className="px-5 py-7 flex justify-center">
       <div>
         <label className="text-white" htmlFor="Login">
-          Log in here
+          Register an account
         </label>
         <div>
           <input
@@ -42,25 +41,32 @@ function LoginView(props) {
             required
           ></input>
         </div>
+        <div>
+          <input
+            className="text-white mt-1 mb-2 px-2 py-1 rounded-lg bg-[#312244]"
+            type="password"
+            name="PasswordRepeated"
+            id="PasswordRepeated"
+            placeholder="Repeat password"
+            onChange={repeatedPasswordValueChangedACB}
+            required
+          ></input>
+        </div>
         <div className="text-white">
           <button
-            className="px-5 py-1 bg-[#312244]"
+            className="px-11 py-1 bg-[#312244]"
             onClick={loginButtonPressedACB}
           >
-            Log in
+            Register account
           </button>
-          <a href="#register" className="ml-8" onClick={userRegisterACB}>
-            Or register?
-          </a>
         </div>
-        <div
-          className="mt-1 text-red-500 justify-end"
-          hidden={hideUserinfoString}
-        >
-          {"You must enter both username and password in order to log in"}
+        <div className="mt-1 text-red-500 justify-end">
+          {
+            "Enter a name and password to register an account / Passwords must be the same / Username already taken"
+          }
         </div>
       </div>
     </div>
   );
 }
-export default LoginView;
+export default RegisterView;
