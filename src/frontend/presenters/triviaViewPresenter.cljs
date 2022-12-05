@@ -1,5 +1,7 @@
 (ns frontend.presenters.triviaViewPresenter
-  (:require ["../views/triviaView.jsx" :as ds :refer [trivia_view]]))
+  (:require ["../views/triviaView.jsx" :as ds :refer [trivia_view]]
+            ["../../backend/APIs/IMDB.tsx" :refer [fetchTrivia fetchTestTenor]]
+            ["react" :refer [useState useEffect]]))
 
 
 
@@ -33,8 +35,27 @@
 )
 
 
+(def id "tt0118480")
+
+(defn ^:async fetchTest [query API_KEY]
+  (js/console.log id)
+  (when (not= id nil)
+    (let [resp (js/await (fetchTestTenor query))]
+      (js/console.log (aget resp 0))
+      #jsx [:img {:src (-> (aget resp (rand-int 20)) 
+                        (.-media)
+                           (aget 0)
+                           (.-gif)
+                           (.-url))}])))
+
+(defn ^:async getResp [set id]
+  (set (js/await (fetchTest "cats" "aaa"))))
+
+
 (defn trivia-view-presenter [props]
-  (let [props (js->clj props)]
-    #jsx [:div (trivia_view model)]))
+  (let [props (js->clj props)
+        [resp setResp] (useState "init resp")]
+  #jsx [:div [:button {:onClick (fn [] (getResp setResp id))} "click me to test fetching"] resp
+        [:img {:src "https://tenor.com/bPnKy.gif"}]]))
 
 (def default trivia-view-presenter)
