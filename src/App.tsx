@@ -17,8 +17,8 @@ function App() {
       <Header></Header>
       
         <Routes>
-          <Route path="search" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route>
-          <Route path="account" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
+          <Route path="account" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route> {/** Change from account to details in the future*/}
+          <Route path="account/trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
         </Routes>
       
       {/*<CherryworksButton x={count}></CherryworksButton>

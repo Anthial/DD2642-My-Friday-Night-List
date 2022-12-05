@@ -1,4 +1,6 @@
-(ns frontend.views.detailsView)
+(ns frontend.views.detailsView
+  (:require ["react-router-dom" :refer [Link]]
+            ["react" :refer [createElement]]))
 
 (defn generate-view [episode]
   (let [id (:id episode)
@@ -34,7 +36,7 @@
            [:div {:className "flex flex-col items-center"}
             [:div {:className "flex flex-row items-center text-center mt-2"} 
              [:div {:className "w-40 font-bold text-2xl lg:text-4xl lg:w-64"} title "-" year] 
-             [:button {:className "ml-4 bg-[#4D194D] font-bold"}"Trivia"]]]
+             [:Link {:to "trivia"}[:button {:className "ml-4 bg-[#4D194D] font-bold"}"Trivia"]]]]
            [:div {:className "flex flex-row flex-wrap container w-128 justify-center items-center text-center mt-2"}
            (map #(generate-view %) episodes)]]]))
 
