@@ -39,7 +39,7 @@ function renderMainContent(tvShow: any) {
     return <div></div>;
   }
   function generateStreamingLinks(streamingInfo: object) {
-    console.log(Object.keys(streamingInfo));
+    console.log(Object.keys(streamingInfo)); //gives me an array
     return <div>{Object.keys(streamingInfo)}</div>;
   }
   // console.log(tvShow);
