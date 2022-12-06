@@ -3,12 +3,12 @@
             ["react" :refer [createElement]]))
 
 (defn generate-view [episode]
-  (let [id (:id episode)
-        episode-number (:episodeNumber episode)
-        title (:title episode)
-        image (:image episode)
-        release (:released episode)
-        description (:plot episode)]
+  (let [id (.-id episode)
+        episode-number (.-episodeNumber episode)
+        title (.-title episode)
+        image (.-image episode)
+        release (.-released episode)
+        description (.-plot episode)]
     #jsx [:div {:key id 
                 :className "flex container flex-col items-center text-center w-full md:w-80 h-[600px] mt-2 
                             bg-[#006466] p-8 m-2 lg:m-5 rounded-lg lg:hover:scale-105 lg:hover:duration-300 
@@ -26,11 +26,10 @@
 
 
 (defn details-view [props]
-  (let [props (js->clj props)
-        title (:title props)
-        year (:year props)
-        episodes (:episodes props)]
-    #jsx [:div {:className "flex justify-center h-screen w-full"}
+  (let [title (.-title props)
+        year (.-year props)
+        episodes (.-episodes props)]
+    #jsx [:div {:className "flex justify-center h-screen lg:h-[600px] w-full"}
           [:div {:className "container justify-center w-full"}
            
            [:div {:className "flex flex-col items-center"}

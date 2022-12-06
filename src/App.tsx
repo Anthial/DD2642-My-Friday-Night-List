@@ -4,8 +4,8 @@ import { RecoilRoot } from 'recoil'
 import reactLogo from './assets/react.svg'
 import CherryworksButton from './cljstest/cherry.jsx'
 import Header from "./frontend/header"
-import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter.jsx"
-import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter.jsx"
+import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter";
+import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter";
 import PersonalList from "./frontend/presenters/personalListPresenter";
 import SearchResults from './frontend/presenters/searchResultsPresenter';
 
