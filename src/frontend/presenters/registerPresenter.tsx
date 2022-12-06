@@ -1,30 +1,34 @@
 import RegisterView from "../views/registerView";
 
 function Register(props) {
-    const userLoginData = { username: "", password: "" , repeatedPassword: ""}; //Could be swapped to "UserAccount" later.
+    const userRegitrationData = { username: "", nickname: "", password: "" , repeatedPassword: ""}; //Could be swapped to "UserAccount" later.
     function compareUserLoginInfoACB() {
-        if (userLoginData.username == "" || userLoginData.password == "")
+        if (userRegitrationData.username == "" || userRegitrationData.password == "")
             1; //First error, user must input a name and password
-        else if(userLoginData.password !== userLoginData.repeatedPassword)
+        else if(userRegitrationData.password !== userRegitrationData.repeatedPassword)
             2; //Other error, passwords must match
-        else if(props.model.lookUpUser(userLoginData.username))
+        else if(props.model.lookUpUser(userRegitrationData.username))
             3; //Third error, the username already exists
-      else props.model.logInUser(userLoginData.username, userLoginData.password);
+      else props.model.logInUser(userRegitrationData.username, userRegitrationData.password);
     }
     function updateUsernameInputACB(usernameString: string) {
-      userLoginData.username = usernameString;
+        userRegitrationData.username = usernameString;
     }
+    function updateNicknameInputACB(nicknameString: string) {
+        userRegitrationData.nickname = nicknameString;
+      }
     function updatePasswordInputACB(passwordString: string) {
-      userLoginData.password = passwordString;
+        userRegitrationData.password = passwordString;
     }
     function updateRepeatedPasswordInputACB(repeatedPasswordString: string) {
-        userLoginData.repeatedPassword = repeatedPasswordString;
+        userRegitrationData.repeatedPassword = repeatedPasswordString;
       }
   
     return (
       <RegisterView
         attemptRegistration={compareUserLoginInfoACB}
         onUsernameChange={updateUsernameInputACB}
+        onNicknameChange={updateNicknameInputACB}
         onPasswordChange={updatePasswordInputACB}
         onRepeatedPasswordChange={updateRepeatedPasswordInputACB}
       />

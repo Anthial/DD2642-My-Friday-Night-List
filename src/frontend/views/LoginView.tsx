@@ -1,5 +1,4 @@
 function LoginView(props) {
-  const hideUserinfoString = true;
 
   function usernameValueChangedACB(e) {
     props.onUsernameChange(e.target.value);
@@ -26,7 +25,7 @@ function LoginView(props) {
             type="text"
             name="Username"
             id="Username"
-            placeholder="A fake name"
+            placeholder="Username"
             onChange={usernameValueChangedACB}
             required
           ></input>
@@ -53,11 +52,8 @@ function LoginView(props) {
             Or register?
           </a>
         </div>
-        <div
-          className="mt-1 text-red-500 justify-end"
-          hidden={hideUserinfoString}
-        >
-          {"You must enter both username and password in order to log in"}
+        <div className="mt-1 text-red-500 justify-end" hidden={true/* Tills vidare... */}>
+          You must enter both username and password in order to log in
         </div>
       </div>
     </div>
