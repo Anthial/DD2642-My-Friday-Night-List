@@ -1,0 +1,6 @@
+//Rapid api streaming availability
+const BASE_URL="rapidapi.com";  
+const IMDB_API_KEY="ffd288e10dmsh92230e6f72edaa6p198699jsn591eec17d29c"; 
+
+export {BASE_URL, IMDB_API_KEY};
+
