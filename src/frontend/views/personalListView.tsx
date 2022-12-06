@@ -1,28 +1,29 @@
 import React from "react";
 
 function PersonalListView(props: any) {
-  // console.log(props);
-  console.log(props.availability);
+  console.log(props);
+  // console.log(props.availability);
 
   return (
     <div>
       <h1 className="underline decoration-solid decoration-4 underline-offset-4 ml-4 mt-4 mb-4">
         My list
       </h1>
-      {console.log(props.tvShow)}
+      {/* {console.log(props.tvShow)} */}
       {props.tvShow.map(renderMainContent)}
     </div>
   );
 }
 
 function renderSeasons(season: any) {
-  console.log("test");
+  // console.log("test");
   return (
     <div className="inline-block whitespace-pre pl-[120px] flex">
       Season {season}
     </div>
   );
 }
+function renderLinks() {}
 
 function renderMainContent(tvShow: any) {
   const [expand, setExpand] = React.useState(false);
@@ -37,7 +38,10 @@ function renderMainContent(tvShow: any) {
     }
     return <div></div>;
   }
-
+  function generateStreamingLinks(streamingInfo: object) {
+    console.log(Object.keys(streamingInfo));
+    return <div>{Object.keys(streamingInfo)}</div>;
+  }
   // console.log(tvShow);
   return (
     <div
@@ -59,9 +63,8 @@ function renderMainContent(tvShow: any) {
           <span className="text-[#b7e4c7] whitespace-pre">Watched: </span>
           <span> x/total</span>
         </div>
-        <div>
-          <span></span>
-        </div>
+        <div></div>
+        {generateStreamingLinks(tvShow.streamingInfo)}
 
         <button
           className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg"

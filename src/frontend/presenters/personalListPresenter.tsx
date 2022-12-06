@@ -6,14 +6,15 @@ import availability from "../../backend/model/streamingAvailabilityDummyStargate
 
 function PersonalList(props: any) {
   function concatenateApis() {
-    let myShows = [];
+    let concatObject = { ...Stargate, ...availability };
+    return concatObject;
   }
-  // console.log(props);
+  // console.log(concatenateApis());
   // console.log(stargate);
   return (
     <PersonalListView
-      tvShow={[Stargate, Stargate]}
-      availability={availability.streamingInfo}
+      tvShow={[concatenateApis(), concatenateApis()]}
+      // availability={availability.streamingInfo}
     />
   );
 }
