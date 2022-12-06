@@ -2,7 +2,6 @@ import { useState } from 'react'
 import {HashRouter, Route, Routes} from "react-router-dom"
 import { RecoilRoot } from 'recoil'
 import reactLogo from './assets/react.svg'
-import './App.css'
 import CherryworksButton from './cljstest/cherry.jsx'
 import Header from "./frontend/header"
 import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter.jsx"
