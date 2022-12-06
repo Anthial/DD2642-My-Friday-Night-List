@@ -2,7 +2,6 @@ import React from "react";
 
 function PersonalListView(props: any) {
   console.log(props);
-  // console.log(props.availability);
 
   return (
     <div>
@@ -18,12 +17,31 @@ function PersonalListView(props: any) {
 function renderSeasons(season: any) {
   // console.log("test");
   return (
-    <div className="inline-block whitespace-pre pl-[120px] flex">
+    <div className="inline-block whitespace-pre pl-[120px]">
       Season {season}
     </div>
   );
 }
-function renderLinks() {}
+function renderLinks(links: any) {
+  function capitalizeFirstLetter(string: string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+  const region: string = Object.keys(links[1])[0];
+  // console.log(Object.keys(links[1])[0]);
+  return (
+    // <div className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff]">
+    <a
+      className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white"
+      href={links[1][region].link}
+    >
+      {capitalizeFirstLetter(links[0])}
+    </a>
+    // </div>
+  );
+}
+function renderCountries(country: string) {
+  return <span>{country} / </span>;
+}
 
 function renderMainContent(tvShow: any) {
   const [expand, setExpand] = React.useState(false);
@@ -39,10 +57,13 @@ function renderMainContent(tvShow: any) {
     return <div></div>;
   }
   function generateStreamingLinks(streamingInfo: object) {
-    console.log(Object.keys(streamingInfo)); //gives me an array
-    return <div>{Object.keys(streamingInfo)}</div>;
+    // console.log(Object.entries(streamingInfo)); //gives me an array containing the keys for the streaming objects
+    return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
-  // console.log(tvShow);
+  function getCountries(countries) {
+    console.log(countries);
+    return <span>{countries.map(renderCountries)}</span>;
+  }
   return (
     <div
       key={tvShow.id}
@@ -53,25 +74,33 @@ function renderMainContent(tvShow: any) {
           src={tvShow.image}
           className="inline w-[100px] object-cover rounded-md mr-2"
         ></img>
-        <div
-          className="hover:border-b border-solid border-[#b7e4c7] hover:cursor-pointer"
-          onClick={expandACB}
-        >
-          <span className="mr-2.5">{tvShow.fullTitle}</span>
-          <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
-          <span className="mr-2.5">{tvShow.countries}</span>
-          <span className="text-[#b7e4c7] whitespace-pre">Watched: </span>
-          <span> x/total</span>
+        <div className="flex flex-col">
+          <div className="flex flex-row">
+            <div
+              className="hover:border-b border-solid border-[#b7e4c7] hover:cursor-pointer"
+              onClick={expandACB}
+            >
+              <span className="mr-2.5">{tvShow.fullTitle}</span>
+              <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
+              {getCountries(tvShow.countries)}
+            </div>
+            <button
+              id="expand-icon"
+              className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg "
+              onClick={expandACB}
+            >
+              <img
+                id="expand-icon"
+                className="w-4 bg-transparent ${}"
+                src="/src/assets/expand-down-arrow-ico.png"
+                alt="expand down arrow"
+              />
+            </button>
+          </div>
+          <div className="flex text-[#b7e4c7] pt-1">
+            Watch at: {generateStreamingLinks(tvShow.streamingInfo)}
+          </div>
         </div>
-        <div></div>
-        {generateStreamingLinks(tvShow.streamingInfo)}
-
-        <button
-          className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg"
-          onClick={expandACB}
-        >
-          Ex
-        </button>
       </div>
       {expandedContent(tvShow.tvSeriesInfo.seasons)}
     </div>
