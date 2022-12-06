@@ -1,7 +1,9 @@
 import DetailsView from "../views/detailsView.jsx"
+import { fetchTrivia, fetchTestTenor, fetchEpisodes } from '../../backend/api/imdb/IMDB';
+import { useState, useEffect } from 'react';
 
 function detailsViewPresenter(props:any){
-    const model = {
+    const tempmodel = {
         "imDbId": "tt0118480",
         "title": "Stargate SG-1",
         "fullTitle": "Stargate SG-1 (TV Series 1997–2007)",
@@ -263,9 +265,25 @@ function detailsViewPresenter(props:any){
         ],
         "errorMessage": ""
     }
+    const id = "tt0118480";
+    const season = "1";
+    const [title, setTitle] = useState(null)
+    const [year, setYear] = useState(null)
+    const [episodes, setEpisodes] = useState(null)
+    
+    useEffect(()=> {
+        const fetchData = async () => {
+            const response = await fetchEpisodes("id", season)
+            console.log(response)
+            setTitle(response.title)
+            setYear(response.year)
+            setEpisodes(response.episodes)
+        }
+    fetchData()}, [])
+
     return(
         <div>
-        <DetailsView title={model.title} year={model.year} episodes={model.episodes}></DetailsView>
+        <DetailsView title={title ? title : tempmodel.title} year={year ? year : tempmodel.year} episodes={episodes ? episodes : tempmodel.episodes}></DetailsView>
         </div>)
 }
 
