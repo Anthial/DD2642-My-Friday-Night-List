@@ -5,7 +5,7 @@ export const imdbPlaceholderData: Title[] = [
 	{
 		id: "tt0111161",
 		name: "The Shawshank Redemption",
-		imageUrl: "public/placeholder/tt0111161.jpg",
+		imageUrl: "placeholder/tt0111161.jpg",
 
 		type: TitleType.Movie,
 		episodes: 0
@@ -13,7 +13,7 @@ export const imdbPlaceholderData: Title[] = [
 	{
 		id: "tt0068646",
 		name: "The Godfather",
-		imageUrl: "public/placeholder/tt0068646.jpg",
+		imageUrl: "placeholder/tt0068646.jpg",
 
 		type: TitleType.Movie,
 		episodes: 0
@@ -21,7 +21,7 @@ export const imdbPlaceholderData: Title[] = [
 	{
 		id: "tt0468569",
 		name: "The Dark Knight",
-		imageUrl: "public/placeholder/tt0468569.jpg",
+		imageUrl: "placeholder/tt0468569.jpg",
 
 		type: TitleType.Movie,
 		episodes: 0
@@ -29,7 +29,7 @@ export const imdbPlaceholderData: Title[] = [
 	{
 		id: "tt5491994",
 		name: "Planet Earth II",
-		imageUrl: "public/placeholder/tt5491994.jpg",
+		imageUrl: "placeholder/tt5491994.jpg",
 
 		type: TitleType.TVShow,
 		episodes: 6
@@ -37,7 +37,7 @@ export const imdbPlaceholderData: Title[] = [
 	{
 		id: "tt0903747",
 		name: "Breaking Bad",
-		imageUrl: "public/placeholder/tt0903747.jpg",
+		imageUrl: "placeholder/tt0903747.jpg",
 
 		type: TitleType.TVShow,
 		episodes: 4
@@ -45,7 +45,7 @@ export const imdbPlaceholderData: Title[] = [
 	{
 		id: "tt0795176",
 		name: "Planet Earth",
-		imageUrl: "public/placeholder/tt0795176.jpg",
+		imageUrl: "placeholder/tt0795176.jpg",
 
 		type: TitleType.TVShow,
 		episodes: 3
