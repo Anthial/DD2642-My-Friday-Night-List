@@ -1,6 +1,6 @@
 (ns frontend.presenters.triviaViewPresenter
   (:require ["../views/triviaView.jsx" :as ds :refer [trivia_view]]
-            ["../../backend/APIs/IMDB.tsx" :refer [fetchTrivia fetchTestTenor]]
+            ["../../backend/api/imdb/IMDB.tsx" :refer [fetchTrivia fetchTestTenor]]
             ["react" :refer [useState useEffect]]))
 
 

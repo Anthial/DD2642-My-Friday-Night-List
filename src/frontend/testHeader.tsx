@@ -1,28 +1,22 @@
-// Init Header
-import {Link} from "react-router-dom"
+/* Header for testing search results view (don't merge!!!) */
 
-
-
-export default function Header(){
+export default function TestHeader(){
   const buttonMap = ["Search",
                     "My List",
                     "Account"]
 
   function HeaderButtonsCB(buttonContent: string){
-
     const link = buttonContent.toLowerCase().replaceAll(" ", "");
     return (
       <li key={link} className="grow hover:shadow-lg">
-        <Link to={link}>
-          <button className="bg-[#312244] hover:bg-[#251a33]">
-            {buttonContent}
-          </button>
-        </Link>
+		<button className="bg-[#312244] hover:bg-[#251a33]">
+		{buttonContent}
+		</button>
       </li>
     );
   }
   return (
-    <div>
+    <div className="shrink-0 grow-0">
       <div className="px-5 py-7 flex justify-evenly items-center bg-[#312244]">
         <div className="hidden lg:flex">
           <h1 className="font-bold text-2xl py-2 mr-20">My Friday Night List</h1>
@@ -41,7 +35,7 @@ export default function Header(){
           <div className="flex ml-2 w-50 h-12">
               <input className="outline-none w-50 rounded-lg bg-[#212F45] pl-4" type="text" placeholder="Search..." />
           </div>
-          <button className="bg-[#312244]"><img src="https://cpb-us-w2.wpmucdn.com/sites.widener.edu/dist/7/57/files/2019/03/Hamburger_icon_svg.png" 
+          <button className="bg-[#312244]"><img src="hamburger.png" 
               className="w-10 h-10 outline-white"></img>
           </button>
         </div>
