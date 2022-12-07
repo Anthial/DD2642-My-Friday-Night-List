@@ -1,3 +1,5 @@
+import {Link} from "react-router-dom"
+
 function LoginView(props) {
 
   function usernameValueChangedACB(e) {
@@ -42,15 +44,17 @@ function LoginView(props) {
           ></input>
         </div>
         <div className="text-white">
+          <Link to="/mylist">
           <button
             className="px-5 py-1 bg-[#312244]"
             onClick={loginButtonPressedACB}
           >
             Log in
           </button>
-          <a href="#register" className="ml-8" onClick={userRegisterACB}>
+          </Link>
+          <Link to="register" className="ml-8" onClick={userRegisterACB}>
             Or register?
-          </a>
+          </Link>
         </div>
         <div className="mt-1 text-red-500 justify-end" hidden={true/* Tills vidare... */}>
           You must enter both username and password in order to log in
