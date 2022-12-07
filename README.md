@@ -34,7 +34,7 @@ We have made views and presenters available for the following:
   * Movie / TV Show Details View
   * Trivia View
   * Header / Navigation
-  * Our one API call (which occurs when you click the ellipsis while hovering over any content in the SearchResultsView. It makes one IMDB call to find the episode details of season 1 of Stargate SG-1." 
+  * Our one API call (which occurs when you click the ellipsis while hovering over any content in the SearchResultsView. It makes one IMDB call to find the episode details of season 1 of Stargate SG-1.) 
   
 What you still plan to do:
   * Firebase DB Caching
