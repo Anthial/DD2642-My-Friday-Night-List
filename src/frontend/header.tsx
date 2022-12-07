@@ -1,19 +1,22 @@
 // Init Header
+import {Link} from "react-router-dom"
+
+
 
 export default function Header(){
   const buttonMap = ["Search",
-                    "My List",
-                    "Account"]
+                    "My List"]
 
   function HeaderButtonsCB(buttonContent: string){
-    const link = "#"+buttonContent.toLowerCase().replaceAll(" ", "");
+
+    const link = buttonContent.toLowerCase().replaceAll(" ", "");
     return (
       <li key={link} className="grow hover:shadow-lg">
-        <a href={link}>
+        <Link to={link}>
           <button className="bg-[#312244] hover:bg-[#251a33]">
             {buttonContent}
           </button>
-        </a>
+        </Link>
       </li>
     );
   }
@@ -23,10 +26,10 @@ export default function Header(){
         <div className="hidden lg:flex">
           <h1 className="font-bold text-2xl py-2 mr-20">My Friday Night List</h1>
           <div className="flex">
-            <div className="flex w-72">
+            <div className="flex w-72 mr-4">
               <input className="outline-none w-72 rounded-lg bg-[#212F45] pl-4" type="text" placeholder="Search..." />
             </div>
-            <ul className="flex space-x-12">
+            <ul className="flex space-x-2">
               {buttonMap.map(HeaderButtonsCB)}
             </ul>
           </div>
