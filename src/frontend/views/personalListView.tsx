@@ -8,7 +8,6 @@ function PersonalListView(props: any) {
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
-      {/* {console.log(props.tvShow)} */}
       {props.tvShow.map(renderMainContent)}
     </div>
   );
@@ -27,7 +26,6 @@ function renderLinks(links: any) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
   const region: string = Object.keys(links[1])[0];
-  // console.log(Object.keys(links[1])[0]);
   return (
     <a
       className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white"
@@ -47,7 +45,6 @@ function renderMainContent(tvShow: any) {
 
   function expandACB() {
     setExpand(!expand);
-    // Fixa rotation också
   }
 
   function renderIconCB() {

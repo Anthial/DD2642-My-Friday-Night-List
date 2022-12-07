@@ -1,7 +1,5 @@
 import PersonalListView from "../views/personalListView";
-import myTvShows from "../../backend/model/dummyTvData";
 import { Stargate } from "../../backend/model/dummyStargate";
-import { dummyMainContent } from "../../backend/model/dummyStargate";
 import availability from "../../backend/model/streamingAvailabilityDummyStargate";
 
 function PersonalList(props: any) {
@@ -9,14 +7,7 @@ function PersonalList(props: any) {
     let concatObject = { ...Stargate, ...availability };
     return concatObject;
   }
-  // console.log(concatenateApis());
-  // console.log(stargate);
-  return (
-    <PersonalListView
-      tvShow={[concatenateApis(), concatenateApis()]}
-      // availability={availability.streamingInfo}
-    />
-  );
+  return <PersonalListView tvShow={[concatenateApis(), concatenateApis()]} />;
 }
 
 export default PersonalList;

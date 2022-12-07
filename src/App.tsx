@@ -1,50 +1,42 @@
 import { useState } from "react";
+import { HashRouter, Route, Routes } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import reactLogo from "./assets/react.svg";
-import "./App.css";
 import CherryworksButton from "./cljstest/cherry.jsx";
 import Header from "./frontend/header";
 import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter.jsx";
 import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter.jsx";
-import { HashRouter, Route, Routes } from "react-router-dom";
 import PersonalList from "./frontend/presenters/personalListPresenter";
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from "recoil";
+import SearchResults from "./frontend/presenters/searchResultsPresenter";
 
 function App() {
   const [count, setCount] = useState(0);
   return (
-    <RecoilRoot>
-      <HashRouter>
-        <div>
-          <Header></Header>
+    <HashRouter>
+      <div id="app" className="flex flex-col w-full h-full">
+        <Header></Header>
 
-          <Routes>
-            <Route
-              path="account"
-              element={<DetailsViewPresenter></DetailsViewPresenter>}
-            ></Route>{" "}
-            {/** Change from account to details in the future*/}
-            <Route
-              path="account/trivia"
-              element={<TriviaViewPresenter></TriviaViewPresenter>}
-            ></Route>
-            <Route
-              path="mylist"
-              element={<PersonalList></PersonalList>}
-            ></Route>
-          </Routes>
+        <Routes>
+          <Route
+            path="details"
+            element={<DetailsViewPresenter></DetailsViewPresenter>}
+          ></Route>
+          <Route
+            path="details/trivia"
+            element={<TriviaViewPresenter></TriviaViewPresenter>}
+          ></Route>
+          <Route path="mylist" element={<PersonalList></PersonalList>}></Route>
+          <Route
+            path="search"
+            element={<SearchResults></SearchResults>}
+          ></Route>
+        </Routes>
 
-          {/*<CherryworksButton x={count}></CherryworksButton>
+        {/*<CherryworksButton x={count}></CherryworksButton>
       <button onClick={() => setCount(count + 1)}>{count}</button>
       */}
-        </div>
-      </HashRouter>
-    </RecoilRoot>
+      </div>
+    </HashRouter>
   );
 }
 

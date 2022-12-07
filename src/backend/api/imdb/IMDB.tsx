@@ -10,9 +10,8 @@ function handleResponse(response: any){
 }
 
 function readJSON(json: any){
-    //console.log(json);
-    console.log(json.results);
-    return json.results;
+    console.log(json);
+    return json;
 }
 
 function fetchSearchResults(query: string){
@@ -27,7 +26,12 @@ function fetchEpisodes(id:string, season: string){
 
 function fetchTrivia(id:string){
     const url = `https://imdb-api.com/en/API/FAQ/${IMDB_API_KEY}/${id}`;
-    return fetch(url, {"method": "GET"}).then(handleResponse).then(readJSON);;
+    return fetch(url, {"method": "GET"}).then(handleResponse).then(readJSON);
+}
+
+function fetchTitle(id:string){
+    const url = `https://imdb-api.com/en/API/Title/${IMDB_API_KEY}/${id}/FullActor,FullCast,Posters,Images,Trailer,Ratings,Wikipedia,`
+    return fetch(url, {"method": "GET"}).then(handleResponse).then(readJSON);
 }
 
 function fetchTestTenor(query:string){
@@ -35,4 +39,4 @@ function fetchTestTenor(query:string){
     return fetch(url, {"method": "GET"}).then(handleResponse).then(readJSON);
 }
 
-export {fetchSearchResults, fetchEpisodes, fetchTrivia, fetchTestTenor}
+export {fetchSearchResults, fetchEpisodes, fetchTrivia, fetchTestTenor, fetchTitle}

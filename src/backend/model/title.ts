@@ -15,15 +15,15 @@ export interface Episode {
 }
 
 export interface Title {
-	id: TitleId,
-	name: string,
-	imageUrl: string,
+    id: TitleId,
+    type: TitleType,
 
-	type: TitleType,
-	episodes: number
-}
+    name: string,
+    imageUrl: string,
 
-export interface TitleDetails {
-	episodeList: Episode[]
-	/* TODO */
+    seasons: number,
+    year: number,
+
+    plot: string,
+    stars: string[]
 }
