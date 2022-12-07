@@ -34,5 +34,5 @@ package-lock.json
 !**/vite.config.ts
 !**/postcss.config.cjs
 
+src/backend/APIs/apiConfig
 src/dummy/*
-
