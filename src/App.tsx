@@ -15,24 +15,27 @@ function App() {
   const [count, setCount] = useState(0);
   return (
     <HashRouter>
-    <div id="app" className="flex flex-col w-full h-full">
-      <Header></Header>
-      
+      <div id="app" className="flex flex-col w-full h-full">
+        <Header></Header>
+
         <Routes>
           <Route path="" element={<LoginViewPresenter />}></Route>
           <Route path="register" element={<RegisterViewPresenter />}></Route>}
           <Route path="details" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route>
           <Route path="details/trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
           <Route path="mylist" element={<PersonalList></PersonalList>}></Route>
-          <Route path="search" element={<SearchResults></SearchResults>}></Route>
+          <Route
+            path="search"
+            element={<SearchResults></SearchResults>}
+          ></Route>
         </Routes>
-      
-      {/*<CherryworksButton x={count}></CherryworksButton>
+
+        {/*<CherryworksButton x={count}></CherryworksButton>
       <button onClick={() => setCount(count + 1)}>{count}</button>
       */}
-    </div>
+      </div>
     </HashRouter>
-  )
+  );
 }
 
 export default App;
