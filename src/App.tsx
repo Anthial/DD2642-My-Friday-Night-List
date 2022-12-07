@@ -20,7 +20,7 @@ function App() {
 
         <Routes>
           <Route path="" element={<LoginViewPresenter />}></Route>
-          <Route path="register" element={<RegisterViewPresenter />}></Route>}
+          <Route path="register" element={<RegisterViewPresenter />}></Route>
           <Route path="details" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route>
           <Route path="details/trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
           <Route path="mylist" element={<PersonalList></PersonalList>}></Route>
