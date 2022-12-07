@@ -56,6 +56,10 @@ Your project file structure (short description/purpose of each file):
   * src/frontend/views/triviaView.jsx &nbsp; &nbsp; - &nbsp; &nbsp; *Transpiled triviaView.cljs, is what is actually used in the detailsViewPresenter*
   * src/frontend/presenters/searchResultsPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Calls placeholder API to get fake search results after 500 ms (to simulate loading)*
   * src/frontend/views/searchResultsView.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Shows search results from IMDB API*
+  * src/frontend/views/loginView.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *shows the user the login prompt where they can input username and password, or redirect to registerView*
+  * src/frontend/presenters/loginPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *gets the userinfo from loginView and will in the future send userinfo to model for confirming correct logins*
+  * src/frontend/views/registerView.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *shows the user a register prompt with input for username, nickname and password (twice)*
+  * src/frontend/presenters/registerPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *will in the future send the userinfo to the model so the user can get registered.*
   * src/backend &nbsp; &nbsp; - &nbsp; &nbsp; *Where we deal with the model, Firebase and the APIs*
   * src/backend/imdb &nbsp; &nbsp; - &nbsp; &nbsp; *Where we store any functions relating to the IMDB API*
   * src/backend/accounts/placeholderData.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Placeholder data for accounts (not used yet)*
