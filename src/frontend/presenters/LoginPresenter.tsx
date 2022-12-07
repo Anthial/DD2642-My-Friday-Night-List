@@ -2,7 +2,7 @@ import LoginView from "../views/LoginView";
 //import { UserAccount, UserData } from "../../backend/model/user";
 //import modelthingy for logging users in.
 
-function Login(props) {
+function Login(props: any) {
   const userLoginData = { username: "", password: "" }; //Could be swapped to "UserAccount" later.
   //let hideErrorTextInView = true;
   function compareUserLoginInfoACB() {
