@@ -5,7 +5,8 @@ import {Link} from "react-router-dom"
 
 export default function Header(){
   const buttonMap = ["Search",
-                    "My List"]
+                    "My List",
+                    "Log Out"]
 
   function HeaderButtonsCB(buttonContent: string){
 
