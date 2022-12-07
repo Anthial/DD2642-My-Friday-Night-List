@@ -1,4 +1,4 @@
-import LoginView from "../views/loginView";
+import LoginView from "../views/LoginView";
 //import { UserAccount, UserData } from "../../backend/model/user";
 //import modelthingy for logging users in.
 
