@@ -64,3 +64,8 @@ Your project file structure (short description/purpose of each file):
   * src/backend/imdb/placeholderData.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Placeholder data for search results*
   * src/backend/firebase/app.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Stores unique Firebase instance and database*
   * src/backend/firebase/cache.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Will be used to cache API requests from IMDB and streaming availability API*
+  * src/frontend/presenter/personalListPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Passes an array containing dummy tvShows for personal list view to render. Will be used to call model to get our saved tv shows and set selected show or season chosen in personal list view.*
+  * src/frontend/views.personalListView.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Renders the My List View that contains the users selected favorite tv shows.*
+  * src/backend/model/personalListModel.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Will use recoil to manage selected season or tv show in personal list view. Not finished*
+  * src/backend/model/streamingAvailabilityDummyStargate.jsx &nbsp; &nbsp; - &nbsp; &nbsp; *Placeholder json data used to render my personal list view*
+  * src/backend/model/dummyStargate.jsx &nbsp; &nbsp; - &nbsp; &nbsp; *Placeholder json data used to render personal list view*
