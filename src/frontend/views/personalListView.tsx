@@ -54,7 +54,7 @@ function renderMainContent(tvShow: any) {
       return (
         <img
           id="expand-icon"
-          className="w-4 bg-transparent rotate-180"
+          className="w-4 bg-transparent rotate-180 h-[20px] w-[20px]"
           src="/public/expand-down-arrow-ico.png"
           alt="expand down arrow"
         />
@@ -63,7 +63,7 @@ function renderMainContent(tvShow: any) {
     return (
       <img
         id="expand-icon"
-        className="w-4 bg-transparent rotate-0"
+        className="w-4 bg-transparent rotate-0 h-[20px] w-[20px]"
         src="/public/expand-down-arrow-ico.png"
         alt="expand down arrow"
       />
@@ -103,13 +103,15 @@ function renderMainContent(tvShow: any) {
               <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
               {getCountriesCB(tvShow.countries)}
             </div>
+            <div className="w-[30px] h-[30px]">
             <button
               id="expand-icon"
-              className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg "
+              className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
               onClick={expandACB}
             >
               {renderIconCB()}
             </button>
+            </div>
           </div>
           <div className="flex text-[#b7e4c7] pt-1">
             Watch at: {generateStreamingLinksCB(tvShow.streamingInfo)}
