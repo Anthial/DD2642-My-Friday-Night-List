@@ -5,7 +5,7 @@ function PersonalListView(props: any) {
 
   return (
     <div>
-      <h1 className="underline decoration-solid decoration-4 underline-offset-4 ml-4 mt-4 mb-4">
+      <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
       {/* {console.log(props.tvShow)} */}
@@ -29,17 +29,16 @@ function renderLinks(links: any) {
   const region: string = Object.keys(links[1])[0];
   // console.log(Object.keys(links[1])[0]);
   return (
-    // <div className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff]">
     <a
       className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white"
       href={links[1][region].link}
+      target="_blank"
     >
       {capitalizeFirstLetter(links[0])}
     </a>
-    // </div>
   );
 }
-function renderCountries(country: string) {
+function renderCountriesCB(country: string) {
   return <span>{country} / </span>;
 }
 
@@ -48,21 +47,42 @@ function renderMainContent(tvShow: any) {
 
   function expandACB() {
     setExpand(!expand);
+    // Fixa rotation också
   }
 
-  function expandedContent(seasons: any) {
+  function renderIconCB() {
+    if (expand) {
+      return (
+        <img
+          id="expand-icon"
+          className="w-4 bg-transparent rotate-180"
+          src="/src/assets/expand-down-arrow-ico.png"
+          alt="expand down arrow"
+        />
+      );
+    }
+    return (
+      <img
+        id="expand-icon"
+        className="w-4 bg-transparent rotate-0"
+        src="/src/assets/expand-down-arrow-ico.png"
+        alt="expand down arrow"
+      />
+    );
+  }
+  function expandedContentACB(seasons: any) {
     if (expand) {
       return <div>{seasons.map(renderSeasons)}</div>;
     }
     return <div></div>;
   }
-  function generateStreamingLinks(streamingInfo: object) {
+  function generateStreamingLinksCB(streamingInfo: object) {
     // console.log(Object.entries(streamingInfo)); //gives me an array containing the keys for the streaming objects
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
-  function getCountries(countries) {
+  function getCountriesCB(countries) {
     console.log(countries);
-    return <span>{countries.map(renderCountries)}</span>;
+    return <span>{countries.map(renderCountriesCB)}</span>;
   }
   return (
     <div
@@ -82,27 +102,22 @@ function renderMainContent(tvShow: any) {
             >
               <span className="mr-2.5">{tvShow.fullTitle}</span>
               <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
-              {getCountries(tvShow.countries)}
+              {getCountriesCB(tvShow.countries)}
             </div>
             <button
               id="expand-icon"
               className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg "
               onClick={expandACB}
             >
-              <img
-                id="expand-icon"
-                className="w-4 bg-transparent ${}"
-                src="/src/assets/expand-down-arrow-ico.png"
-                alt="expand down arrow"
-              />
+              {renderIconCB()}
             </button>
           </div>
           <div className="flex text-[#b7e4c7] pt-1">
-            Watch at: {generateStreamingLinks(tvShow.streamingInfo)}
+            Watch at: {generateStreamingLinksCB(tvShow.streamingInfo)}
           </div>
         </div>
       </div>
-      {expandedContent(tvShow.tvSeriesInfo.seasons)}
+      {expandedContentACB(tvShow.tvSeriesInfo.seasons)}
     </div>
   );
 }
