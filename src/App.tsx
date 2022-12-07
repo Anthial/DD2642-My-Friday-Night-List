@@ -13,12 +13,12 @@ function App() {
   const [count, setCount] = useState(0);
   return (
     <HashRouter>
-    <div id="app">
+    <div id="app" className="flex flex-col w-full h-full">
       <Header></Header>
       
         <Routes>
-          <Route path="account" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route> {/** Change from account to details in the future*/}
-          <Route path="account/trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
+          <Route path="details" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route>
+          <Route path="details/trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
           <Route path="mylist" element={<PersonalList></PersonalList>}></Route>
           <Route path="search" element={<SearchResults></SearchResults>}></Route>
         </Routes>
