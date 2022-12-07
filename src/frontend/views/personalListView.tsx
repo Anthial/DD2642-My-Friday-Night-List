@@ -77,7 +77,7 @@ function renderMainContent(tvShow: any) {
     // console.log(Object.entries(streamingInfo)); //gives me an array containing the keys for the streaming objects
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
-  function getCountriesCB(countries) {
+  function getCountriesCB(countries: any) {
     console.log(countries);
     return <span>{countries.map(renderCountriesCB)}</span>;
   }

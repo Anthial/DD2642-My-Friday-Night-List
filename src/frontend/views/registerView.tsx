@@ -1,14 +1,14 @@
-function RegisterView(props) {
-  function usernameValueChangedACB(e) {
+function RegisterView(props: any) {
+  function usernameValueChangedACB(e: any) {
     props.onUsernameChange(e.target.value);
   }
-  function nicknameValueChangedACB(e) {
+  function nicknameValueChangedACB(e: any) {
     props.onNicknameChange(e.target.value);
   }
-  function passwordValueChangedACB(e) {
+  function passwordValueChangedACB(e: any) {
     props.onPasswordChange(e.target.value);
   }
-  function repeatedPasswordValueChangedACB(e) {
+  function repeatedPasswordValueChangedACB(e: any) {
     props.onRepeatedPasswordChange(e.target.value);
   }
   function loginButtonPressedACB() {
