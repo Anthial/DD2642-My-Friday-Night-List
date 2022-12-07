@@ -54,6 +54,13 @@ Your project file structure (short description/purpose of each file):
   * src/frontend/views/detailsView.jsx &nbsp; &nbsp; - &nbsp; &nbsp; *Transpiled detailsView.cljs, is what is actually used in the detailsViewPresenter*
   * src/frontend/views/triviaView.cljs &nbsp; &nbsp; - &nbsp; &nbsp; *Renders the FAQ of the title selected, this due to the actual IMDB trivia being unobtainable from the API*
   * src/frontend/views/triviaView.jsx &nbsp; &nbsp; - &nbsp; &nbsp; *Transpiled triviaView.cljs, is what is actually used in the detailsViewPresenter*
+  * src/frontend/presenters/searchResultsPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Calls placeholder API to get fake search results after 500 ms (to simulate loading)*
+  * src/frontend/views/searchResultsView.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Shows search results from IMDB API*
   * src/backend &nbsp; &nbsp; - &nbsp; &nbsp; *Where we deal with the model, Firebase and the APIs*
   * src/backend/imdb &nbsp; &nbsp; - &nbsp; &nbsp; *Where we store any functions relating to the IMDB API*
+  * src/backend/accounts/placeholderData.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Placeholder data for accounts (not used yet)*
   * src/backend/imdb/IMDB.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Our IMDB API calls*
+  * src/backend/imdb/functions.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Another file with IMDB API functions (they will be merged later)*
+  * src/backend/imdb/placeholderData.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Placeholder data for search results*
+  * src/backend/firebase/app.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Stores unique Firebase instance and database*
+  * src/backend/firebase/cache.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Will be used to cache API requests from IMDB and streaming availability API*
