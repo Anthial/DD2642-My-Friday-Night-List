@@ -298,7 +298,7 @@ function detailsViewPresenter(props: any) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetchEpisodes("id", season);
+      const response = await fetchEpisodes(id, season);
       console.log(response);
       setTitle(response.title);
       setYear(response.year);
