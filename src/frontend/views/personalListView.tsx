@@ -8,7 +8,9 @@ function PersonalListView(props: any) {
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
-      {props.tvShow.map(renderMainContent)}
+      <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
+        {props.tvShow.map(renderMainContent)}
+      </div>
     </div>
   );
 }
@@ -53,7 +55,7 @@ function renderMainContent(tvShow: any) {
         <img
           id="expand-icon"
           className="w-4 bg-transparent rotate-180"
-          src="/src/assets/expand-down-arrow-ico.png"
+          src="/public/expand-down-arrow-ico.png"
           alt="expand down arrow"
         />
       );
@@ -62,14 +64,14 @@ function renderMainContent(tvShow: any) {
       <img
         id="expand-icon"
         className="w-4 bg-transparent rotate-0"
-        src="/src/assets/expand-down-arrow-ico.png"
+        src="/public/expand-down-arrow-ico.png"
         alt="expand down arrow"
       />
     );
   }
   function expandedContentACB(seasons: any) {
     if (expand) {
-      return <div>{seasons.map(renderSeasons)}</div>;
+      return <div className="pl-6">{seasons.map(renderSeasons)}</div>;
     }
     return <div></div>;
   }
@@ -84,17 +86,17 @@ function renderMainContent(tvShow: any) {
   return (
     <div
       key={tvShow.id}
-      className="ml-2 flex flex-col text-lg mt-2 w-[500px] lg:w-[900px]"
+      className="flex flex-col text-lg mt-2  lg:w-[34%] "
     >
-      <div className="ml-2  items-center flex text-lg mt-2">
+      <div className="lg:ml-2 items-center flex text-lg mt-2">
         <img
           src={tvShow.image}
-          className="inline w-[100px] object-cover rounded-md mr-2"
+          className="inline w-[100px] object-cover rounded-lg mr-8"
         ></img>
         <div className="flex flex-col">
-          <div className="flex flex-row">
+          <div className="flex flex-row border-box">
             <div
-              className="hover:border-b border-solid border-[#b7e4c7] hover:cursor-pointer"
+              className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer "
               onClick={expandACB}
             >
               <span className="mr-2.5">{tvShow.fullTitle}</span>
