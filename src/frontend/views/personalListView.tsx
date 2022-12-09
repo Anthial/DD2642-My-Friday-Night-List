@@ -1,5 +1,4 @@
 import React from "react";
-import { fetchAvailability } from "../../backend/api/availability/streamingAvailability";
 
 function PersonalListView(props: any) {
   // console.log(props);
