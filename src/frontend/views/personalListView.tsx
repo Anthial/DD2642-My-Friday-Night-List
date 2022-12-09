@@ -1,8 +1,8 @@
 import React from "react";
+import { fetchAvailability } from "../../backend/api/availability/streamingAvailability";
 
 function PersonalListView(props: any) {
-  console.log(props);
-
+  // console.log(props);
   return (
     <div>
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
@@ -16,7 +16,6 @@ function PersonalListView(props: any) {
 }
 
 function renderSeasons(season: any) {
-  // console.log("test");
   return (
     <div className="inline-block whitespace-pre pl-[120px]">
       Season {season}
@@ -55,7 +54,7 @@ function renderMainContent(tvShow: any) {
         <img
           id="expand-icon"
           className="w-4 bg-transparent rotate-180 h-[20px] w-[20px]"
-          src="/public/expand-down-arrow-ico.png"
+          src="/expand-down-arrow-ico.png"
           alt="expand down arrow"
         />
       );
@@ -64,7 +63,7 @@ function renderMainContent(tvShow: any) {
       <img
         id="expand-icon"
         className="w-4 bg-transparent rotate-0 h-[20px] w-[20px]"
-        src="/public/expand-down-arrow-ico.png"
+        src="/expand-down-arrow-ico.png"
         alt="expand down arrow"
       />
     );
@@ -80,7 +79,7 @@ function renderMainContent(tvShow: any) {
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
   function getCountriesCB(countries: any) {
-    console.log(countries);
+    // console.log(countries);
     return <span>{countries.map(renderCountriesCB)}</span>;
   }
   return (
