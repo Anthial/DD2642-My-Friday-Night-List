@@ -111,8 +111,16 @@ function renderMainContent(tvShow: any) {
             </button>
             </div>
           </div>
-          <div className="flex text-[#b7e4c7] pt-1">
-            Watch at: {generateStreamingLinksCB(tvShow.streamingInfo)}
+          <div className="flex flex-col flex-wrap lg:flex-row pt-1">
+            <select name="selected-country" id="country-select" 
+            className="w-[126px] h-[30px] hover:shadow-lg">
+              <option value="">Select region</option>
+              <option value="">United Kingdom of Great Britain and Northern Ireland</option>
+            </select>
+            <div className="flex flex-row flex-wrap text-[#b7e4c7]">
+            <span className="pl-2">Watch at: </span>
+            <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
+            </div>
           </div>
         </div>
       </div>
