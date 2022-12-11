@@ -3,7 +3,7 @@ import {HashRouter, Route, Routes} from "react-router-dom"
 import { RecoilRoot } from 'recoil'
 import reactLogo from './assets/react.svg'
 import CherryworksButton from './cljstest/cherry.jsx'
-import Header from "./frontend/header"
+import Header from "./frontend/views/header"
 import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter";
 import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter";
 import PersonalList from "./frontend/presenters/personalListPresenter";
