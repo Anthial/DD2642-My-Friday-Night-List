@@ -1,4 +1,5 @@
 import React from "react";
+import {Link} from "react-router-dom";
 
 function PersonalListView(props: any) {
   // console.log(props);
@@ -8,16 +9,17 @@ function PersonalListView(props: any) {
         My list
       </h1>
       <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
-        {props.tvShow.map(renderMainContent)}
+        {props.tvShow.map((tvshow: any) => renderMainContent(tvshow, props.saveSelectedSeason))}
       </div>
     </div>
   );
 }
 
-function renderSeasons(season: any) {
-  return (
-    <div className="inline-block whitespace-pre pl-[120px]">
-      Season {season}
+function renderSeasons(season: any, saveSelectedSeason:any) {
+    return (
+    <div key={season} className="inline-block whitespace-pre pl-[120px]">
+      <Link to="/details" onClick={() => saveSelectedSeason(season)}>Season {season}</Link>
+      
     </div>
   );
 }
@@ -40,7 +42,7 @@ function renderCountriesCB(country: string) {
   return <span>{country} / </span>;
 }
 
-function renderMainContent(tvShow: any) {
+function renderMainContent(tvShow: any, saveSelectedSeason: any) {
   const [expand, setExpand] = React.useState(false);
 
   function expandACB() {
@@ -67,9 +69,9 @@ function renderMainContent(tvShow: any) {
       />
     );
   }
-  function expandedContentACB(seasons: any) {
+  function expandedContentACB(seasons: any, saveSelectedSeason:any) {
     if (expand) {
-      return <div className="pl-6">{seasons.map(renderSeasons)}</div>;
+      return <div className="pl-6">{seasons.map((season:string) => renderSeasons(season, saveSelectedSeason))}</div>;
     }
     return <div></div>;
   }
@@ -124,7 +126,7 @@ function renderMainContent(tvShow: any) {
           </div>
         </div>
       </div>
-      {expandedContentACB(tvShow.tvSeriesInfo.seasons)}
+      {expandedContentACB(tvShow.tvSeriesInfo.seasons, saveSelectedSeason)}
     </div>
   );
 }
