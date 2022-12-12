@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 function PersonalListView(props: any) {
   // console.log(props);
+  console.log(props.tvShow);
   return (
     <div>
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
@@ -113,23 +114,35 @@ function renderMainContent(tvShow: any, props: any) {
         ></img>
         <div className="flex flex-col">
           <div className="flex flex-row border-box">
-            <div
-              className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer "
-              onClick={expandACB}
-            >
-              <span className="mr-2.5">{tvShow.fullTitle}</span>
-              <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
-              {getCountriesCB(tvShow.countries)}
-            </div>
-            <div className="w-[30px] h-[30px]">
-              <button
-                id="expand-icon"
-                className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
+            {tvShow.tvSeriesInfo.seasons && (
+              <div
+                className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer "
                 onClick={expandACB}
               >
-                {renderIconCB()}
-              </button>
-            </div>
+                <span className="mr-2.5">{tvShow.fullTitle}</span>
+                <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
+                {getCountriesCB(tvShow.countries)}
+              </div>
+            )}
+            {!tvShow.tvSeriesInfo.seasons && (
+              <div className=" ">
+                <span className="mr-2.5">{tvShow.fullTitle}</span>
+                <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
+                {getCountriesCB(tvShow.countries)}
+              </div>
+            )}
+
+            {tvShow.tvSeriesInfo.seasons && (
+              <div className="w-[30px] h-[30px]">
+                <button
+                  id="expand-icon"
+                  className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
+                  onClick={expandACB}
+                >
+                  {renderIconCB()}
+                </button>
+              </div>
+            )}
           </div>
           <div className="flex flex-col flex-wrap lg:flex-row pt-1">
             <select

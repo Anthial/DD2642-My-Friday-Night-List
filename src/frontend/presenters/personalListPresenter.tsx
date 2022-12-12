@@ -1,5 +1,6 @@
 import PersonalListView from "../views/personalListView";
 import { Stargate } from "../../backend/model/dummyStargate";
+import { test } from "../../backend/model/testCondRendering";
 import availability from "../../backend/model/streamingAvailabilityDummyStargate";
 import { useRecoilState } from "recoil";
 import {
@@ -30,7 +31,7 @@ function PersonalList(props: any) {
 
   return (
     <PersonalListView
-      tvShow={[concatenateApis(), concatenateApis()]}
+      tvShow={[test, concatenateApis()]}
       saveSelectedSeason={saveSelectedSeason}
       saveSelectedRegion={saveSelectedRegion}
       regions={regions}
