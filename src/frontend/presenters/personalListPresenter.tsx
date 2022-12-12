@@ -18,7 +18,11 @@ const [, setRegion] = useRecoilState(selectedRegionState);
 function saveSelectedRegion(regionName: string){
   const findRegionObject = regions.find(({name}) => name === regionName);
 // console.log(findRegionObject["alpha-2"].toLowerCase());
-  setRegion(findRegionObject["alpha-2"].toLowerCase());
+  if(findRegionObject != null){
+    setRegion(findRegionObject["alpha-2"].toLowerCase());
+  }else{
+    console.error("Region could not be set")
+  }
 }
 
   return <PersonalListView tvShow={[concatenateApis(), concatenateApis()]} 
