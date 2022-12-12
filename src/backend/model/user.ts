@@ -1,6 +1,6 @@
 import { TitleId } from "./title";
 import { atom } from "recoil";
-import { getCookie, setCookie } from 'typescript-cookie';
+import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 
 import * as firebaseFunctions from "../firebase/accounts";
 
@@ -24,7 +24,7 @@ export const loggedInUserAtom = atom({
 	default: null as UserData | null
 });
 
-function createUser(accountInfo: UserAccount, nickname?: string) {
+export function createUser(accountInfo: UserAccount, nickname?: string) {
 	const nicknameOrUsername = nickname ? nickname : accountInfo.username;
 
 	return firebaseFunctions.isUsernameTaken(accountInfo.username).then((isTaken) => {
@@ -49,9 +49,9 @@ function createUser(accountInfo: UserAccount, nickname?: string) {
 	})
 }
 
-function loginUserWithCookie() {
+export function loginUserWithCookie() {
 	const username = getCookie("username");
-	const encryptionKey = getCookie("username");
+	const encryptionKey = getCookie("key");
 
 	if(username && encryptionKey) {
 		return firebaseFunctions.loginUser({ username: username, password: "" }, encryptionKey).then((userData) => {
@@ -63,14 +63,19 @@ function loginUserWithCookie() {
 		});
 	}
 
-	return Promise.reject();
+	return Promise.reject(new Error("No cookie found"));
 }
 
-function loginUserWithPassword(accountInfo: UserAccount) {
+export function loginUserWithPassword(accountInfo: UserAccount) {
 	return firebaseFunctions.loginUser(accountInfo).then((userData) => {
 		setCookie("username", userData.username, { expires: 365 });
 		setCookie("key", userData.encryptionKey, { expires: 365 });
 
 		return userData;
 	});
+}
+
+export function logoutUser() {
+	removeCookie("username");
+	removeCookie("key");
 }

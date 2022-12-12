@@ -1,18 +1,27 @@
-import { useState } from 'react'
-import {HashRouter, Route, Routes} from "react-router-dom"
-import { RecoilRoot } from 'recoil'
-import reactLogo from './assets/react.svg'
-import CherryworksButton from './cljstest/cherry.jsx'
+import { useEffect, useState } from 'react'
+import { HashRouter, Route, Routes } from "react-router-dom"
+
 import Header from "./frontend/header"
-import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter";
-import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter";
-import PersonalList from "./frontend/presenters/personalListPresenter";
-import SearchResults from './frontend/presenters/searchResultsPresenter';
+import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter"
+import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter"
+import PersonalList from "./frontend/presenters/personalListPresenter"
+import SearchResults from './frontend/presenters/searchResultsPresenter'
 import LoginViewPresenter from "./frontend/presenters/LoginPresenter"
 import RegisterViewPresenter from "./frontend/presenters/registerPresenter"
 
+import { loggedInUserAtom, loginUserWithCookie } from "./backend/model/user";
+import { useRecoilState } from 'recoil';
+
 function App() {
-  const [count, setCount] = useState(0);
+  const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserAtom);
+  useEffect(() => {
+    if(!loggedInUser) {
+      loginUserWithCookie()
+        .then((userData) => setLoggedInUser(userData)) 
+        .catch((error: Error) => console.log("Login with cookie failed: " + error.message));
+    }
+  }, []);
+
   return (
     <HashRouter>
       <div id="app" className="flex flex-col w-full h-full">
