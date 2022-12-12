@@ -1,25 +1,29 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function PersonalListView(props: any) {
   // console.log(props);
+  props.saveSelectedRegion("Afghanistan");
   return (
     <div>
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
       <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
-        {props.tvShow.map((tvshow: any) => renderMainContent(tvshow, props.saveSelectedSeason))}
+        {props.tvShow.map((tvshow: any) =>
+          renderMainContent(tvshow, props.saveSelectedSeason)
+        )}
       </div>
     </div>
   );
 }
 
-function renderSeasons(season: any, saveSelectedSeason:any) {
-    return (
+function renderSeasons(season: any, saveSelectedSeason: any) {
+  return (
     <div key={season} className="inline-block whitespace-pre pl-[120px]">
-      <Link to="/details" onClick={() => saveSelectedSeason(season)}>Season {season}</Link>
-      
+      <Link to="/details" onClick={() => saveSelectedSeason(season)}>
+        Season {season}
+      </Link>
     </div>
   );
 }
@@ -69,9 +73,15 @@ function renderMainContent(tvShow: any, saveSelectedSeason: any) {
       />
     );
   }
-  function expandedContentACB(seasons: any, saveSelectedSeason:any) {
+  function expandedContentACB(seasons: any, saveSelectedSeason: any) {
     if (expand) {
-      return <div className="pl-6">{seasons.map((season:string) => renderSeasons(season, saveSelectedSeason))}</div>;
+      return (
+        <div className="pl-6">
+          {seasons.map((season: string) =>
+            renderSeasons(season, saveSelectedSeason)
+          )}
+        </div>
+      );
     }
     return <div></div>;
   }
@@ -84,10 +94,7 @@ function renderMainContent(tvShow: any, saveSelectedSeason: any) {
     return <span>{countries.map(renderCountriesCB)}</span>;
   }
   return (
-    <div
-      key={tvShow.id}
-      className="flex flex-col text-lg mt-2  lg:w-[34%] "
-    >
+    <div key={tvShow.id} className="flex flex-col text-lg mt-2  lg:w-[34%] ">
       <div className="lg:ml-2 items-center flex text-lg mt-2">
         <img
           src={tvShow.image}
@@ -104,24 +111,29 @@ function renderMainContent(tvShow: any, saveSelectedSeason: any) {
               {getCountriesCB(tvShow.countries)}
             </div>
             <div className="w-[30px] h-[30px]">
-            <button
-              id="expand-icon"
-              className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
-              onClick={expandACB}
-            >
-              {renderIconCB()}
-            </button>
+              <button
+                id="expand-icon"
+                className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
+                onClick={expandACB}
+              >
+                {renderIconCB()}
+              </button>
             </div>
           </div>
           <div className="flex flex-col flex-wrap lg:flex-row pt-1">
-            <select name="selected-country" id="country-select" 
-            className="w-[126px] h-[30px] hover:shadow-lg">
+            <select
+              name="selected-country"
+              id="country-select"
+              className="w-[126px] h-[30px] hover:shadow-lg"
+            >
               <option value="">Select region</option>
-              <option value="">United Kingdom of Great Britain and Northern Ireland</option>
+              <option value="">
+                United Kingdom of Great Britain and Northern Ireland
+              </option>
             </select>
             <div className="flex flex-row flex-wrap text-[#b7e4c7]">
-            <span className="pl-2">Watch at: </span>
-            <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
+              <span className="pl-2">Watch at: </span>
+              <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
             </div>
           </div>
         </div>
