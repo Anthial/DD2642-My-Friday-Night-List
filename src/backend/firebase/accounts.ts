@@ -24,13 +24,13 @@ export function isUsernameTaken(username: string) {
 	});
 }
 
-function encryptObject<T>(obj: T, cryptoKey: string) {
-	return AES.encrypt(JSON.stringify(obj), cryptoKey).toString();
+function encryptObject<T>(obj: T, encryptionKey: string) {
+	return AES.encrypt(JSON.stringify(obj), encryptionKey).toString();
 }
 
-function decryptObject<T>(encryptedObj: string, cryptoKey: string) {
+function decryptObject<T>(encryptedObj: string, encryptionKey: string) {
 	try {
-		const object = JSON.parse(AES.decrypt(encryptedObj, cryptoKey).toString(enc.Utf8));
+		const object = JSON.parse(AES.decrypt(encryptedObj, encryptionKey).toString(enc.Utf8));
 		
 		if(object) {
 			return object as T;
@@ -51,23 +51,23 @@ export function createUser(accountInfo: UserAccount, nickname: string) {
 	crypto.getRandomValues(randomSaltArray);
 
 	const randomSalt = randomSaltArray.reduce((s, c) => s + c.toString(16), "");
-	const cryptoKey = SHA256(accountInfo.password + randomSalt).toString();
+	const encryptionKey = SHA256(accountInfo.password + randomSalt).toString();
 	
 	const encryptedData: EncryptedUserData = {
 		salt: randomSalt,
-		ok: encryptObject(true, cryptoKey),
+		ok: encryptObject(true, encryptionKey),
 
-		nickname: encryptObject(nickname, cryptoKey),
-		watchlist: encryptObject([] as TitleId[], cryptoKey)
+		nickname: encryptObject(nickname, encryptionKey),
+		watchlist: encryptObject([] as TitleId[], encryptionKey)
 	};
 
 	return set(userRef, encryptedData).then(() => {
-		return cryptoKey;
+		return encryptionKey;
 	});
 }
 
 /* Promise returns: UserData or error */
-export function loginUser(accountInfo: UserAccount) {
+export function loginUser(accountInfo: UserAccount, encryptionKey?: string) {
 	const userRef = ref(database, "user/" + accountInfo.username);
 	
 	return get(userRef).then((data): UserData => {
@@ -76,14 +76,14 @@ export function loginUser(accountInfo: UserAccount) {
 		}
 
 		const encryptedData = data.val() as EncryptedUserData;
-		const cryptoKey = SHA256(accountInfo.password + encryptedData.salt).toString();
+		const generatedEncryptionKey = encryptionKey ? encryptionKey : SHA256(accountInfo.password + encryptedData.salt).toString();
 
-		if(!decryptObject<boolean>(encryptedData.ok, cryptoKey)) {
+		if(!decryptObject<boolean>(encryptedData.ok, generatedEncryptionKey)) {
 			throw new Error("Wrong password");
 		}
 
-		const nickname = decryptObject<string>(encryptedData.nickname, cryptoKey);
-		const watchlist = decryptObject<TitleId[]>(encryptedData.watchlist, cryptoKey);
+		const nickname = decryptObject<string>(encryptedData.nickname, generatedEncryptionKey);
+		const watchlist = decryptObject<TitleId[]>(encryptedData.watchlist, generatedEncryptionKey);
 
 		if(!nickname || !watchlist) {
 			throw new Error("Invalid user data");
@@ -91,7 +91,7 @@ export function loginUser(accountInfo: UserAccount) {
 
 		return {
 			username: accountInfo.username,
-			cryptoKey: cryptoKey,
+			encryptionKey: generatedEncryptionKey,
 
 			nickname: nickname,
 			watchlist: watchlist
@@ -104,8 +104,8 @@ export function syncUser(newData: UserData) {
 	const nicknameRef = ref(database, "user/" + newData.username + "/nickname");
 	const watchlistRef = ref(database, "user/" + newData.username + "/watchlist");
 
-	const nicknameValue = encryptObject(newData.nickname, newData.cryptoKey);
-	const watchlistValue = encryptObject(newData.watchlist, newData.cryptoKey);
+	const nicknameValue = encryptObject(newData.nickname, newData.encryptionKey);
+	const watchlistValue = encryptObject(newData.watchlist, newData.encryptionKey);
 
 	const nicknamePromise = set(nicknameRef, nicknameValue);
 	const watchlistPromise = set(watchlistRef, watchlistValue);
