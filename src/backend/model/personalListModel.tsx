@@ -1,9 +1,3 @@
-import {
-  atom,
-  useRecoilState,
-  useRecoilValue,
-  useSetRecoilState,
-} from "recoil";
 import { fetchTitle } from "../api/imdb/IMDB";
 import { fetchAvailability } from "../api/availability/streamingAvailability";
 import { Stargate } from "../../backend/model/dummyStargate";

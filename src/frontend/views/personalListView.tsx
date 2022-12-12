@@ -3,16 +3,13 @@ import { Link } from "react-router-dom";
 
 function PersonalListView(props: any) {
   // console.log(props);
-  props.saveSelectedRegion("Afghanistan");
   return (
     <div>
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
       <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
-        {props.tvShow.map((tvshow: any) =>
-          renderMainContent(tvshow, props.saveSelectedSeason)
-        )}
+        {props.tvShow.map((tvshow: any) => renderMainContent(tvshow, props))}
       </div>
     </div>
   );
@@ -46,7 +43,21 @@ function renderCountriesCB(country: string) {
   return <span>{country} / </span>;
 }
 
-function renderMainContent(tvShow: any, saveSelectedSeason: any) {
+function generateRegions(props: any) {
+  return props.regions.map((regions: any) => {
+    return (
+      <option
+        value={regions.name}
+        onClick={(event) => props.saveSelectedRegion(event.target.value)}
+        className=""
+      >
+        {regions.name}
+      </option>
+    );
+  });
+}
+
+function renderMainContent(tvShow: any, props: any) {
   const [expand, setExpand] = React.useState(false);
 
   function expandACB() {
@@ -127,9 +138,7 @@ function renderMainContent(tvShow: any, saveSelectedSeason: any) {
               className="w-[126px] h-[30px] hover:shadow-lg"
             >
               <option value="">Select region</option>
-              <option value="">
-                United Kingdom of Great Britain and Northern Ireland
-              </option>
+              {generateRegions(props)}
             </select>
             <div className="flex flex-row flex-wrap text-[#b7e4c7]">
               <span className="pl-2">Watch at: </span>
@@ -138,7 +147,10 @@ function renderMainContent(tvShow: any, saveSelectedSeason: any) {
           </div>
         </div>
       </div>
-      {expandedContentACB(tvShow.tvSeriesInfo.seasons, saveSelectedSeason)}
+      {expandedContentACB(
+        tvShow.tvSeriesInfo.seasons,
+        props.saveSelectedSeason
+      )}
     </div>
   );
 }
