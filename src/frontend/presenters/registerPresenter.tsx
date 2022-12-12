@@ -1,6 +1,6 @@
 import RegisterView from "../views/registerView";
 
-function Register(props) {
+function Register(props: any) {
     const userRegitrationData = { username: "", nickname: "", password: "" , repeatedPassword: ""}; //Could be swapped to "UserAccount" later.
     function compareUserLoginInfoACB() {
         if (userRegitrationData.username == "" || userRegitrationData.password == "")

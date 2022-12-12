@@ -1,13 +1,12 @@
-function LoginView(props) {
+function LoginView(props: any) {
 
-  function usernameValueChangedACB(e) {
+  function usernameValueChangedACB(e: any) {
     props.onUsernameChange(e.target.value);
   }
-  function passwordValueChangedACB(e) {
+  function passwordValueChangedACB(e: any) {
     props.onPasswordChange(e.target.value);
   }
   function loginButtonPressedACB() {
-    /* if() the input value of either username or password is null/empty. Maybe do this is presenter, but how? */
     props.attemptLogin();
   }
   function userRegisterACB() {
@@ -52,7 +51,7 @@ function LoginView(props) {
             Or register?
           </a>
         </div>
-        <div className="mt-1 text-red-500 justify-end" hidden={true/* Tills vidare... */}>
+        <div className="mt-1 text-red-500 justify-end" hidden={props.hideErrorText}>
           You must enter both username and password in order to log in
         </div>
       </div>
