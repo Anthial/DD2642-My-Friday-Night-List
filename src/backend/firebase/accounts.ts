@@ -43,7 +43,7 @@ function decryptObject<T>(encryptedObj: string, cryptoKey: string) {
 	}
 }
 
-/* Returns: Decryption key or error */
+/* Promise returns: Decryption key or error */
 export function createUser(accountInfo: UserAccount, name: string) {
 	const userRef = ref(database, "user/" + accountInfo.username);
 	
@@ -68,7 +68,7 @@ export function createUser(accountInfo: UserAccount, name: string) {
 	});
 }
 
-/* Returns: UserData or error */
+/* Promise returns: UserData or error */
 export function loginUser(accountInfo: UserAccount) {
 	const userRef = ref(database, "user/" + accountInfo.username);
 	
@@ -99,4 +99,18 @@ export function loginUser(accountInfo: UserAccount) {
 			watchlist: watchlist
 		}
 	});
+}
+
+/* Promise returns after name and watchlist sync is complete */
+export function syncUser(newData: UserData) {
+	const nameRef = ref(database, "user/" + newData.username + "/name");
+	const watchlistRef = ref(database, "user/" + newData.username + "/watchlist");
+
+	const nameValue = encryptObject(newData.name, newData.cryptoKey);
+	const watchlistValue = encryptObject(newData.watchlist, newData.cryptoKey);
+
+	const namePromise = set(nameRef, nameValue);
+	const watchlistPromise = set(watchlistRef, watchlistValue);
+
+	return Promise.all([namePromise, watchlistPromise]);
 }
