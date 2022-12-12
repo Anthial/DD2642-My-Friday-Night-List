@@ -12,7 +12,7 @@ export interface UserData {
 	username: string,
 	cryptoKey: string,
 	
-	name: string,
+	nickname: string,
 	watchlist: TitleId[]
 }
 

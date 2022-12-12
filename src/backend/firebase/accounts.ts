@@ -12,7 +12,7 @@ interface EncryptedUserData {
 	/* This decrypts to true only if the user has entered the right password */
 	ok: string,
 
-	name: string,
+	nickname: string,
 	watchlist: string
 }
 
@@ -44,7 +44,7 @@ function decryptObject<T>(encryptedObj: string, cryptoKey: string) {
 }
 
 /* Promise returns: Decryption key or error */
-export function createUser(accountInfo: UserAccount, name: string) {
+export function createUser(accountInfo: UserAccount, nickname: string) {
 	const userRef = ref(database, "user/" + accountInfo.username);
 	
 	const randomSaltArray = new Uint8Array(16);
@@ -52,14 +52,12 @@ export function createUser(accountInfo: UserAccount, name: string) {
 
 	const randomSalt = randomSaltArray.reduce((s, c) => s + c.toString(16), "");
 	const cryptoKey = SHA256(accountInfo.password + randomSalt).toString();
-
-	console.log("cryptoKey: " + cryptoKey);
 	
 	const encryptedData: EncryptedUserData = {
 		salt: randomSalt,
 		ok: encryptObject(true, cryptoKey),
 
-		name: encryptObject(name, cryptoKey),
+		nickname: encryptObject(nickname, cryptoKey),
 		watchlist: encryptObject([] as TitleId[], cryptoKey)
 	};
 
@@ -84,10 +82,10 @@ export function loginUser(accountInfo: UserAccount) {
 			throw new Error("Wrong password");
 		}
 
-		const name = decryptObject<string>(encryptedData.name, cryptoKey);
-		const watchlist = decryptObject<TitleId[]>(encryptedData.name, cryptoKey);
+		const nickname = decryptObject<string>(encryptedData.nickname, cryptoKey);
+		const watchlist = decryptObject<TitleId[]>(encryptedData.watchlist, cryptoKey);
 
-		if(!name || !watchlist) {
+		if(!nickname || !watchlist) {
 			throw new Error("Invalid user data");
 		}
 
@@ -95,7 +93,7 @@ export function loginUser(accountInfo: UserAccount) {
 			username: accountInfo.username,
 			cryptoKey: cryptoKey,
 
-			name: name,
+			nickname: nickname,
 			watchlist: watchlist
 		}
 	});
@@ -103,14 +101,14 @@ export function loginUser(accountInfo: UserAccount) {
 
 /* Promise returns after name and watchlist sync is complete */
 export function syncUser(newData: UserData) {
-	const nameRef = ref(database, "user/" + newData.username + "/name");
+	const nicknameRef = ref(database, "user/" + newData.username + "/nickname");
 	const watchlistRef = ref(database, "user/" + newData.username + "/watchlist");
 
-	const nameValue = encryptObject(newData.name, newData.cryptoKey);
+	const nicknameValue = encryptObject(newData.nickname, newData.cryptoKey);
 	const watchlistValue = encryptObject(newData.watchlist, newData.cryptoKey);
 
-	const namePromise = set(nameRef, nameValue);
+	const nicknamePromise = set(nicknameRef, nicknameValue);
 	const watchlistPromise = set(watchlistRef, watchlistValue);
 
-	return Promise.all([namePromise, watchlistPromise]);
+	return Promise.all([nicknamePromise, watchlistPromise]);
 }
