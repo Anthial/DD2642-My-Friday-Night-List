@@ -1,6 +1,5 @@
 import { TitleId } from "./title";
-
-export type UserId = number;
+import { atom } from "recoil";
 
 /* This is information provided by the user when creating or logging in to an account */
 export interface UserAccount {
@@ -10,11 +9,15 @@ export interface UserAccount {
 
 /* This is everything the application needs to know about the user when logged in */
 export interface UserData {
-	id: UserId,
-
 	username: string,
-	/* TODO: Where does the user set this? */
+	cryptoKey: string,
+	
 	name: string,
-
 	watchlist: TitleId[]
 }
+
+/* TODO: this should be saved in a cookie so the user isn't logged out on refresh */
+export const loggedInUserAtom = atom({
+	key: "loggedInUser",
+	default: null as UserData | null
+});
