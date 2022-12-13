@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { selectedTitleAtom } from "../../backend/model/atoms";
-import { searchImdb } from "../../backend/api/imdb/functions";
+import { searchImdb } from "../../backend/model/imdb";
 import { Title } from "../../backend/model/title";
 import SearchResultsView from "../views/searchResultsView";
 
