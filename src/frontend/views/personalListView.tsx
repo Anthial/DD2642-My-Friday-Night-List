@@ -148,7 +148,7 @@ function renderMainContent(tvShow: any, props: any) {
             <select
               name="selected-country"
               id="country-select"
-              className="w-[126px] h-[30px] hover:shadow-lg"
+              className="w-[126px] h-[30px] hover:shadow-lg bg-[#312244] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
             >
               <option value="">Select region</option>
               {generateRegions(props)}
