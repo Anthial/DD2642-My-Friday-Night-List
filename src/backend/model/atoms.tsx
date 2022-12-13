@@ -18,3 +18,8 @@ export const selectedRegionState = atom({
   key: "selectedRegion",
   default: "us",
 });
+
+export  const searchValueState = atom({
+  key: "searchValueQuery",
+  default: "",
+});
