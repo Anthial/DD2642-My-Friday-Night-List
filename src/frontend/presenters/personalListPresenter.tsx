@@ -8,6 +8,7 @@ import {
   selectedRegionState,
 } from "../../backend/model/atoms";
 import regions from "../../backend/data/ISO-3166-Alpha-2-country-codes";
+import Spinner from "../views/spinnerView";
 
 function PersonalList(props: any) {
   function concatenateApis() {
@@ -30,12 +31,13 @@ function PersonalList(props: any) {
   }
 
   return (
-    <PersonalListView
-      tvShow={[test, concatenateApis()]}
-      saveSelectedSeason={saveSelectedSeason}
-      saveSelectedRegion={saveSelectedRegion}
-      regions={regions}
-    />
+    // <PersonalListView
+    //   tvShow={[test, concatenateApis()]}
+    //   saveSelectedSeason={saveSelectedSeason}
+    //   saveSelectedRegion={saveSelectedRegion}
+    //   regions={regions}
+    // />
+    <Spinner/>
   );
 }
 
