@@ -114,7 +114,7 @@ function renderMainContent(tvShow: any, props: any) {
         ></img>
         <div className="flex flex-col">
           <div className="flex flex-row border-box">
-            {tvShow.tvSeriesInfo.seasons && (
+            {tvShow.tvSeriesInfo && (
               <div
                 className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer "
                 onClick={expandACB}
@@ -124,7 +124,7 @@ function renderMainContent(tvShow: any, props: any) {
                 {getCountriesCB(tvShow.countries)}
               </div>
             )}
-            {!tvShow.tvSeriesInfo.seasons && (
+            {!tvShow.tvSeriesInfo && (
               <div className=" ">
                 <span className="mr-2.5">{tvShow.fullTitle}</span>
                 <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
@@ -132,7 +132,7 @@ function renderMainContent(tvShow: any, props: any) {
               </div>
             )}
 
-            {tvShow.tvSeriesInfo.seasons && (
+            {tvShow.tvSeriesInfo && (
               <div className="w-[30px] h-[30px]">
                 <button
                   id="expand-icon"
@@ -161,7 +161,7 @@ function renderMainContent(tvShow: any, props: any) {
         </div>
       </div>
       {expandedContentACB(
-        tvShow.tvSeriesInfo.seasons,
+        (tvShow.tvSeriesInfo ? tvShow.tvSeriesInfo.seasons : null),
         props.saveSelectedSeason
       )}
     </div>

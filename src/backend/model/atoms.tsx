@@ -8,7 +8,7 @@ export const selectedTitleAtom = atom({
 });
 export const myListState = atom({
   key: "myList", // unique ID (with respect to other atoms/selectors)
-  default: [], // default value (aka initial value)
+  default: [] as Title[] | null, // default value (aka initial value)
 });
 export const selectedSeasonState = atom({
   key: "selectedSeason",
