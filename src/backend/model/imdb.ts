@@ -1,9 +1,9 @@
-import { Title, TitleId } from "./title";
+import { Title, TitleId, TitleType } from "./title";
 import { imdbPlaceholderData } from "../api/imdb/placeholderData";
 import { getTitleFromFirebase, updateTitleInFirebase } from "../firebase/cache";
 import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/IMDB";
 
-export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<any> {
+export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<Title> {
 	if(usePlaceholderData) {
 		const result = imdbPlaceholderData.find((title) => title.id === id);
 		
@@ -15,11 +15,25 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 	}
 	else {
 		// First check if Firebase has this title cached, if not use the IMDb API and cache the data in Firebase
-		return getTitleFromFirebase(id).catch((reason) => {
+		return getTitleFromFirebase(id).catch(reason => {
 			// TODO: Call imdb api here 
 			// updateTitleInFirebase(result);
 			
-			return fetchTitle(id); 
+			return fetchTitle(id).then(result => { 
+				return {
+					id: result.id,
+					type: result.tvSeriesInfo ? TitleType.TVShow : TitleType.Movie,
+
+					name: result.title,
+					imageUrl: result.image,
+
+					seasons: result.tvSeriesInfo.seasons,
+					year: result.year,
+
+					plot: result.plot,
+					stars: result.starList.map((star: { name: string }) => star.name)
+				};
+			});
 		});
 	}
 }
