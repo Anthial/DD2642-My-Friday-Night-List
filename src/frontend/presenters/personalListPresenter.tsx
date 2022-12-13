@@ -1,21 +1,21 @@
+
 import PersonalListView from "../views/personalListView";
 import { Stargate } from "../../backend/model/dummyStargate";
 import { test } from "../../backend/model/testCondRendering";
 import availability from "../../backend/model/streamingAvailabilityDummyStargate";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import {
   selectedSeasonState,
   selectedRegionState,
   myListState,
 } from "../../backend/model/atoms";
 import regions from "../../backend/data/ISO-3166-Alpha-2-country-codes";
+import Spinner from "../views/spinnerView";
 import {useState, useEffect} from "react";
 import { getTitleById } from "../../backend/model/imdb";
 import { Title } from "../../backend/model/title";
 
-
 function PersonalList(props: any) {
-
   const [myList, setMyList] = useRecoilState(myListState);
   const [imdbResponse, setIMDBResponse] = useState([] as Title[]);
   useEffect(() => {
@@ -25,10 +25,9 @@ function PersonalList(props: any) {
       setIMDBResponse([...imdbResponse, response])
     }
     if(myList){
-      myList.map((title) => fetchData(title.id))
+      myList.map((title:Title) => fetchData(title.id))
     }    
   },[])
-
 
   function concatenateApis() {
     let concatObject = { ...imdbResponse, ...availability };
@@ -56,6 +55,7 @@ function PersonalList(props: any) {
       saveSelectedRegion={saveSelectedRegion}
       regions={regions}
     />
+    //<Spinner/>
   );
 }
 

@@ -1,18 +1,20 @@
 import { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { selectedTitleAtom } from "../../backend/model/atoms";
 import { searchImdb } from "../../backend/model/imdb";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { selectedTitleAtom, searchValueState } from "../../backend/model/atoms";
 import { Title } from "../../backend/model/title";
+
 import SearchResultsView from "../views/searchResultsView";
 
 export default function SearchResults() {
-	const [titles, setTitles] = useState([] as Title[]);
-
-	/* TODO: Replace with real API call */
-	useEffect(() => {
-		setTimeout(() => { searchImdb("", true).then((t) => {setTitles(t)}) }, 500);
-	}, []);
-
+	const [titles, setTitles] = useState(null as Title[] | null);
+	const searchValue = useRecoilValue(searchValueState);
 	const setSelectedTitle = useSetRecoilState(selectedTitleAtom);
-	return <SearchResultsView loading={titles.length == 0} titles={titles} onSelectTitle={(t: Title) => setSelectedTitle(t)}></SearchResultsView>;
+
+	useEffect(() => {
+		setTitles(null);
+		searchImdb(searchValue, true).then(t => setTitles(t));
+	}, [searchValue]);
+
+	return <SearchResultsView loading={!titles} titles={titles || []} onSelectTitle={t => setSelectedTitle(t)}></SearchResultsView>;
 }
