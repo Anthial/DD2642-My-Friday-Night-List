@@ -15,19 +15,15 @@ export default function Header(props:any){
     let func = () => {
       setMenuClicked(false);
     }
-    let disabled = false;
     if (link === "search"){
       func = () => {
         setMenuClicked(false);
         props.search();
       }
-      if (props.value.trim() == ""){
-        disabled = true;
-      }
     }
     return (
       <li key={link} className="grow hover:shadow-lg  opacity-100">
-        <Link to={disabled ? window.location.href.split("#/")[1] : link}>
+        <Link to={link}>
           <button className="bg-[#312244] hover:bg-[#251a33]"  onClick={func}>
             {buttonContent}
           </button>
