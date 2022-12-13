@@ -1,10 +1,10 @@
 import DetailsView from "../views/detailsView.jsx";
 import {
-  fetchTrivia,
-  fetchTestTenor,
-  fetchEpisodes,
-} from "../../backend/api/imdb/IMDB";
+  getEpisodesByIDSeason
+} from "../../backend/model/imdb";
 import { useState, useEffect } from "react";
+import { selectedSeasonState, selectedTitleAtom } from "../../backend/model/atoms.js";
+import { useRecoilValue } from "recoil";
 
 function detailsViewPresenter(props: any) {
   const tempmodel = {
@@ -290,31 +290,34 @@ function detailsViewPresenter(props: any) {
     ],
     errorMessage: "",
   };
-  const id = "tt0118480";
-  const season = "1";
   const [title, setTitle] = useState(null);
   const [year, setYear] = useState(null);
   const [episodes, setEpisodes] = useState(null);
-
+  const values = useRecoilValue(selectedTitleAtom);
+  const id = values ? values.id : "";
+  const season = useRecoilValue(selectedSeasonState);
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetchEpisodes(id, season);
+      const response = await getEpisodesByIDSeason(id, season);
       console.log(response);
       setTitle(response.title);
       setYear(response.year);
       setEpisodes(response.episodes);
     };
-    fetchData();
+    if (season && id){
+      fetchData();
+    }
   }, []);
 
   return (
     <div>
       <DetailsView
-        title={title ? title : tempmodel.title}
+        title={title ? title : values ? values.name : tempmodel.title}
         year={year ? year : tempmodel.year}
         episodes={episodes ? episodes : null}
-        plot="A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! A testing plot for testing purposes! "
-        stars="The one and ONLY ANUBIS"
+        plot= {values ? values.plot : "Loading..."}
+        stars= {values ? values.stars : "Loading..."}
+        image = {values ? values.imageUrl : "spinner.svg"}
       ></DetailsView>
     </div>
   );

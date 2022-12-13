@@ -21,7 +21,7 @@ export interface Title {
     name: string,
     imageUrl: string,
 
-    seasons: number,
+    seasons: string[],
     year: number,
 
     plot: string,

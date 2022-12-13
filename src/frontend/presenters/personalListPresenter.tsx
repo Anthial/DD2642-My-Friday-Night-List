@@ -1,3 +1,4 @@
+
 import PersonalListView from "../views/personalListView";
 import { Stargate } from "../../backend/model/dummyStargate";
 import { test } from "../../backend/model/testCondRendering";
@@ -6,13 +7,30 @@ import { useRecoilState } from "recoil";
 import {
   selectedSeasonState,
   selectedRegionState,
+  myListState,
 } from "../../backend/model/atoms";
 import regions from "../../backend/data/ISO-3166-Alpha-2-country-codes";
 import Spinner from "../views/spinnerView";
+import {useState, useEffect} from "react";
+import { getTitleById } from "../../backend/model/imdb";
+import { Title } from "../../backend/model/title";
 
 function PersonalList(props: any) {
+  const [myList, setMyList] = useRecoilState(myListState);
+  const [imdbResponse, setIMDBResponse] = useState([] as Title[]);
+  useEffect(() => {
+    const fetchData = async (id:string) => {
+      const response = await getTitleById(id, false);
+      //const availability = await 
+      setIMDBResponse([...imdbResponse, response])
+    }
+    if(myList){
+      myList.map((title:Title) => fetchData(title.id))
+    }    
+  },[])
+
   function concatenateApis() {
-    let concatObject = { ...Stargate, ...availability };
+    let concatObject = { ...imdbResponse, ...availability };
     return concatObject;
   }
   const [, setSeason] = useRecoilState(selectedSeasonState);
@@ -31,13 +49,13 @@ function PersonalList(props: any) {
   }
 
   return (
-    // <PersonalListView
-    //   tvShow={[test, concatenateApis()]}
-    //   saveSelectedSeason={saveSelectedSeason}
-    //   saveSelectedRegion={saveSelectedRegion}
-    //   regions={regions}
-    // />
-    <Spinner/>
+    <PersonalListView
+      tvShow={[test, concatenateApis()]}
+      saveSelectedSeason={saveSelectedSeason}
+      saveSelectedRegion={saveSelectedRegion}
+      regions={regions}
+    />
+    //<Spinner/>
   );
 }
 
