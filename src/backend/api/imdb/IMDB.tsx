@@ -39,4 +39,4 @@ function fetchTestTenor(query:string){
     return fetch(url, {"method": "GET"}).then(handleResponse);
 }
 
-export {fetchSearchResults, fetchEpisodes, fetchTrivia, fetchTestTenor, fetchTitle}
+export {fetchSearchResults, fetchEpisodes, fetchTrivia, fetchTestTenor, fetchTitle, handleResponse}
