@@ -43,7 +43,7 @@ export default function Header(props:any){
           <h1 className="font-bold text-2xl py-2 mr-20">My Friday Night List</h1>
           <div className="flex">
             <div className="flex w-72 mr-4">
-              <input className="outline-none w-72 rounded-lg bg-[#212F45] pl-4" type="text" placeholder="Search..." value={props.value} onChange={(e) => props.setQuery(e.target.value)} onKeyDown={(e)=> {if (e.key === "Enter" && props.value.trim() !== "") props.search()}}/>
+              <input className="outline-none w-72 rounded-lg bg-[#212F45] pl-4" type="text" placeholder="Search..." value={props.value} onChange={(e) => props.setQuery(e.target.value)} onKeyDown={(e)=> {if (e.key === "Enter") props.search()}}/>
             </div>
             <ul className="flex space-x-2">
               {buttonMap.map(HeaderButtonsCB)}
@@ -54,7 +54,7 @@ export default function Header(props:any){
         <div className="flex justify-between w-full items-center lg:hidden ">
           <h1 className="font-bold text-xl mr-10">M.F.N.L</h1>
           <div className="flex h-12">
-              <input className="outline-none w-full rounded-lg bg-[#212F45] pl-4" type="text" placeholder="Search..." value={props.value} onChange={(e) => props.setQuery(e.target.value)} onKeyDown={(e)=> {if (e.key === "Enter" && props.value.trim() !== "") props.search()}}/>
+              <input className="outline-none w-full rounded-lg bg-[#212F45] pl-4" type="text" placeholder="Search..." value={props.value} onChange={(e) => props.setQuery(e.target.value)} onKeyDown={(e)=> {if (e.key === "Enter") props.search()}}/>
           </div>
           <div className="flex justify-end items-end">
             <button className="bg-[#312244]" onClick={()=> setMenuClicked(!menuClicked)}><img src="https://cpb-us-w2.wpmucdn.com/sites.widener.edu/dist/7/57/files/2019/03/Hamburger_icon_svg.png" 
