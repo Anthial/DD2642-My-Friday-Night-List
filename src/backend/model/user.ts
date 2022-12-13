@@ -24,17 +24,43 @@ export const loggedInUserAtom = atom({
 	default: null as UserData | null
 });
 
-export function createUser(accountInfo: UserAccount, nickname?: string) {
-	const nicknameOrUsername = nickname ? nickname : accountInfo.username;
+const asciiNumbers = Array.from(Array(10).keys()).map(c => c + 48);
+const asciiUppercase = Array.from(Array(26).keys()).map(c => c + 65);
+const asciiLowercase = asciiUppercase.map(c => c + 32);
+const asciiSpecial = ['-'.charCodeAt(0), '_'.charCodeAt(0), '.'.charCodeAt(0)];
 
-	return firebaseFunctions.isUsernameTaken(accountInfo.username).then((isTaken) => {
+/* A-Z, 0-9, -, _, . */
+const usernameAllowedCharacters = 
+	[...asciiNumbers, ...asciiUppercase, ...asciiLowercase, ...asciiSpecial]
+	.map(c => String.fromCharCode(c));
+
+function checkAccountInfo(accountInfo: UserAccount) {
+	const sanitizedInfo = {...accountInfo}; 
+	sanitizedInfo.username = accountInfo.username.trim();
+
+	if(![...sanitizedInfo.username].every(charInUsername => usernameAllowedCharacters.some(c => charInUsername === c))) {
+		throw new Error("Username contains illegal characters (only A-Z, a-z, 0-9, -, _, . are allowed)");
+	}
+
+	if(accountInfo.password.length < 6) {
+		throw new Error("Password needs to be at least 6 characters long");	
+	}
+
+	return sanitizedInfo;
+}
+
+export function createUser(accountInfo: UserAccount, nickname?: string) {
+	const sanitizedAccountInfo = checkAccountInfo(accountInfo);
+	const nicknameOrUsername = nickname ? nickname : sanitizedAccountInfo.username;
+
+	return firebaseFunctions.isUsernameTaken(sanitizedAccountInfo.username).then((isTaken) => {
 		if(isTaken) {
 			throw new Error("Username is already taken");
 		}
 
-		return firebaseFunctions.createUser(accountInfo, nicknameOrUsername).then((encryptionKey) => {
+		return firebaseFunctions.createUser(sanitizedAccountInfo, nicknameOrUsername).then((encryptionKey) => {
 			const user: UserData = {
-				username: accountInfo.username,
+				username: sanitizedAccountInfo.username,
 				encryptionKey: encryptionKey,
 				
 				nickname: nicknameOrUsername,
@@ -67,7 +93,9 @@ export function loginUserWithCookie() {
 }
 
 export function loginUserWithPassword(accountInfo: UserAccount) {
-	return firebaseFunctions.loginUser(accountInfo).then((userData) => {
+	const sanitizedAccountInfo = checkAccountInfo(accountInfo);
+
+	return firebaseFunctions.loginUser(sanitizedAccountInfo).then((userData) => {
 		setCookie("username", userData.username, { expires: 365 });
 		setCookie("key", userData.encryptionKey, { expires: 365 });
 
