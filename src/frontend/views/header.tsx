@@ -64,7 +64,7 @@ export default function Header(props:any){
         </div>
       </div>
       <div className="w-full flex flex-col justify-end text-center items-end bg-[#312244] lg:hidden ">
-      <ul className={menuClicked ? "transition ease-in delay-90 opacity-100 shadow-lg" : "w-0 h-0 opacity-10"}>{mobileMap.map(HeaderButtonsCB)}</ul>
+      <ul className={menuClicked ? "transition ease-in delay-90 opacity-100 shadow-lg" : "hidden"}>{mobileMap.map(HeaderButtonsCB)}</ul>
       </div>
     </div>);
 }
