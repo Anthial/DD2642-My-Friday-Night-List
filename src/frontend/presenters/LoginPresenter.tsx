@@ -1,32 +1,47 @@
 import { useState } from "react";
-import LoginView from "../views/LoginView";
+import { UserAccount } from "../../backend/model/user";
+import LoginView from "../views/loginView";
 //import { UserAccount, UserData } from "../../backend/model/user";
 //import modelthingy for logging users in.
 
 function Login(props: any /*Model*/) {
-  const userLoginData = { username: "", password: "" }; //Could be swapped to "UserAccount" later.
-  const [hideErrorTextInView, toggleText] = useState(Boolean);
+  const userLoginData: UserAccount = { username: "", password: "" }; 
+  const [specifiedErrorText, setErrorText] = useState("");
   function compareUserLoginInfoACB() {
-    if (userLoginData.username === "" || userLoginData.password === "") {
+    try{
+      console.log(specifiedErrorText); //First run should print nothing
+      setErrorText("testpleasework"); //First run should set the text to the specified string
+      console.log(specifiedErrorText); //First run should print the specified sting, BUT it doesn't!! :/
+      //props.model.loginUserWithPassword(userLoginData.username, userLoginData.password);
+    } catch(error: any /* Catch must have any type */) {
+      setErrorText(error.message);
+    }
+
+
+
+    /*if (userLoginData.username === "" || userLoginData.password === "") {
       toggleText(false);
     } else {
       toggleText(true);
-      //props.model.logInUser(userLoginData.username, userLoginData.password);
-
-    }
+    }*/
   }
   function updateUsernameInputACB(usernameString: string) {
+    /*JUST FOR TESTING*/console.log(usernameString);
+    setErrorText("");
     userLoginData.username = usernameString;
     //toggleText(true);
   }
   function updatePasswordInputACB(passwordString: string) {
+    /*JUST FOR TESTING*/console.log(passwordString);
+
+    setErrorText("");
     userLoginData.password = passwordString;
     //toggleText(true);
   }
 
   return (
     <LoginView
-      hideErrorText={hideErrorTextInView}
+      loginErrorMessage={specifiedErrorText}
       attemptLogin={compareUserLoginInfoACB}
       onUsernameChange={updateUsernameInputACB}
       onPasswordChange={updatePasswordInputACB}
