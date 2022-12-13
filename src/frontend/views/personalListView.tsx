@@ -1,25 +1,27 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function PersonalListView(props: any) {
-  console.log(props);
-
+  // console.log(props);
+  console.log(props.tvShow);
   return (
     <div>
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
       <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
-        {props.tvShow.map(renderMainContent)}
+        {props.tvShow.map((tvshow: any) => renderMainContent(tvshow, props))}
       </div>
     </div>
   );
 }
 
-function renderSeasons(season: any) {
-  // console.log("test");
+function renderSeasons(season: any, saveSelectedSeason: any) {
   return (
-    <div className="inline-block whitespace-pre pl-[120px]">
-      Season {season}
+    <div key={season} className="inline-block whitespace-pre pl-[120px]">
+      <Link to="/details" onClick={() => saveSelectedSeason(season)}>
+        Season {season}
+      </Link>
     </div>
   );
 }
@@ -42,7 +44,21 @@ function renderCountriesCB(country: string) {
   return <span>{country} / </span>;
 }
 
-function renderMainContent(tvShow: any) {
+function generateRegions(props: any) {
+  return props.regions.map((regions: any) => {
+    return (
+      <option
+        value={regions.name}
+        onClick={(event) => props.saveSelectedRegion(event.target.value)}
+        className=""
+      >
+        {regions.name}
+      </option>
+    );
+  });
+}
+
+function renderMainContent(tvShow: any, props: any) {
   const [expand, setExpand] = React.useState(false);
 
   function expandACB() {
@@ -55,7 +71,7 @@ function renderMainContent(tvShow: any) {
         <img
           id="expand-icon"
           className="w-4 bg-transparent rotate-180 h-[20px] w-[20px]"
-          src="/public/expand-down-arrow-ico.png"
+          src="/expand-down-arrow-ico.png"
           alt="expand down arrow"
         />
       );
@@ -64,14 +80,20 @@ function renderMainContent(tvShow: any) {
       <img
         id="expand-icon"
         className="w-4 bg-transparent rotate-0 h-[20px] w-[20px]"
-        src="/public/expand-down-arrow-ico.png"
+        src="/expand-down-arrow-ico.png"
         alt="expand down arrow"
       />
     );
   }
-  function expandedContentACB(seasons: any) {
+  function expandedContentACB(seasons: any, saveSelectedSeason: any) {
     if (expand) {
-      return <div className="pl-6">{seasons.map(renderSeasons)}</div>;
+      return (
+        <div className="pl-6">
+          {seasons.map((season: string) =>
+            renderSeasons(season, saveSelectedSeason)
+          )}
+        </div>
+      );
     }
     return <div></div>;
   }
@@ -80,14 +102,11 @@ function renderMainContent(tvShow: any) {
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
   function getCountriesCB(countries: any) {
-    console.log(countries);
+    // console.log(countries);
     return <span>{countries.map(renderCountriesCB)}</span>;
   }
   return (
-    <div
-      key={tvShow.id}
-      className="flex flex-col text-lg mt-2  lg:w-[34%] "
-    >
+    <div key={tvShow.id} className="flex flex-col text-lg mt-2  lg:w-[34%] ">
       <div className="lg:ml-2 items-center flex text-lg mt-2">
         <img
           src={tvShow.image}
@@ -95,30 +114,56 @@ function renderMainContent(tvShow: any) {
         ></img>
         <div className="flex flex-col">
           <div className="flex flex-row border-box">
-            <div
-              className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer "
-              onClick={expandACB}
-            >
-              <span className="mr-2.5">{tvShow.fullTitle}</span>
-              <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
-              {getCountriesCB(tvShow.countries)}
-            </div>
-            <div className="w-[30px] h-[30px]">
-            <button
-              id="expand-icon"
-              className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
-              onClick={expandACB}
-            >
-              {renderIconCB()}
-            </button>
-            </div>
+            {tvShow.tvSeriesInfo.seasons && (
+              <div
+                className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer "
+                onClick={expandACB}
+              >
+                <span className="mr-2.5">{tvShow.fullTitle}</span>
+                <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
+                {getCountriesCB(tvShow.countries)}
+              </div>
+            )}
+            {!tvShow.tvSeriesInfo.seasons && (
+              <div className=" ">
+                <span className="mr-2.5">{tvShow.fullTitle}</span>
+                <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
+                {getCountriesCB(tvShow.countries)}
+              </div>
+            )}
+
+            {tvShow.tvSeriesInfo.seasons && (
+              <div className="w-[30px] h-[30px]">
+                <button
+                  id="expand-icon"
+                  className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
+                  onClick={expandACB}
+                >
+                  {renderIconCB()}
+                </button>
+              </div>
+            )}
           </div>
-          <div className="flex text-[#b7e4c7] pt-1">
-            Watch at: {generateStreamingLinksCB(tvShow.streamingInfo)}
+          <div className="flex flex-col flex-wrap lg:flex-row pt-1">
+            <select
+              name="selected-country"
+              id="country-select"
+              className="w-[126px] h-[30px] hover:shadow-lg bg-[#312244] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
+            >
+              <option value="">Select region</option>
+              {generateRegions(props)}
+            </select>
+            <div className="flex flex-row flex-wrap text-[#b7e4c7]">
+              <span className="pl-2">Watch at: </span>
+              <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
+            </div>
           </div>
         </div>
       </div>
-      {expandedContentACB(tvShow.tvSeriesInfo.seasons)}
+      {expandedContentACB(
+        tvShow.tvSeriesInfo.seasons,
+        props.saveSelectedSeason
+      )}
     </div>
   );
 }

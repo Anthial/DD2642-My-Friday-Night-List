@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { HashRouter, Route, Routes } from "react-router-dom"
 
-import Header from "./frontend/views/header"
+import Header from "./frontend/presenters/headerPresenter"
 import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter"
 import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter"
 import PersonalList from "./frontend/presenters/personalListPresenter"
