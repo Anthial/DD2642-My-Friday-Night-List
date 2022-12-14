@@ -1,4 +1,4 @@
-import { Title, TitleId, TitleType } from "./title";
+import { SearchResult, Title, TitleId, TitleType } from "./title";
 import { imdbPlaceholderData } from "../api/imdb/placeholderData";
 import { getTitleFromFirebase, updateTitleInFirebase } from "../firebase/cache";
 import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/IMDB";
@@ -24,7 +24,7 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 					name: result.title,
 					imageUrl: result.image,
 
-					seasons: result.tvSeriesInfo.seasons,
+					seasons: result.tvSeriesInfo ? result.tvSeriesInfo.seasons : [],
 					year: result.year,
 
 					plot: result.plot,
@@ -38,18 +38,30 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 	}
 }
 
-export function searchImdb(query: string, usePlaceholderData: boolean): Promise<any> {
-	// TODO cache in firebase
+export function searchImdb(query: string, usePlaceholderData: boolean): Promise<SearchResult[]> {
 	query = query.trim();
 	query = query.toLowerCase();
+
+	if(query === "") {
+		return Promise.reject();
+	}
 	
 	if(usePlaceholderData) {
-		const results = imdbPlaceholderData.filter((title) => title.name.toLowerCase().includes(query));
+		const results = imdbPlaceholderData
+			.filter((title) => title.name.toLowerCase().includes(query))
+			.map(t => t as SearchResult);
+
 		return Promise.resolve(results);
 	}
 	else {
-		if (query === ""){return Promise.resolve(null);} //lol no 
-		return fetchSearchResults(query)
+		return fetchSearchResults(query).then(result => result.results.map((t: any) => {
+			return {
+				id: t.id,
+
+				name: t.title,
+				imageUrl: t.image
+			};
+		}));
 	}
 }
 
@@ -60,3 +72,5 @@ export function getEpisodesByIDSeason(id: string, season: string): Promise<any> 
 export function getTriviaByID(id: string): Promise<any> {
 	return fetchTrivia(id);
 }
+
+window.getTitleById = getTitleById;

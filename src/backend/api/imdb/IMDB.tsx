@@ -10,7 +10,10 @@ function handleResponse(response: any){
 }
 
 function fetchSearchResults(query: string){
-    const url =  `https://imdb-api.com/en/API/SearchSeries/${IMDB_API_KEY}/${query}`;
+    const escapedQuery = new URLSearchParams(query).toString();
+    const allowedTypes = "feature,tv_movie,tv_series,tv_special,documentary";
+    const url = `https://imdb-api.com/en/API/AdvancedSearch/${IMDB_API_KEY}?title=${escapedQuery}&title_type=${allowedTypes}`;
+
     return fetch(url, {"method": "GET"}).then(handleResponse);
 }
 
