@@ -10,16 +10,19 @@ function Spinner() {
 
 export interface SearchResultsProps {
 	titles: SearchResult[],
+	isUserLoggedIn: boolean,
 
 	onModifyList: (title: SearchResult) => void,
 	onSelectTitle: (title: SearchResult) => void
 };
 
-function SearchEntry(title: SearchResult, onSelectTitle: (t: SearchResult) => void) {
+function SearchEntry(props: SearchResultsProps, title: SearchResult) {
+	const addToDivStyle = props.isUserLoggedIn ? "" : "pointer-events-none";
+	
 	return (
 		<div key={title.id} className="basis-[20%] min-w-[16rem] h-96 shrink-1 grow-1 m-6 flex justify-center">
 			<div style={{backgroundImage: `url(${title.imageUrl})`}} 
-				className="group overflow-hidden bg-cover basis-64 h-96 rounded-lg overflow-hidden relative">
+				className={`${addToDivStyle} group overflow-hidden bg-cover basis-64 h-96 rounded-lg overflow-hidden relative`}>
 				<div className="w-64 h-64 bg-gradient-to-t from-black/90 to-transparent absolute bottom-0"></div>
 				<span className="text-center absolute bottom-0 w-full origin-bottom -translate-y-4 transition-transform duration-100 group-hover:-translate-y-14 pointer-events-none">
 					<span className="font-bold">{title.name}</span>

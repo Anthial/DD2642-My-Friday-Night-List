@@ -6,12 +6,16 @@ import { SearchResult, Title } from "../../backend/model/title";
 
 import SearchResultsView from "../views/searchResultsView";
 import Spinner from "../views/spinnerView";
+import { loggedInUserAtom } from "../../backend/model/user";
 
 export default function SearchResults() {
-	const [titles, setTitles] = useState(null as SearchResult[] | null);
-	const searchValue = useRecoilValue(searchValueState);
-	const setSelectedTitle = useSetRecoilState(selectedTitleAtom);
+	const user = useRecoilValue(loggedInUserAtom);
 
+	const searchValue = useRecoilValue(searchValueState);
+	const [titles, setTitles] = useState(null as SearchResult[] | null);
+
+	const setSelectedTitle = useSetRecoilState(selectedTitleAtom);
+	
 	useEffect(() => {
 		setTitles(null);
 		searchImdb(searchValue, false).then(t => setTitles(t)).catch((e: Error) => window.alert("Search failed: " + e.message));
@@ -22,7 +26,7 @@ export default function SearchResults() {
 	}	
 
 	if(titles) {
-		return <SearchResultsView titles={titles} onSelectTitle={t => setSelectedTitle(t.id)} onModifyList={onUserModifiedList}/>;
+		return <SearchResultsView titles={titles} isUserLoggedIn={!!user} onSelectTitle={t => setSelectedTitle(t.id)} onModifyList={onUserModifiedList}/>;
 	}
 
 	return <Spinner/>;
