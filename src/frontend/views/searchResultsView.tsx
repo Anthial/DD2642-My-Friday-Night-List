@@ -9,9 +9,9 @@ function Spinner() {
 }
 
 export interface SearchResultsProps {
-	loading: boolean,
 	titles: SearchResult[],
 
+	onModifyList: (title: SearchResult) => void,
 	onSelectTitle: (title: SearchResult) => void
 };
 
@@ -25,8 +25,12 @@ function SearchEntry(title: SearchResult, onSelectTitle: (t: SearchResult) => vo
 					<span className="font-bold">{title.name}</span>
 				</span>
 				<div className="h-6 absolute -bottom-6 flex w-full justify-center transition-transform duration-100 group-hover:-translate-y-10">
-					<Link to="/search" className="hover:scale-110 active:scale-90"><IconHeartPlus className="inline align-middle mr-1"></IconHeartPlus></Link>
-					<Link to="/details" onClick={() => onSelectTitle(title)} className="hover:scale-110 active:scale-90"><IconDots className="inline align-middle mr-1"></IconDots></Link>
+					<Link to="/search" onClick={e => props.onModifyList(title)} className="hover:scale-110 active:scale-90">
+						<IconHeartPlus className="inline align-middle mr-1"></IconHeartPlus>
+					</Link>
+					<Link to="/details" onClick={e => props.onSelectTitle(title)} className="hover:scale-110 active:scale-90">
+						<IconDots className="inline align-middle mr-1"></IconDots>
+					</Link>
 				</div>
 			</div>
 		</div>
@@ -36,8 +40,7 @@ function SearchEntry(title: SearchResult, onSelectTitle: (t: SearchResult) => vo
 export default function SearchResultsView(props: SearchResultsProps) {
 	return (
 		<div id="search-results-view" className="w-full shrink-0 grow flex justify-center items-center px-[5%] py-12 flex-wrap">
-			{props.titles.map((title) => SearchEntry(title, props.onSelectTitle))}
-			{props.loading && <Spinner></Spinner>}
+			{props.titles.map(title => SearchEntry(props, title))}
 		</div>
 	);
 }
