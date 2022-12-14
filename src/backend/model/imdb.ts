@@ -1,6 +1,6 @@
 import { SearchResult, Title, TitleId, TitleType } from "./title";
 import { imdbPlaceholderData } from "../api/imdb/placeholderData";
-import { getTitleFromFirebase, updateTitleInFirebase } from "../firebase/cache";
+import { cacheSearchInFirebase, cacheTitleInFirebase, getTitleFromFirebase, searchImdbInFirebase } from "../firebase/cache";
 import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/IMDB";
 
 export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<Title> {
@@ -31,7 +31,7 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 					stars: result.starList.map((star: { name: string }) => star.name)
 				};
 
-				updateTitleInFirebase(title);
+				cacheTitleInFirebase(title);
 				return title;
 			});
 		});
@@ -72,19 +72,26 @@ export function searchImdb(query: string, usePlaceholderData: boolean): Promise<
 	else {
 		searchPromiseWaiting = true;
 
-		return fetchSearchResults(query)
-			.then(result => result.results.map((t: any) => {
-				return {
-					id: t.id,
+		return searchImdbInFirebase(query).catch(() => {
+			return fetchSearchResults(query)
+				.then(result => {
+					const results = result.results.map((t: any) => {
+						return {
+							id: t.id,
 
-					name: t.title,
-					imageUrl: t.image
-				};
-			}))
-			.finally(() => {
-				searchPromiseWaiting = false;
-				nextSearchTime = Date.now() + searchTimeout * 1000;
-			});
+							name: t.title,
+							imageUrl: t.image
+						};
+					});
+
+					cacheSearchInFirebase(query, results);
+					return results;
+				})
+		})
+		.finally(() => {
+			searchPromiseWaiting = false;
+			nextSearchTime = Date.now() + searchTimeout * 1000;
+		});
 	}
 }
 
