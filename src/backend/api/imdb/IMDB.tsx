@@ -1,4 +1,4 @@
-import {IMDB_API_KEY, TENOR_API_KEY} from "./apiConfig"
+import {IMDB_API_KEY} from "./apiConfig"
 
 
 function handleResponse(response: any){
@@ -7,11 +7,6 @@ function handleResponse(response: any){
     }
     return response.json();
 
-}
-
-function readJSON(json: any){
-    console.log(json);
-    return json;
 }
 
 function fetchSearchResults(query: string){
@@ -34,9 +29,4 @@ function fetchTitle(id:string){
     return fetch(url, {"method": "GET"}).then(handleResponse);
 }
 
-function fetchTestTenor(query:string){
-    const url = `https://g.tenor.com/v1/search?q=${query}&key=${TENOR_API_KEY}`
-    return fetch(url, {"method": "GET"}).then(handleResponse);
-}
-
-export {fetchSearchResults, fetchEpisodes, fetchTrivia, fetchTestTenor, fetchTitle, handleResponse}
+export {fetchSearchResults, fetchEpisodes, fetchTrivia, fetchTitle, handleResponse}
