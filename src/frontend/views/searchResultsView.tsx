@@ -1,16 +1,12 @@
-import { SearchResult, Title, TitleType } from "../../backend/model/title";
-import { IconDeviceTv, IconMovie, IconDots, IconHeartPlus, IconArrowLeft, IconArrowRight } from '@tabler/icons';
+import { SearchResult, TitleId } from "../../backend/model/title";
+import { IconDots, IconHeartPlus, IconArrowLeft, IconArrowRight, IconHeartMinus } from '@tabler/icons';
 import { Link } from "react-router-dom";
-
-function Spinner() {
-	return (
-		<img src="spinner.svg" width="128" height="128"></img>
-	)
-}
 
 export interface SearchResultsProps {
 	titles: SearchResult[],
+	
 	isUserLoggedIn: boolean,
+	userWatchlist: TitleId[],
 
 	page: number,
 	maxPage: number,
@@ -33,7 +29,8 @@ function SearchEntry(props: SearchResultsProps, title: SearchResult) {
 				</span>
 				<div className="h-6 absolute -bottom-6 flex w-full justify-center transition-transform duration-100 group-hover:-translate-y-10">
 					<Link to="/search" onClick={e => props.onModifyList(title)} className="hover:scale-110 active:scale-90">
-						<IconHeartPlus className="inline align-middle mr-1"></IconHeartPlus>
+						{!props.userWatchlist.includes(title.id) && <IconHeartPlus className="inline align-middle mr-1"></IconHeartPlus>}
+						{props.userWatchlist.includes(title.id) && <IconHeartMinus className="inline align-middle mr-1"></IconHeartMinus>}
 					</Link>
 					<Link to="/details" onClick={e => props.onSelectTitle(title)} className="hover:scale-110 active:scale-90">
 						<IconDots className="inline align-middle mr-1"></IconDots>
