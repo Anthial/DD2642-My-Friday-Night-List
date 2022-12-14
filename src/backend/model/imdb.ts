@@ -38,12 +38,28 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 	}
 }
 
+/* The time the user has to wait before searching again */
+const searchTimeout = 2;
+
+/* If there is a search API call waiting */
+let searchPromiseWaiting = false;
+/* The time the user is allowed to search again if searchPromiseWaiting == false */
+let nextSearchTime = 0;
+
+export function canSearchImdb() {
+	return !searchPromiseWaiting && Date.now() >= nextSearchTime;
+}
+
 export function searchImdb(query: string, usePlaceholderData: boolean): Promise<SearchResult[]> {
 	query = query.trim();
 	query = query.toLowerCase();
 
-	if(query === "") {
-		return Promise.reject();
+	if(!canSearchImdb()) {
+		return Promise.reject(new Error("Rate limited"));
+	}
+
+	if(query.length < 3) {
+		return Promise.reject(new Error("Search too short, you need to use at least 3 characters"));
 	}
 	
 	if(usePlaceholderData) {
@@ -51,17 +67,24 @@ export function searchImdb(query: string, usePlaceholderData: boolean): Promise<
 			.filter((title) => title.name.toLowerCase().includes(query))
 			.map(t => t as SearchResult);
 
-		return Promise.resolve(results);
+		return Promise.resolve(results).finally();
 	}
 	else {
-		return fetchSearchResults(query).then(result => result.results.map((t: any) => {
-			return {
-				id: t.id,
+		searchPromiseWaiting = true;
 
-				name: t.title,
-				imageUrl: t.image
-			};
-		}));
+		return fetchSearchResults(query)
+			.then(result => result.results.map((t: any) => {
+				return {
+					id: t.id,
+
+					name: t.title,
+					imageUrl: t.image
+				};
+			}))
+			.finally(() => {
+				searchPromiseWaiting = false;
+				nextSearchTime = Date.now() + searchTimeout * 1000;
+			});
 	}
 }
 
@@ -72,5 +95,3 @@ export function getEpisodesByIDSeason(id: string, season: string): Promise<any> 
 export function getTriviaByID(id: string): Promise<any> {
 	return fetchTrivia(id);
 }
-
-window.getTitleById = getTitleById;

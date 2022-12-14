@@ -1,10 +1,10 @@
 /* This file defines application state with Recoil atoms */
 import { atom } from "recoil";
-import { Title } from "./title";
+import { TitleId, Title } from "./title";
 
 export const selectedTitleAtom = atom({
   key: "selectedTitle",
-  default: null as Title | null,
+  default: "" as TitleId,
 });
 export const myListState = atom({
   key: "myList", // unique ID (with respect to other atoms/selectors)
