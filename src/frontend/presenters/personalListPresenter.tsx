@@ -22,32 +22,34 @@ function PersonalList(props: any) {
   const [imdbResponse, setIMDBResponse] = useState<Title | null>(null);
   const [concatObject, setConcatObject] = useState<any>([]);
   const [titleList, setTitleList] = useState<any>([]);
-  const region = useRecoilValue(selectedRegionState);
+  
 
   function handleContent(handle: any) {
+    console.log(handle);
     
-    return {...handle[0], ...handle[1]}
+    return {...handle[1], ...handle[0]}
   }
-
-
+// gladiator tt0172495
+//tt0118480 stargate
   useEffect(() => {
-    const mylist = [{id: "tt0118480", type: 1, name: "test", year:"1999", plot: "Stuff happens", stars: ["teststar", "teststars"], seasons: [],  imageUrl: "spinner.svg"}, 
-    {id: "tt0172495", type: 2, name: "test2", year:"1999", plot: "Stuff happens", stars: ["teststar3", "teststars4"], seasons: ["1", "2"],  imageUrl: "spinner.svg"}]
+    const mylist = ["tt0468569", "tt0118480"];
     const fetchData = async (id: string) => {
       const response = await getTitleById(id, false);
-      //const networks = await fetchAvailability(id, region);
+      // const networks = await fetchAvailability(id, region);
       //const availability = "none"
       //setIMDBResponse(response);
-      //console.log(response);
+      console.log(id + ": " + response.id);
       
-      return Promise.all([response, availability]);
+      return [response, availability];
     };
     if (mylist) {
-      Promise.all(mylist.map((title: any) => fetchData(title.id).then(handleContent))).then((values) => (setConcatObject(values)));
+      Promise.all(mylist.map((titleId) => fetchData(titleId).then(handleContent))).then((values) => (setConcatObject(values)));
+      console.log(concatObject)
     }
   }, []);
 
- 
+  const region = useRecoilValue(selectedRegionState);
+  console.log(region)
 
 // const imdbData = fetchTitle(dummyFirebaseMyList[0]).then(handle);
 // console.log(imdbData);
