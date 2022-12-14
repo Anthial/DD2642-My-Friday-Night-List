@@ -15,12 +15,9 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 	}
 	else {
 		// First check if Firebase has this title cached, if not use the IMDb API and cache the data in Firebase
-		return getTitleFromFirebase(id).catch(reason => {
-			// TODO: Call imdb api here 
-			// updateTitleInFirebase(result);
-			
+		return getTitleFromFirebase(id).catch(() => {			
 			return fetchTitle(id).then(result => { 
-				return {
+				const title = {
 					id: result.id,
 					type: result.tvSeriesInfo ? TitleType.TVShow : TitleType.Movie,
 
@@ -33,6 +30,9 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 					plot: result.plot,
 					stars: result.starList.map((star: { name: string }) => star.name)
 				};
+
+				updateTitleInFirebase(title);
+				return title;
 			});
 		});
 	}
