@@ -8,7 +8,7 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0111161.jpg",
 
 		type: TitleType.Movie,
-		seasons: 0,
+		seasons: [],
 
 		year: 2000,
 		plot: "...",
@@ -20,7 +20,7 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0068646.jpg",
 
 		type: TitleType.Movie,
-		seasons: 0,
+		seasons: [],
 
 		year: 2000,
 		plot: "...",
@@ -32,7 +32,7 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0468569.jpg",
 
 		type: TitleType.Movie,
-		seasons: 0,
+		seasons: [],
 
 		year: 2000,
 		plot: "...",
@@ -44,7 +44,7 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt5491994.jpg",
 
 		type: TitleType.TVShow,
-		seasons: 6,
+		seasons: ["1", "2", "3", "4", "5", "6"],
 
 		year: 2000,
 		plot: "...",
@@ -56,7 +56,7 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0903747.jpg",
 
 		type: TitleType.TVShow,
-		seasons: 4,
+		seasons: ["1", "2", "3", "4"],
 
 		year: 2000,
 		plot: "...",
@@ -68,7 +68,7 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0795176.jpg",
 
 		type: TitleType.TVShow,
-		seasons: 3,
+		seasons: ["1", "2", "3"],
 
 		year: 2000,
 		plot: "...",
