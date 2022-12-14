@@ -25,8 +25,8 @@ function SearchEntry(title: SearchResult, onSelectTitle: (t: SearchResult) => vo
 					<span className="font-bold">{title.name}</span>
 				</span>
 				<div className="h-6 absolute -bottom-6 flex w-full justify-center transition-transform duration-100 group-hover:-translate-y-10">
-					<Link to="/search" className="hover:scale-110"><IconHeartPlus className="inline align-middle mr-1"></IconHeartPlus></Link>
-					<Link to="/details" onClick={() => onSelectTitle(title)} className="hover:scale-110"><IconDots className="inline align-middle mr-1"></IconDots></Link>
+					<Link to="/search" className="hover:scale-110 active:scale-90"><IconHeartPlus className="inline align-middle mr-1"></IconHeartPlus></Link>
+					<Link to="/details" onClick={() => onSelectTitle(title)} className="hover:scale-110 active:scale-90"><IconDots className="inline align-middle mr-1"></IconDots></Link>
 				</div>
 			</div>
 		</div>
