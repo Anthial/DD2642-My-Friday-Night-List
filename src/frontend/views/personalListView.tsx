@@ -109,7 +109,7 @@ function renderMainContent(tvShow: any, props: any) {
     <div key={tvShow.id} className="flex flex-col text-lg mt-2  lg:w-[34%] ">
       <div className="lg:ml-2 items-center flex flex-col lg:flex-row text-lg mt-2">
         <img
-          src={tvShow.image}
+          src={tvShow.imageUrl}
           className="inline w-[100px] object-cover rounded-lg mr-8"
         ></img>
         <div className="flex flex-col ">
@@ -120,7 +120,7 @@ function renderMainContent(tvShow: any, props: any) {
                 onClick={expandACB}
               >
                 <div>
-                  <span className="mr-2">{tvShow.fullTitle}</span>
+                  <span className="mr-2">{tvShow.name}</span>
                   <div>
                     <span className="text-[#b7e4c7] whitespace-pre">
                       Origin:{" "}
@@ -133,7 +133,7 @@ function renderMainContent(tvShow: any, props: any) {
             {!tvShow.tvSeriesInfo && (
               <div className="flex lg:flex-row flex-col">
                 <div>
-                  <span className="mr-2.5">{tvShow.fullTitle}</span>
+                  <span className="mr-2.5">{tvShow.name}</span>
                   <div>
                     <span className="text-[#b7e4c7] whitespace-pre">
                       Origin:{" "}
