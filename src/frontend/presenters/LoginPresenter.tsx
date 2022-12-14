@@ -5,34 +5,34 @@ import LoginView from "../views/loginView";
 //import modelthingy for logging users in.
 
 function Login(props: any /*Model*/) {
-  const userLoginData: UserAccount = { username: "", password: "" }; 
+  let userLoginData: UserAccount = { username: "", password: "" };
   const [specifiedErrorText, setErrorText] = useState("");
   function compareUserLoginInfoACB() {
-    try{
-      console.log(specifiedErrorText); //First run should print nothing
-      setErrorText("testpleasework"); //First run should set the text to the specified string
-      console.log(specifiedErrorText); //First run should print the specified sting, BUT it doesn't!! :/
+    setErrorText("");
+
+    try {
+      /*JUST FOR TESTING*/
+      console.log("name L: " + userLoginData.username);
+      console.log("pass L: " + userLoginData.password);
+      /*JUST FOR TESTING*/
+
+      if (userLoginData.username == "" || userLoginData.password == "")
+        setErrorText("Enter username & password"); //First run should set the text to the specified string
+      else
+        setErrorText("");
       //props.model.loginUserWithPassword(userLoginData.username, userLoginData.password);
-    } catch(error: any /* Catch must have any type */) {
+    } catch (error: any /* Catch must have any type */) {
       setErrorText(error.message);
     }
-
-
-
-    /*if (userLoginData.username === "" || userLoginData.password === "") {
-      toggleText(false);
-    } else {
-      toggleText(true);
-    }*/
   }
   function updateUsernameInputACB(usernameString: string) {
-    /*JUST FOR TESTING*/console.log(usernameString);
+    /*JUST FOR TESTING*/ console.log("name: " + usernameString);
     setErrorText("");
     userLoginData.username = usernameString;
     //toggleText(true);
   }
   function updatePasswordInputACB(passwordString: string) {
-    /*JUST FOR TESTING*/console.log(passwordString);
+    /*JUST FOR TESTING*/ console.log("pass: " + passwordString);
 
     setErrorText("");
     userLoginData.password = passwordString;

@@ -73,9 +73,9 @@ function RegisterView(props: any /* Model */) {
             Register account
           </button>
         </div>
-        <div className="mt-1 text-red-500 justify-end" hidden={true}>
-          {
-            "Enter a name and password to register an account / Passwords must be the same / Username already taken"
+        <div className="mt-1 text-red-500 justify-end" hidden={props.registerErrorMessage == ""}>
+          {props.registerErrorMessage
+          /* "Enter a name and password to register an account / Passwords must be the same / Username already taken" */
           }
         </div>
       </div>

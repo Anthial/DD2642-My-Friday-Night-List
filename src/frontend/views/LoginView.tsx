@@ -1,9 +1,11 @@
 function LoginView(props: any) {
 
   function usernameValueChangedACB(e: any) {
+    console.log("name V: " + e.target.value);
     props.onUsernameChange(e.target.value);
   }
   function passwordValueChangedACB(e: any) {
+    console.log("pass V: " + e.target.value);
     props.onPasswordChange(e.target.value);
   }
   function loginButtonPressedACB() {
@@ -51,7 +53,7 @@ function LoginView(props: any) {
             Or register?
           </a>
         </div>
-        <div className="mt-1 text-red-500 justify-end" hidden={props.loginErrorMessage}>
+        <div className="mt-1 text-red-500 justify-end" hidden={props.loginErrorMessage == ""}>
           {props.loginErrorMessage  /*"You must enter both username and password in order to log in"*/}
         </div>
       </div>
