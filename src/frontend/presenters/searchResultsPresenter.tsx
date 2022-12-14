@@ -12,13 +12,8 @@ export default function SearchResults() {
 	const setSelectedTitle = useSetRecoilState(selectedTitleAtom);
 
 	useEffect(() => {
-		if(canSearchImdb()) {
-			setTitles(null);
-			searchImdb(searchValue, false).then(t => setTitles(t)).catch((e: Error) => window.alert("Search failed: " + e.message));
-		}
-		else {
-			/* Ignore for now if the user is searching too often */
-		}
+		setTitles(null);
+		searchImdb(searchValue, false).then(t => setTitles(t)).catch((e: Error) => window.alert("Search failed: " + e.message));
 	}, [searchValue]);
 
 	return <SearchResultsView loading={!titles} titles={titles || []} onSelectTitle={t => setSelectedTitle(t.id)}></SearchResultsView>;
