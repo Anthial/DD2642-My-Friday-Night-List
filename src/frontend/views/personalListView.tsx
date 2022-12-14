@@ -5,7 +5,7 @@ function PersonalListView(props: any) {
   // console.log(props);
   console.log(props.tvShow);
   return (
-    <div>
+    <div className="flex flex-col">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
@@ -107,28 +107,40 @@ function renderMainContent(tvShow: any, props: any) {
   }
   return (
     <div key={tvShow.id} className="flex flex-col text-lg mt-2  lg:w-[34%] ">
-      <div className="lg:ml-2 items-center flex text-lg mt-2">
+      <div className="lg:ml-2 items-center flex flex-col lg:flex-row text-lg mt-2">
         <img
           src={tvShow.image}
           className="inline w-[100px] object-cover rounded-lg mr-8"
         ></img>
-        <div className="flex flex-col">
+        <div className="flex flex-col ">
           <div className="flex flex-row border-box">
             {tvShow.tvSeriesInfo && (
               <div
-                className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer "
+                className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer flex lg:flex-row flex-col"
                 onClick={expandACB}
               >
-                <span className="mr-2.5">{tvShow.fullTitle}</span>
-                <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
-                {getCountriesCB(tvShow.countries)}
+                <div>
+                  <span className="mr-2">{tvShow.fullTitle}</span>
+                  <div>
+                    <span className="text-[#b7e4c7] whitespace-pre">
+                      Origin:{" "}
+                    </span>
+                    {getCountriesCB(tvShow.countries)}
+                  </div>
+                </div>
               </div>
             )}
             {!tvShow.tvSeriesInfo && (
-              <div className=" ">
-                <span className="mr-2.5">{tvShow.fullTitle}</span>
-                <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
-                {getCountriesCB(tvShow.countries)}
+              <div className="flex lg:flex-row flex-col">
+                <div>
+                  <span className="mr-2.5">{tvShow.fullTitle}</span>
+                  <div>
+                    <span className="text-[#b7e4c7] whitespace-pre">
+                      Origin:{" "}
+                    </span>
+                    {getCountriesCB(tvShow.countries)}
+                  </div>
+                </div>
               </div>
             )}
 
@@ -161,7 +173,7 @@ function renderMainContent(tvShow: any, props: any) {
         </div>
       </div>
       {expandedContentACB(
-        (tvShow.tvSeriesInfo ? tvShow.tvSeriesInfo.seasons : null),
+        tvShow.tvSeriesInfo ? tvShow.tvSeriesInfo.seasons : null,
         props.saveSelectedSeason
       )}
     </div>
