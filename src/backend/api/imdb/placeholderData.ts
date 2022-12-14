@@ -8,7 +8,11 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0111161.jpg",
 
 		type: TitleType.Movie,
-		episodes: 0
+		seasons: [],
+
+		year: 2000,
+		plot: "...",
+		stars: []
 	},
 	{
 		id: "tt0068646",
@@ -16,7 +20,11 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0068646.jpg",
 
 		type: TitleType.Movie,
-		episodes: 0
+		seasons: [],
+
+		year: 2000,
+		plot: "...",
+		stars: []
 	},
 	{
 		id: "tt0468569",
@@ -24,7 +32,11 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0468569.jpg",
 
 		type: TitleType.Movie,
-		episodes: 0
+		seasons: [],
+
+		year: 2000,
+		plot: "...",
+		stars: []
 	},
 	{
 		id: "tt5491994",
@@ -32,7 +44,11 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt5491994.jpg",
 
 		type: TitleType.TVShow,
-		episodes: 6
+		seasons: ["1", "2", "3", "4", "5", "6"],
+
+		year: 2000,
+		plot: "...",
+		stars: []
 	},
 	{
 		id: "tt0903747",
@@ -40,7 +56,11 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0903747.jpg",
 
 		type: TitleType.TVShow,
-		episodes: 4
+		seasons: ["1", "2", "3", "4"],
+
+		year: 2000,
+		plot: "...",
+		stars: []
 	},
 	{
 		id: "tt0795176",
@@ -48,6 +68,10 @@ export const imdbPlaceholderData: Title[] = [
 		imageUrl: "placeholder/tt0795176.jpg",
 
 		type: TitleType.TVShow,
-		episodes: 3
+		seasons: ["1", "2", "3"],
+
+		year: 2000,
+		plot: "...",
+		stars: []
 	}
 ];

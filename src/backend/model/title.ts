@@ -14,16 +14,23 @@ export interface Episode {
 	episode: number
 }
 
-export interface Title {
-	id: TitleId,
-	name: string,
-	imageUrl: string,
+export interface SearchResult {
+    id: TitleId,
 
-	type: TitleType,
-	episodes: number
+    name: string,
+    imageUrl: string,
 }
 
-export interface TitleDetails {
-	episodeList: Episode[]
-	/* TODO */
+export interface Title {
+    id: TitleId,
+    type: TitleType,
+
+    name: string,
+    imageUrl: string,
+
+    seasons: string[],
+    year: number,
+
+    plot: string,
+    stars: string[]
 }
