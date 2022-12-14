@@ -29,14 +29,12 @@ function Login(props: any /*Model*/) {
     /*JUST FOR TESTING*/ console.log("name: " + usernameString);
     setErrorText("");
     userLoginData.username = usernameString;
-    //toggleText(true);
   }
   function updatePasswordInputACB(passwordString: string) {
     /*JUST FOR TESTING*/ console.log("pass: " + passwordString);
 
     setErrorText("");
     userLoginData.password = passwordString;
-    //toggleText(true);
   }
 
   return (
