@@ -290,27 +290,12 @@ function detailsViewPresenter(props: any) {
     ],
     errorMessage: "",
   };
-  const [title, setTitle] = useState(null);
-  const [year, setYear] = useState(null);
-  const [episodes, setEpisodes] = useState(null);
   const values = useRecoilValue(selectedTitle);
   const id = values ? values.id : "";
   const season = useRecoilValue(selectedSeasonState);
   const setSeason = useSetRecoilState(selectedSeasonState);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getEpisodesByIDSeason(id, season);
-      console.log(response);
-      setTitle(response.title);
-      setYear(response.year);
-      setEpisodes(response.episodes);
-    };
-    if (season && id){
-      fetchData();
-    }
-  }, [season]);
 
-  function setSelectedSeason (s) {
+  function setSelectedSeason (s: any) {
     console.log(s)
     setSeason(s);
   } 
@@ -318,9 +303,8 @@ function detailsViewPresenter(props: any) {
   return (
     <div>
       <DetailsView
-        title={title ? title : values ? values.name : tempmodel.title}
-        year={year ? year : values ? values.year : tempmodel.year}
-        episodes={episodes ? episodes : null}
+        title={values ? values.name : tempmodel.title}
+        year={values ? values.year : tempmodel.year}
         plot= {values ? values.plot : "Loading..."}
         stars= {values ? values.stars : "Loading..."}
         image = {values ? values.imageUrl : "spinner.svg"}
