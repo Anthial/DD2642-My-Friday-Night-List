@@ -23,7 +23,8 @@ function PersonalList(props: any) {
   const [concatObject, setConcatObject] = useState<any>([]);
   const [titleList, setTitleList] = useState<any>([]);
   
-
+  const region = useRecoilValue(selectedRegionState);
+  console.log(region)
   function handleContent(handle: any) {
     console.log(handle);
     
@@ -35,9 +36,11 @@ function PersonalList(props: any) {
     const mylist = ["tt0468569", "tt0118480"];
     const fetchData = async (id: string) => {
       const response = await getTitleById(id, false);
-      // const networks = await fetchAvailability(id, region);
-      //const availability = "none"
-      //setIMDBResponse(response);
+      // let networks = await fetchAvailability(id, region).catch((error) => console.log(error));
+      // if (!networks){
+      //   networks = {streamingInfo:{}, countries: []}
+      // }
+      // //setIMDBResponse(response);
       console.log(id + ": " + response.id);
       
       return [response, availability];
@@ -46,10 +49,9 @@ function PersonalList(props: any) {
       Promise.all(mylist.map((titleId) => fetchData(titleId).then(handleContent))).then((values) => (setConcatObject(values)));
       console.log(concatObject)
     }
-  }, []);
+  }, [region]);
 
-  const region = useRecoilValue(selectedRegionState);
-  console.log(region)
+ 
 
 // const imdbData = fetchTitle(dummyFirebaseMyList[0]).then(handle);
 // console.log(imdbData);

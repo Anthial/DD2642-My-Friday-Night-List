@@ -3,12 +3,26 @@ import { Link } from "react-router-dom";
 
 function PersonalListView(props: any) {
   // console.log(props);
+
+  
   console.log(props.tvShow);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col xs:items-center  ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
+      <div className="flex justify-center flex-wrap  max-w-[406px] items-center">
+        <select
+          name="selected-country"
+          id="country-select"
+          className="p-1 hover:shadow-lg bg-[#312244] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
+          text-center min-w-full"
+          onChange={(event) => props.saveSelectedRegion(event.target.value)}
+        >
+          <option className="" disabled value="">- - - Select watch region - - -</option>
+          {generateRegions(props)}
+        </select>
+      </div>
       <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
         {props.tvShow.map((tvshow: any) => renderMainContent(tvshow, props))}
       </div>
@@ -47,11 +61,7 @@ function renderCountriesCB(country: string) {
 function generateRegions(props: any) {
   return props.regions.map((regions: any) => {
     return (
-      <option
-        value={regions.name}
-        onClick={(event) => props.saveSelectedRegion(event.target.value)}
-        className=""
-      >
+      <option value={regions.name} >
         {regions.name}
       </option>
     );
@@ -157,16 +167,8 @@ function renderMainContent(tvShow: any, props: any) {
             )}
           </div>
           <div className="flex flex-col flex-wrap lg:flex-row pt-1">
-            <select
-              name="selected-country"
-              id="country-select"
-              className="w-[126px] h-[30px] hover:shadow-lg bg-[#312244] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
-            >
-              <option value="">Select region</option>
-              {generateRegions(props)}
-            </select>
             <div className="flex flex-row flex-wrap text-[#b7e4c7]">
-              <span className="pl-2">Watch at: </span>
+              <span>Watch at: </span>
               <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
             </div>
           </div>
