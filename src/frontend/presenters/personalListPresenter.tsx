@@ -13,8 +13,8 @@ import Spinner from "../views/spinnerView";
 import { useState, useEffect } from "react";
 import { getTitleById } from "../../backend/model/imdb";
 import { Title, TitleType } from "../../backend/model/title";
-import { fetchAvailability } from "../../backend/api/availability/streamingAvailability";
 import { loggedInUserAtom } from "../../backend/model/user";
+import { getAvailabilityById } from "../../backend/model/streamingAvailability";
 
 function PersonalList(props: any) {
   const [myList, setMyList] = useRecoilState(myListState);
@@ -33,12 +33,12 @@ function PersonalList(props: any) {
   // gladiator tt0172495
   //tt0118480 stargate
   useEffect(() => {
-    const mylist = ["tt0468569", "tt0118480"];
+    const mylist = ["tt1029360", "tt3230854"];
     const fetchData = async (id: string) => {
       const response = await getTitleById(id, false);
-      let networks = await fetchAvailability(id, region).catch((error) => console.log(error));
+      let networks = await getAvailabilityById(id, region, false).catch((error) => console.log(error));
       if (!networks){
-        networks = {streamingInfo:{}, countries: []}
+        networks = {streamingInfo:{},imdbID: id, region: region}
       }
       setIMDBResponse(response);
       console.log(id + ": " + response.id);

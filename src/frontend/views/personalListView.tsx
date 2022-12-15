@@ -33,8 +33,10 @@ function PersonalListView(props: any) {
 
 function renderSeasons(season: any, saveSelectedSeason: any) {
   return (
-    <div key={season} className="inline-block whitespace-pre pl-[120px]">
-      <Link to="/details" onClick={() => saveSelectedSeason(season)}>
+    <div key={season} className="mt-2 inline-block whitespace-pre pl-[120px]">
+      <Link to="/details" 
+      className="ml-2.5 bg-[#312244] py-0  px-1.5 hover:shadow-lg hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]" 
+      onClick={() => saveSelectedSeason(season)}>
         Season {season}
       </Link>
     </div>
@@ -132,7 +134,8 @@ function renderMainContent(tvShow: any, props: any) {
                     <span className="text-[#b7e4c7] whitespace-pre">
                       Origin:{" "}
                     </span>
-                    {getCountriesCB(tvShow.countries)}
+                    {/*getCountriesCB(tvShow.country)*/}
+                    <span>{tvShow.country}</span>
                   </div>
                 </div>
               </div>
@@ -146,7 +149,8 @@ function renderMainContent(tvShow: any, props: any) {
                     <span className="text-[#b7e4c7] whitespace-pre">
                       Origin:{" "}
                     </span>
-                    {getCountriesCB(tvShow.countries)}
+                    {/*getCountriesCB(tvShow.country)*/}
+                    <span>{tvShow.country}</span>
                   </div>
                 </div>
                 </Link>

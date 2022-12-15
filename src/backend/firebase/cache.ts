@@ -2,6 +2,7 @@ import { SearchResult, Title, TitleId } from "../model/title";
 import { database } from "./app";
 import { get, ref, remove, set, query, orderByChild, limitToLast, DataSnapshot, limitToFirst, Database, DatabaseReference } from "firebase/database";
 import { SHA256 } from "crypto-js";
+import { Availability } from "../model/availability";
 
 interface CachedImdbTitle {
 	title: Title,
@@ -12,6 +13,34 @@ interface CachedImdbSearch {
 	query: string,
 	results: SearchResult[],
 	cacheTime: number
+}
+
+interface CashedAvailability {
+	availability: Availability,
+	cacheTime: number,
+}
+
+export function getAvailabilityFromFirebase(id: TitleId, region: string): Promise<Availability>{
+	const titleRef = ref(database, "cache/availability/title/" + id + "/" + region);
+	return get(titleRef).then(data => {
+		const cacheEntry = data.val() as CashedAvailability;
+
+		if(cacheEntry) {
+			if(isExpiredCacheEntry(cacheEntry.cacheTime)) {
+				remove(titleRef);
+				throw new Error("Cached data is too old, removing");
+			}
+
+			return cacheEntry.availability;
+		}
+
+		throw new Error("Not found in Firebase cache");
+	})
+}
+
+export function cacheAvailabilityInFirebase(availability: Availability) {
+	const titleRef = ref(database, "cache/availability/title/" + availability.imdbID + "/" + availability.region);
+	set(titleRef, { availability: availability, cacheTime: Math.floor(Date.now() / 1000) });
 }
 
 /* API responses are cached for two days */
