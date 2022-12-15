@@ -3,9 +3,15 @@ import { atom } from "recoil";
 import { TitleId, Title } from "./title";
 
 export const selectedTitleAtom = atom({
-  key: "selectedTitle",
+  key: "selectedTitleId",
   default: "" as TitleId,
 });
+
+export const selectedTitle = atom({
+  key: "selectedTitle",
+  default: {} as Title,
+});
+
 export const myListState = atom({
   key: "myList", // unique ID (with respect to other atoms/selectors)
   default: [] as Title[] | null, // default value (aka initial value)

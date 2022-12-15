@@ -3,8 +3,8 @@ import {
   getEpisodesByIDSeason
 } from "../../backend/model/imdb";
 import { useState, useEffect } from "react";
-import { selectedSeasonState, selectedTitleAtom } from "../../backend/model/atoms.js";
-import { useRecoilValue } from "recoil";
+import { selectedSeasonState, selectedTitle } from "../../backend/model/atoms.js";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 
 function detailsViewPresenter(props: any) {
   const tempmodel = {
@@ -293,9 +293,10 @@ function detailsViewPresenter(props: any) {
   const [title, setTitle] = useState(null);
   const [year, setYear] = useState(null);
   const [episodes, setEpisodes] = useState(null);
-  const values = useRecoilValue(selectedTitleAtom);
+  const values = useRecoilValue(selectedTitle);
   const id = values ? values.id : "";
   const season = useRecoilValue(selectedSeasonState);
+  const setSeason = useSetRecoilState(selectedSeasonState);
   useEffect(() => {
     const fetchData = async () => {
       const response = await getEpisodesByIDSeason(id, season);
@@ -307,17 +308,24 @@ function detailsViewPresenter(props: any) {
     if (season && id){
       fetchData();
     }
-  }, []);
+  }, [season]);
+
+  function setSelectedSeason (s) {
+    console.log(s)
+    setSeason(s);
+  } 
 
   return (
     <div>
       <DetailsView
         title={title ? title : values ? values.name : tempmodel.title}
-        year={year ? year : tempmodel.year}
+        year={year ? year : values ? values.year : tempmodel.year}
         episodes={episodes ? episodes : null}
         plot= {values ? values.plot : "Loading..."}
         stars= {values ? values.stars : "Loading..."}
         image = {values ? values.imageUrl : "spinner.svg"}
+        seasons = {values ? values.seasons : null}
+        setSelectedSeason = {setSelectedSeason}
       ></DetailsView>
     </div>
   );
