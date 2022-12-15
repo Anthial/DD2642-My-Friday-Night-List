@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 function PersonalListView(props: any) {
   // console.log(props);
 
-  
   console.log(props.tvShow);
   return (
     <div className="flex flex-col xs:items-center  ">
@@ -19,7 +18,9 @@ function PersonalListView(props: any) {
           text-center min-w-full"
           onChange={(event) => props.saveSelectedRegion(event.target.value)}
         >
-          <option className="" disabled value="">- - - Select watch region - - -</option>
+          <option className="" disabled value="">
+            - - - Select watch region - - -
+          </option>
           {generateRegions(props)}
         </select>
       </div>
@@ -60,11 +61,7 @@ function renderCountriesCB(country: string) {
 
 function generateRegions(props: any) {
   return props.regions.map((regions: any) => {
-    return (
-      <option value={regions.name} >
-        {regions.name}
-      </option>
-    );
+    return <option value={regions.name}>{regions.name}</option>;
   });
 }
 
@@ -124,7 +121,7 @@ function renderMainContent(tvShow: any, props: any) {
         ></img>
         <div className="flex flex-col ">
           <div className="flex flex-row border-box">
-            {tvShow.tvSeriesInfo && (
+            {tvShow.seasons && (
               <div
                 className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer flex lg:flex-row flex-col"
                 onClick={expandACB}
@@ -140,8 +137,9 @@ function renderMainContent(tvShow: any, props: any) {
                 </div>
               </div>
             )}
-            {!tvShow.tvSeriesInfo && (
-              <div className="flex lg:flex-row flex-col">
+            {!tvShow.seasons && (
+              <div className="flex lg:flex-row flex-col hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">
+                <Link to="/details">
                 <div>
                   <span className="mr-2.5">{tvShow.name}</span>
                   <div>
@@ -151,10 +149,11 @@ function renderMainContent(tvShow: any, props: any) {
                     {getCountriesCB(tvShow.countries)}
                   </div>
                 </div>
+                </Link>
               </div>
             )}
 
-            {tvShow.tvSeriesInfo && (
+            {tvShow.seasons && (
               <div className="w-[30px] h-[30px]">
                 <button
                   id="expand-icon"
@@ -175,7 +174,7 @@ function renderMainContent(tvShow: any, props: any) {
         </div>
       </div>
       {expandedContentACB(
-        tvShow.tvSeriesInfo ? tvShow.tvSeriesInfo.seasons : null,
+        tvShow.seasons ? tvShow.seasons : null,
         props.saveSelectedSeason
       )}
     </div>

@@ -17,45 +17,44 @@ import { fetchAvailability } from "../../backend/api/availability/streamingAvail
 import { loggedInUserAtom } from "../../backend/model/user";
 
 function PersonalList(props: any) {
-  const [myList, setMyList] = useRecoilState( myListState);
+  const [myList, setMyList] = useRecoilState(myListState);
   // const [myList, setMyList] = useRecoilState(loggedInUserAtom);
   const [imdbResponse, setIMDBResponse] = useState<Title | null>(null);
   const [concatObject, setConcatObject] = useState<any>([]);
   const [titleList, setTitleList] = useState<any>([]);
-  
+
   const region = useRecoilValue(selectedRegionState);
-  console.log(region)
+  console.log(region);
   function handleContent(handle: any) {
     console.log(handle);
-    
-    return {...handle[1], ...handle[0]}
+
+    return { ...handle[1], ...handle[0] };
   }
-// gladiator tt0172495
-//tt0118480 stargate
+  // gladiator tt0172495
+  //tt0118480 stargate
   useEffect(() => {
     const mylist = ["tt0468569", "tt0118480"];
     const fetchData = async (id: string) => {
       const response = await getTitleById(id, false);
-      // let networks = await fetchAvailability(id, region).catch((error) => console.log(error));
-      // if (!networks){
-      //   networks = {streamingInfo:{}, countries: []}
-      // }
-      // //setIMDBResponse(response);
+      let networks = await fetchAvailability(id, region).catch((error) => console.log(error));
+      if (!networks){
+        networks = {streamingInfo:{}, countries: []}
+      }
+      setIMDBResponse(response);
       console.log(id + ": " + response.id);
-      
-      return [response, availability];
+
+      return [response, networks];
     };
     if (mylist) {
-      Promise.all(mylist.map((titleId) => fetchData(titleId).then(handleContent))).then((values) => (setConcatObject(values)));
-      console.log(concatObject)
+      Promise.all(
+        mylist.map((titleId) => fetchData(titleId).then(handleContent))
+      ).then((values) => setConcatObject(values));
+      console.log(concatObject);
     }
   }, [region]);
 
- 
-
-// const imdbData = fetchTitle(dummyFirebaseMyList[0]).then(handle);
-// console.log(imdbData);
-
+  // const imdbData = fetchTitle(dummyFirebaseMyList[0]).then(handle);
+  // console.log(imdbData);
 
   function concatenateApis() {
     let concatObject = { ...imdbResponse, ...availability };
@@ -75,8 +74,6 @@ function PersonalList(props: any) {
       console.error("Region could not be set");
     }
   }
-
-
 
   return (
     <PersonalListView
