@@ -3,7 +3,7 @@ import PersonalListView from "../views/personalListView";
 import { Stargate } from "../../backend/model/dummyStargate";
 import { test } from "../../backend/model/testCondRendering";
 import availability from "../../backend/model/streamingAvailabilityDummyStargate";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   selectedSeasonState,
   selectedRegionState,
@@ -18,7 +18,9 @@ import { Title } from "../../backend/model/title";
 function PersonalList(props: any) {
   const [myList, setMyList] = useRecoilState(myListState);
   const [imdbResponse, setIMDBResponse] = useState([] as Title[]);
+  const setSelectedSeason = useSetRecoilState(selectedSeasonState);
   useEffect(() => {
+    setSelectedSeason("");
     const fetchData = async (id:string) => {
       const response = await getTitleById(id, false);
       //const availability = await 
