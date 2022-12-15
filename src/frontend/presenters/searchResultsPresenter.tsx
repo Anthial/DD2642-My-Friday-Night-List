@@ -20,6 +20,7 @@ export default function SearchResults() {
 	}, [searchValue]);
 
 	function setTitle(id: TitleId){
+		setSelectedTitle({} as Title);
 		setSelectedTitleId(id);
 		getTitleById(id, false).then((title) => setSelectedTitle(title));
 	}
