@@ -301,9 +301,9 @@ function detailsViewPresenter(props: any) {
     setSeason(s);
   } 
 
-  
+  console.log;
 
-  return (values ? 
+  return (!(Object.keys(values).length === 0) ? 
     <div>
       <DetailsView
         title={values ? values.name : tempmodel.title}
