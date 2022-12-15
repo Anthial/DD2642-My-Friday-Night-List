@@ -1,4 +1,4 @@
-import { truth_, some_QMARK_, map } from 'cherry-cljs/lib/cljs_core.js'
+import { map } from 'cherry-cljs/lib/cljs_core.js'
 import { Link } from 'react-router-dom';
 import { createElement } from 'react';
 var generate_view = function (episode) {
@@ -15,13 +15,10 @@ var episode_view = function (props) {
 let title13 = props["title"];
 let year14 = props["year"];
 let episodes15 = props["episodes"];
-let spinner16 = <img src="spinner.svg" className="flex justify-center w-full h-[25%]"></img>;
 console.log(props);
-if (truth_(some_QMARK_.call(null, episodes15))) {
 return <div className="flex justify-center h-full lg:h-[600px] w-full"><div className="container justify-center w-full"><div className="flex flex-col items-center"><div className="flex flex-row items-center text-center mt-2"><div className="w-40 font-bold text-2xl lg:text-4xl lg:w-64">{title13} - {year14}</div> <Link to="/trivia" className="h-full"><button className="ml-4 bg-[#4D194D] font-bold">Trivia</button></Link></div></div> <div className="flex flex-row flex-wrap container w-128 justify-center items-center text-center mt-2">{map.call(null, function (_PERCENT_1) {
 return generate_view.call(null, _PERCENT_1);
-}, episodes15)}</div></div></div>;} else {
-return spinner16;}
+}, episodes15)}</div></div></div>;
 }
 ;
 var default$ = episode_view

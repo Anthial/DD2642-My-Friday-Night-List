@@ -5,6 +5,7 @@ import {
 import { useState, useEffect } from "react";
 import { selectedSeasonState, selectedTitle } from "../../backend/model/atoms.js";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import Spinner from "../views/spinnerView.js";
 
 function detailsViewPresenter(props: any) {
   const tempmodel = {
@@ -300,7 +301,9 @@ function detailsViewPresenter(props: any) {
     setSeason(s);
   } 
 
-  return (
+  
+
+  return (values ? 
     <div>
       <DetailsView
         title={values ? values.name : tempmodel.title}
@@ -312,7 +315,8 @@ function detailsViewPresenter(props: any) {
         setSelectedSeason = {setSelectedSeason}
       ></DetailsView>
     </div>
-  );
+    :
+    <Spinner/>)
 }
 
 export default detailsViewPresenter;
