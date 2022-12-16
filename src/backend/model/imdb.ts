@@ -28,10 +28,11 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 					seasons: result.tvSeriesInfo ? result.tvSeriesInfo.seasons : [],
 					year: result.year,
 
-					plot: result.plot,
-					stars: result.starList.map((star: { name: string }) => star.name)
-				};
+					country: result.countries,
 
+					plot: result.plot,
+					stars: result.starList ? result.starList.map((star: { name: string }) => star.name) : []
+				};
 				cacheTitleInFirebase(title);
 				return title;
 			});

@@ -16,14 +16,14 @@ const test = {
     { id: "nm0788218", name: "Michael Shanks" },
     { id: "nm0850102", name: "Amanda Tapping" },
   ],
-  tvSeriesInfo: {
-    yearEnd: "2007",
-    creators: "Jonathan Glassner, Brad Wright",
-    creatorList: [
-      { id: "nm0322106", name: "Jonathan Glassner" },
-      { id: "nm0942249", name: "Brad Wright" },
-    ],
-  },
+  // tvSeriesInfo: {
+  //   yearEnd: "2007",
+  //   creators: "Jonathan Glassner, Brad Wright",
+  //   creatorList: [
+  //     { id: "nm0322106", name: "Jonathan Glassner" },
+  //     { id: "nm0942249", name: "Brad Wright" },
+  //   ],
+  // },
   genres: "Action, Adventure, Drama",
   genreList: [
     { key: "Action", value: "Action" },

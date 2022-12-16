@@ -2,13 +2,29 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function PersonalListView(props: any) {
-  // console.log(props);
-  console.log(props.tvShow);
+  // console.log(props.region);
+
+  // console.log(props.tvShow.streamingInfo);
   return (
-    <div>
+    <div className="flex flex-col xs:items-center  ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
+      <div className="flex justify-center flex-wrap  max-w-[406px] items-center">
+        <select
+          name="selected-country"
+          id="country-select"
+          className="p-1 hover:shadow-lg bg-[#312244] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
+          text-center min-w-full"
+          onChange={(event) => props.saveSelectedRegion(event.target.value)}
+          value={props.region}
+        >
+          <option className="" disabled value="">
+            - - - Select watch region - - -
+          </option>
+          {generateRegions(props)}
+        </select>
+      </div>
       <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
         {props.tvShow.map((tvshow: any) => renderMainContent(tvshow, props))}
       </div>
@@ -18,8 +34,12 @@ function PersonalListView(props: any) {
 
 function renderSeasons(season: any, saveSelectedSeason: any) {
   return (
-    <div key={season} className="inline-block whitespace-pre pl-[120px]">
-      <Link to="/details" onClick={() => saveSelectedSeason(season)}>
+    <div key={season} className="mt-2 inline-block whitespace-pre pl-[120px]">
+      <Link
+        to="/details"
+        className="ml-2.5 bg-[#312244] py-0  px-1.5 hover:shadow-lg hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
+        onClick={() => saveSelectedSeason(season)}
+      >
         Season {season}
       </Link>
     </div>
@@ -31,7 +51,7 @@ function renderLinks(links: any) {
   }
   const region: string = Object.keys(links[1])[0];
   return (
-    <a
+    <a key={links[0]}
       className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white"
       href={links[1][region].link}
       target="_blank"
@@ -40,21 +60,10 @@ function renderLinks(links: any) {
     </a>
   );
 }
-function renderCountriesCB(country: string) {
-  return <span>{country} / </span>;
-}
 
 function generateRegions(props: any) {
   return props.regions.map((regions: any) => {
-    return (
-      <option
-        value={regions.name}
-        onClick={(event) => props.saveSelectedRegion(event.target.value)}
-        className=""
-      >
-        {regions.name}
-      </option>
-    );
+    return <option key={regions.name} value={regions.name}>{regions.name}</option>;
   });
 }
 
@@ -101,38 +110,50 @@ function renderMainContent(tvShow: any, props: any) {
     // console.log(Object.entries(streamingInfo)); //gives me an array containing the keys for the streaming objects
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
-  function getCountriesCB(countries: any) {
-    // console.log(countries);
-    return <span>{countries.map(renderCountriesCB)}</span>;
-  }
   return (
     <div key={tvShow.id} className="flex flex-col text-lg mt-2  lg:w-[34%] ">
-      <div className="lg:ml-2 items-center flex text-lg mt-2">
+      <div className="lg:ml-2 items-center flex flex-col lg:flex-row text-lg mt-2">
         <img
-          src={tvShow.image}
+          src={tvShow.imageUrl}
           className="inline w-[100px] object-cover rounded-lg mr-8"
         ></img>
-        <div className="flex flex-col">
+        <div className="flex flex-col ">
           <div className="flex flex-row border-box">
-            {tvShow.tvSeriesInfo && (
+            {tvShow.seasons && (
               <div
-                className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer "
+                className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer flex lg:flex-row flex-col"
                 onClick={expandACB}
               >
-                <span className="mr-2.5">{tvShow.fullTitle}</span>
-                <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
-                {getCountriesCB(tvShow.countries)}
+                <div>
+                  <span className="mr-2">{tvShow.name}</span>
+                  <div>
+                    <span className="text-[#b7e4c7] whitespace-pre">
+                      Origin:{" "}
+                    </span>
+                    {/*getCountriesCB(tvShow.country)*/}
+                    <span>{tvShow.country}</span>
+                  </div>
+                </div>
               </div>
             )}
-            {!tvShow.tvSeriesInfo && (
-              <div className=" ">
-                <span className="mr-2.5">{tvShow.fullTitle}</span>
-                <span className="text-[#b7e4c7] whitespace-pre">Origin: </span>
-                {getCountriesCB(tvShow.countries)}
+            {!tvShow.seasons && (
+              <div className="flex lg:flex-row flex-col hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">
+                <Link to="/details">
+                  <div>
+                    <span className="mr-2.5">{tvShow.name}</span>
+                    <div>
+                      <span className="text-[#b7e4c7] whitespace-pre">
+                        Origin:{" "}
+                      </span>
+                      {/*getCountriesCB(tvShow.country)*/}
+                      <span>{tvShow.country}</span>
+                    </div>
+                  </div>
+                </Link>
               </div>
             )}
 
-            {tvShow.tvSeriesInfo && (
+            {tvShow.seasons && (
               <div className="w-[30px] h-[30px]">
                 <button
                   id="expand-icon"
@@ -145,23 +166,21 @@ function renderMainContent(tvShow: any, props: any) {
             )}
           </div>
           <div className="flex flex-col flex-wrap lg:flex-row pt-1">
-            <select
-              name="selected-country"
-              id="country-select"
-              className="w-[126px] h-[30px] hover:shadow-lg bg-[#312244] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
-            >
-              <option value="">Select region</option>
-              {generateRegions(props)}
-            </select>
-            <div className="flex flex-row flex-wrap text-[#b7e4c7]">
-              <span className="pl-2">Watch at: </span>
-              <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
-            </div>
+            {!(Object.keys(tvShow.streamingInfo).length === 0) ? (
+              <div className="flex flex-row flex-wrap text-[#b7e4c7]">
+                <span>Watch at: </span>
+                <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
+              </div>
+            ) : (
+              <div className="flex flex-row flex-wrap text-[#b7e4c7]">
+                <span>Not available in the chosen region</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
       {expandedContentACB(
-        (tvShow.tvSeriesInfo ? tvShow.tvSeriesInfo.seasons : null),
+        tvShow.seasons ? tvShow.seasons : null,
         props.saveSelectedSeason
       )}
     </div>
