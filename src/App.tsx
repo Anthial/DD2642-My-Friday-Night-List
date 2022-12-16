@@ -8,6 +8,7 @@ import PersonalList from "./frontend/presenters/personalListPresenter"
 import SearchResults from './frontend/presenters/searchResultsPresenter'
 import LoginViewPresenter from "./frontend/presenters/LoginPresenter"
 import RegisterViewPresenter from "./frontend/presenters/registerPresenter"
+import EpisodeViewPresenter from './frontend/presenters/episodeViewPresenter'
 
 import { loggedInUserAtom, loginUserWithCookie } from "./backend/model/user";
 import { useRecoilState } from 'recoil';
@@ -31,7 +32,8 @@ function App() {
           <Route path="" element={<LoginViewPresenter />}></Route>
           <Route path="register" element={<RegisterViewPresenter />}></Route>
           <Route path="details" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route>
-          <Route path="details/trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
+          <Route path="episodes" element={<EpisodeViewPresenter></EpisodeViewPresenter>}></Route>
+          <Route path="trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
           <Route path="mylist" element={<PersonalList></PersonalList>}></Route>
           <Route
             path="search"
