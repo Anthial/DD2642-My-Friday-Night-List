@@ -51,7 +51,7 @@ function renderLinks(links: any) {
   }
   const region: string = Object.keys(links[1])[0];
   return (
-    <a
+    <a key={links[0]}
       className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white"
       href={links[1][region].link}
       target="_blank"
@@ -63,7 +63,7 @@ function renderLinks(links: any) {
 
 function generateRegions(props: any) {
   return props.regions.map((regions: any) => {
-    return <option value={regions.name}>{regions.name}</option>;
+    return <option key={regions.name} value={regions.name}>{regions.name}</option>;
   });
 }
 
