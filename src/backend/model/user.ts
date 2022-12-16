@@ -1,8 +1,11 @@
 import { TitleId } from "./title";
 import { atom } from "recoil";
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
+import { localStorageEffect } from "./atoms";
 
 import * as firebaseFunctions from "../firebase/accounts";
+
+// window.loginUserWithPassword = loginUserWithPassword;
 
 /* This is information provided by the user when creating or logging in to an account */
 export interface UserAccount {
@@ -24,6 +27,7 @@ export const loggedInUserAtom = atom({
 	default: null as UserData | null,
 
 	effects: [
+		// localStorageEffect("loggedInUser"),
 		({onSet}) => {
 			onSet((newUser, oldUser) => {
 				if(newUser && oldUser) {

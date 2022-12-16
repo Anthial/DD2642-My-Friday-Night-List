@@ -1,7 +1,4 @@
 import PersonalListView from "../views/personalListView";
-import { Stargate } from "../../backend/model/dummyStargate";
-import { test } from "../../backend/model/testCondRendering";
-import availability from "../../backend/model/streamingAvailabilityDummyStargate";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   selectedSeasonState,
@@ -17,8 +14,8 @@ import { loggedInUserAtom } from "../../backend/model/user";
 import { getAvailabilityById } from "../../backend/model/streamingAvailability";
 
 function PersonalList(props: any) {
-  const [myList, setMyList] = useRecoilState(myListState);
-  // const [myList, setMyList] = useRecoilState(loggedInUserAtom);
+  // const [myList, setMyList] = useRecoilState(myListState);
+  const [userData, setMyList] = useRecoilState(loggedInUserAtom);
   const [imdbResponse, setIMDBResponse] = useState<Title | null>(null);
   const [concatObject, setConcatObject] = useState<any>([]);
   const [titleList, setTitleList] = useState<any>([]);
@@ -34,7 +31,10 @@ function PersonalList(props: any) {
   // gladiator tt0172495
   //tt0118480 stargate
   useEffect(() => {
-    const mylist = ["tt0111161", "tt0118480"];
+    // const myList = ["tt0111161", "tt0118480"];
+    const myList = userData?.watchlist
+    console.log(myList)
+
     const fetchData = async (id: string) => {
       const response = await getTitleById(id, false);
       let networks = await getAvailabilityById(id, region, false).catch((error) => console.log(error));
@@ -43,9 +43,9 @@ function PersonalList(props: any) {
       }
       return [response, networks];
     };
-    if (mylist) {
+    if (myList) {
       Promise.all(
-        mylist.map((titleId) => fetchData(titleId).then(handleContent))
+        myList.map((titleId) => fetchData(titleId).then(handleContent))
       ).then((values) => setConcatObject(values));
       // console.log(concatObject);
     }

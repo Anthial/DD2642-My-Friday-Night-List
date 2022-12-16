@@ -2,32 +2,43 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function PersonalListView(props: any) {
-  // console.log(props.region);
+  console.log(props.tvShow);
 
   // console.log(props.tvShow.streamingInfo);
   return (
-    <div className="flex flex-col xs:items-center  ">
+    <div className="flex flex-col xs:items-center items-center ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
-      <div className="flex justify-center flex-wrap  max-w-[406px] items-center">
-        <select
-          name="selected-country"
-          id="country-select"
-          className="p-1 hover:shadow-lg bg-[#312244] hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
+      {props.tvShow.length !== 0 ? (
+        <div>
+          <div className="flex justify-center flex-wrap  max-w-[406px] items-center">
+            <select
+              name="selected-country"
+              id="country-select"
+              className="p-1 hover:shadow-lg bg-[#312244] hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
           text-center min-w-full"
-          onChange={(event) => props.saveSelectedRegion(event.target.value)}
-          value={props.region}
-        >
-          <option className="" disabled value="">
-            - - - Select watch region - - -
-          </option>
-          {generateRegions(props)}
-        </select>
-      </div>
-      <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
-        {props.tvShow.map((tvshow: any) => renderMainContent(tvshow, props))}
-      </div>
+              onChange={(event) => props.saveSelectedRegion(event.target.value)}
+              value={props.region}
+            >
+              <option className="" disabled value="">
+                - - - Select watch region - - -
+              </option>
+              {generateRegions(props)}
+            </select>
+          </div>
+          <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
+            {props.tvShow.map((tvshow: any) =>
+              renderMainContent(tvshow, props)
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-wrap justify-center  max-w-[50%] text-center w-full">
+          Add movies and series from search to get your personal watchlist! Now
+          with links to where you can watch them for a selected region!
+        </div>
+      )}
     </div>
   );
 }
@@ -51,7 +62,8 @@ function renderLinks(links: any) {
   }
   const region: string = Object.keys(links[1])[0];
   return (
-    <a key={links[0]}
+    <a
+      key={links[0]}
       className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white hover:bg-[#251a33]"
       href={links[1][region].link}
       target="_blank"
@@ -63,7 +75,11 @@ function renderLinks(links: any) {
 
 function generateRegions(props: any) {
   return props.regions.map((regions: any) => {
-    return <option key={regions.name} value={regions.name}>{regions.name}</option>;
+    return (
+      <option key={regions.name} value={regions.name}>
+        {regions.name}
+      </option>
+    );
   });
 }
 
@@ -166,7 +182,8 @@ function renderMainContent(tvShow: any, props: any) {
             )}
           </div>
           <div className="flex flex-col flex-wrap lg:flex-row pt-1">
-            {!(Object.keys(tvShow.streamingInfo).length === 0) ? (
+            {/* {!(Object.keys(tvShow.streamingInfo).length === 0) ? ( */}
+            {!tvShow.streamingInfo == false ? (
               <div className="flex flex-row flex-wrap text-[#b7e4c7]">
                 <span>Watch at: </span>
                 <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
