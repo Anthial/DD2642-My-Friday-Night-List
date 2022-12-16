@@ -301,8 +301,6 @@ function detailsViewPresenter(props: any) {
     setSeason(s);
   } 
 
-  console.log;
-
   return (!(Object.keys(values).length === 0) ? 
     <div>
       <DetailsView

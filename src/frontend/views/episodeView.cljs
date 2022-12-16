@@ -1,6 +1,7 @@
 (ns frontend.views.episodeView
   (:require ["react-router-dom" :refer [Link]]
-            ["react" :refer [createElement]]))
+            ["react" :refer [createElement]]
+            ["react-router-dom" :refer [useNavigate]]))
 
 (defn generate-view [episode]
   (let [id (.-id episode)
@@ -28,15 +29,16 @@
 (defn episode-view [props]
   (let [title (.-title props)
         year (.-year props)
-        episodes (.-episodes props)]
-    (js/console.log props)
+        episodes (.-episodes props)
+        navigate (useNavigate)]
     #jsx [:div {:className "flex justify-center h-full lg:h-[600px] w-full"}
           [:div {:className "container justify-center w-full"}
 
            [:div {:className "flex flex-col items-center"}
             [:div {:className "flex flex-row items-center text-center mt-2"}
+             [:button {:className "mr-4 bg-[#4D194D] hover:bg-[#251a33] font-bold" :onClick #(navigate -1)} "Back"]
              [:div {:className "w-40 font-bold text-2xl lg:text-4xl lg:w-64"} title "-" year]
-             [:Link {:to "/trivia" :className "h-full"} [:button {:className "ml-4 bg-[#4D194D] font-bold"} "Trivia"]]]]
+             [:Link {:to "/trivia" :className "h-full"} [:button {:className "ml-4 bg-[#4D194D] hover:bg-[#251a33] font-bold"} "Trivia"]]]]
            [:div {:className "flex flex-row flex-wrap container w-128 justify-center items-center text-center mt-2"}
             (map #(generate-view %) episodes)]]]))
 
