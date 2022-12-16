@@ -2,6 +2,7 @@ import { SearchResult, Title, TitleId, TitleType } from "./title";
 import { imdbPlaceholderData } from "../api/imdb/placeholderData";
 import { cacheSearchInFirebase, cacheTitleInFirebase, getTitleFromFirebase, searchImdbInFirebase } from "../firebase/cache";
 import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/IMDB";
+import { atom } from "recoil";
 
 export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<Title> {
 	if(usePlaceholderData) {
@@ -38,25 +39,14 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 	}
 }
 
-/* The time the user has to wait before searching again */
-const searchTimeout = 2;
-
-/* If there is a search API call waiting */
-let searchPromiseWaiting = false;
-/* The time the user is allowed to search again if searchPromiseWaiting == false */
-let nextSearchTime = 0;
-
-export function canSearchImdb() {
-	return !searchPromiseWaiting && Date.now() >= nextSearchTime;
-}
+export const imdbSearchRatelimitedAtom = atom({
+	key: "imdbSearchRatelimited",
+	default: false
+});
 
 export function searchImdb(query: string, usePlaceholderData: boolean): Promise<SearchResult[]> {
 	query = query.trim();
 	query = query.toLowerCase();
-
-	if(!canSearchImdb()) {
-		return Promise.reject(new Error("Rate limited"));
-	}
 
 	if(query.length < 3) {
 		return Promise.reject(new Error("Search too short, you need to use at least 3 characters"));
@@ -70,8 +60,6 @@ export function searchImdb(query: string, usePlaceholderData: boolean): Promise<
 		return Promise.resolve(results).finally();
 	}
 	else {
-		searchPromiseWaiting = true;
-
 		return searchImdbInFirebase(query).catch(() => {
 			return fetchSearchResults(query)
 				.then(result => {
@@ -87,10 +75,6 @@ export function searchImdb(query: string, usePlaceholderData: boolean): Promise<
 					cacheSearchInFirebase(query, results);
 					return results;
 				})
-		})
-		.finally(() => {
-			searchPromiseWaiting = false;
-			nextSearchTime = Date.now() + searchTimeout * 1000;
 		});
 	}
 }
