@@ -1,17 +1,20 @@
 import Header from "../views/header"
 
 import { useState } from "react"
-import { useRecoilState, useRecoilValue } from "recoil"
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil"
 import { searchValueState } from "../../backend/model/atoms";
 import { imdbSearchRatelimitedAtom } from "../../backend/model/imdb";
 
 import { useLocation } from "react-router-dom";
+import { loggedInUserAtom, logoutUser } from "../../backend/model/user";
 
 function HeaderPresenter(props:any){
     const [query, setQuery] = useState("");
     const currentPage = useLocation();
     const searchRatelimited = useRecoilValue(imdbSearchRatelimitedAtom);
     const [globalSearchValue, setGlobalSearchValue] = useRecoilState(searchValueState);
+
+    const setLoggedInUser = useSetRecoilState(loggedInUserAtom);
     
     function searchValue(){
         const value = query.trim();
@@ -30,7 +33,7 @@ function HeaderPresenter(props:any){
     const canUseSearchButton = !searchRatelimited && allowedQuery;
     
     return (
-        <Header search={searchValue} canSearch={canUseSearchButton} setQuery={setQuery} value={query}></Header>
+        <Header search={searchValue} canSearch={canUseSearchButton} setQuery={setQuery} logoutUser={() => { logoutUser(); setLoggedInUser(null); }} value={query}></Header>
     )
 }
 

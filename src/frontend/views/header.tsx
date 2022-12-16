@@ -2,6 +2,7 @@
 import {Link} from "react-router-dom"
 import r from "react"
 import { set } from "firebase/database";
+import { logoutUser } from "../../backend/model/user";
 
 
 
@@ -11,7 +12,7 @@ export default function Header(props:any){
   const [menuClicked, setMenuClicked] = r.useState(false);
 
   function HeaderButtonsCB(buttonContent: string){
-    const link = buttonContent.toLowerCase().replaceAll(" ", "");
+    let link = buttonContent.toLowerCase().replaceAll(" ", "");
     let func = () => {
       setMenuClicked(false);
     }
@@ -24,6 +25,13 @@ export default function Header(props:any){
       if(!props.canSearch) {
         style = "pointer-events-none opacity-80";
       }
+    }
+    if(link === "logout") {
+      func = () => {
+        props.logoutUser();
+      }
+
+      link = "/";
     }
     return (
       <li key={link} className={`grow ${style}`}>
