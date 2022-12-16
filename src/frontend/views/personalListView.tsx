@@ -6,18 +6,18 @@ function PersonalListView(props: any) {
 
   // console.log(props.tvShow.streamingInfo);
   return (
-    <div className="flex flex-col xs:items-center items-center ">
+    <div className="flex flex-col ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
       {props.tvShow.length !== 0 ? (
-        <div className="flex flex-col items-center justify-center">
-          <div className="flex flex-col justify-center flex-wrap max-w-[406px] items-center">
+        <div className="flex flex-col justify-items-center justify-center items-center box-border">
+          <div className="flex flex-row box-border  self-stretch lg:px-[35%] md:px-[25%] px-[20%] w-full">
             <select
               name="selected-country"
               id="country-select"
               className="hover:shadow-lg bg-[#312244] hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
-          text-center min-w-full p-1 flex items-center justify-center"
+          text-center min-w-full p-1 text-ellipsis  "
               onChange={(event) => props.saveSelectedRegion(event.target.value)}
               value={props.region}
             >
