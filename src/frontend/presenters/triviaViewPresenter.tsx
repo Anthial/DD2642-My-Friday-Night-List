@@ -2,20 +2,20 @@ import TriviaView from "../views/triviaView.jsx";
 import { getTriviaByID } from "../../backend/model/imdb";
 import { useState, useEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { selectedTitleAtom } from "../../backend/model/atoms.js";
+import { selectedTitle } from "../../backend/model/atoms.js";
 
 function triviaViewPresenter(props: any) {
-  const id = "tt1630029";
-  const query = "cats";
+  //const id = "tt1630029";
+  //const query = "cats";
   const [items, setItems] = useState(null);
-  const title = useRecoilValue(selectedTitleAtom);
+  const title = useRecoilValue(selectedTitle);
   useEffect(() => {
     const fetchData = async () => {
-      const resp = await getTriviaByID(id);
+      const resp = await getTriviaByID(title.id);
       console.log(resp.items);
       setItems(resp.items);
     };
-    if (id){
+    if (title.id){
         fetchData();
     }
   }, []);
@@ -49,7 +49,7 @@ function triviaViewPresenter(props: any) {
       <TriviaView
         items={items}
         title={title ? title.name : "Loading..."}
-        year={title ? title.year.toString() : "Loading..."}
+        year={title && title.year ? title.year.toString() : "Loading..."}
         image={title ? title.imageUrl : "spinner.svg"}
       ></TriviaView>
     </div>

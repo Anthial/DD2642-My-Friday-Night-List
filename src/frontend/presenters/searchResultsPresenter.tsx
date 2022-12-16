@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { searchImdb } from "../../backend/model/imdb";
+import { searchImdb, getTitleById } from "../../backend/model/imdb";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { selectedTitleAtom, searchValueState } from "../../backend/model/atoms";
-import { SearchResult, Title } from "../../backend/model/title";
+import { selectedTitleAtom, searchValueState, selectedTitle, selectedSeasonState } from "../../backend/model/atoms";
+import { SearchResult, Title, TitleId } from "../../backend/model/title";
 
 import SearchResultsView from "../views/searchResultsView";
 import Spinner from "../views/spinnerView";
@@ -11,13 +11,15 @@ import { loggedInUserAtom } from "../../backend/model/user";
 const entriesPerPage = 8;
 
 export default function SearchResults() {
-	const [user, setUser] = useRecoilState(loggedInUserAtom);
-
-	const searchValue = useRecoilValue(searchValueState);
 	const [titles, setTitles] = useState(null as SearchResult[] | null);
 	const [page, setPage] = useState(0);
 
-	const setSelectedTitle = useSetRecoilState(selectedTitleAtom);
+	const [user, setUser] = useRecoilState(loggedInUserAtom);
+	const searchValue = useRecoilValue(searchValueState);
+	
+	const setSelectedTitleId = useSetRecoilState(selectedTitleAtom);
+	const setSelectedTitle = useSetRecoilState(selectedTitle);
+	const setSelectedSeason = useSetRecoilState(selectedSeasonState);
 	
 	useEffect(() => {
 		setTitles(null);
@@ -25,6 +27,14 @@ export default function SearchResults() {
 
 		searchImdb(searchValue, false).then(t => setTitles(t)).catch((e: Error) => window.alert("Search failed: " + e.message));
 	}, [searchValue]);
+
+	function onSelectTitle(id: TitleId){
+		setSelectedTitle({} as Title);
+		setSelectedTitleId(id);
+		setSelectedSeason("");
+
+		getTitleById(id, false).then((title) => setSelectedTitle(title)).catch((e: Error) => setSelectedTitle({} as Title));
+	}
 
 	function onUserModifiedList(title: SearchResult) {
 		if(user) {
@@ -55,7 +65,7 @@ export default function SearchResults() {
 			page={page}
 			maxPage={pages}
 			
-			onSelectTitle={t => setSelectedTitle(t.id)} 
+			onSelectTitle={t => onSelectTitle(t.id)} 
 			onModifyList={onUserModifiedList}
 			onNavigatePage={o => setPage(page + o)}/>;
 	}

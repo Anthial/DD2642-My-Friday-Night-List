@@ -3,8 +3,9 @@ import {
   getEpisodesByIDSeason
 } from "../../backend/model/imdb";
 import { useState, useEffect } from "react";
-import { selectedSeasonState, selectedTitleAtom } from "../../backend/model/atoms.js";
-import { useRecoilValue } from "recoil";
+import { selectedSeasonState, selectedTitle } from "../../backend/model/atoms.js";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import Spinner from "../views/spinnerView.js";
 
 function detailsViewPresenter(props: any) {
   const tempmodel = {
@@ -290,37 +291,32 @@ function detailsViewPresenter(props: any) {
     ],
     errorMessage: "",
   };
-  const [title, setTitle] = useState(null);
-  const [year, setYear] = useState(null);
-  const [episodes, setEpisodes] = useState(null);
-  const values = useRecoilValue(selectedTitleAtom);
+  const values = useRecoilValue(selectedTitle);
   const id = values ? values.id : "";
   const season = useRecoilValue(selectedSeasonState);
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await getEpisodesByIDSeason(id, season);
-      console.log(response);
-      setTitle(response.title);
-      setYear(response.year);
-      setEpisodes(response.episodes);
-    };
-    if (season && id){
-      fetchData();
-    }
-  }, []);
+  const setSeason = useSetRecoilState(selectedSeasonState);
 
-  return (
+  function setSelectedSeason (s: any) {
+    console.log(s)
+    setSeason(s);
+  } 
+
+  console.log;
+
+  return (!(Object.keys(values).length === 0) ? 
     <div>
       <DetailsView
-        title={title ? title : values ? values.name : tempmodel.title}
-        year={year ? year : tempmodel.year}
-        episodes={episodes ? episodes : null}
+        title={values ? values.name : tempmodel.title}
+        year={values ? values.year : tempmodel.year}
         plot= {values ? values.plot : "Loading..."}
         stars= {values ? values.stars : "Loading..."}
         image = {values ? values.imageUrl : "spinner.svg"}
+        seasons = {values ? values.seasons : null}
+        setSelectedSeason = {setSelectedSeason}
       ></DetailsView>
     </div>
-  );
+    :
+    <Spinner/>)
 }
 
 export default detailsViewPresenter;
