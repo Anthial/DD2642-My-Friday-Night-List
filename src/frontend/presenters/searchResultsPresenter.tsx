@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { searchImdb, getTitleById } from "../../backend/model/imdb";
+import { searchImdb, getTitleById, canSearchImdb } from "../../backend/model/imdb";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { selectedTitleAtom, searchValueState, selectedTitle, selectedSeasonState } from "../../backend/model/atoms";
 import { SearchResult, Title, TitleId } from "../../backend/model/title";
@@ -8,10 +8,20 @@ import SearchResultsView from "../views/searchResultsView";
 import Spinner from "../views/spinnerView";
 import { loggedInUserAtom } from "../../backend/model/user";
 
+interface SearchResults {
+	titles: SearchResult[],
+	query: string
+}
+
 const entriesPerPage = 8;
 
+const emptyResults: SearchResults = {
+	titles: [],
+	query: ""
+}
+
 export default function SearchResults() {
-	const [titles, setTitles] = useState(null as SearchResult[] | null);
+	const [results, setResults] = useState(emptyResults);
 	const [page, setPage] = useState(0);
 
 	const [user, setUser] = useRecoilState(loggedInUserAtom);
@@ -22,10 +32,21 @@ export default function SearchResults() {
 	const setSelectedSeason = useSetRecoilState(selectedSeasonState);
 	
 	useEffect(() => {
-		setTitles(null);
-		setPage(0);
+		/* We need this check if the user reloads the page when we run in development mode (because React will render components twice) */
+		if(canSearchImdb() && searchValue !== results.query) {
+			/* Deep copy the current search value, in case it changes before the promise is finished */
+			const searchValueCopy = `${searchValue}`;
 
-		searchImdb(searchValue, false).then(t => setTitles(t)).catch((e: Error) => window.alert("Search failed: " + e.message));
+			setResults(emptyResults);
+			setPage(0);
+
+			searchImdb(searchValue, false)
+				.then(t => setResults({
+					titles: t,
+					query: searchValueCopy
+				}))
+				.catch((e: Error) => window.alert("Search failed: " + e.message));
+		}
 	}, [searchValue]);
 
 	function onSelectTitle(id: TitleId){
@@ -51,13 +72,13 @@ export default function SearchResults() {
 		}
 	}	
 
-	if(titles) {
+	if(results.query !== "") {
 		const start = page * entriesPerPage;
 		const end = start + entriesPerPage;
-		const pages = Math.ceil(titles.length / entriesPerPage);
+		const pages = Math.ceil(results.titles.length / entriesPerPage);
 		
 		return <SearchResultsView 
-			titles={titles.slice(start, end)} 
+			titles={results.titles.slice(start, end)} 
 			
 			isUserLoggedIn={!!user}
 			userWatchlist={user ? user.watchlist : []}
