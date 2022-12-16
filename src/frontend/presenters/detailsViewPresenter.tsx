@@ -4,8 +4,11 @@ import {
 } from "../../backend/model/imdb";
 import { useState, useEffect } from "react";
 import { selectedSeasonState, selectedTitle } from "../../backend/model/atoms.js";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import Spinner from "../views/spinnerView.js";
+import { Title } from "../../backend/model/title";
+import { loggedInUserAtom } from "../../backend/model/user";
+
 
 function detailsViewPresenter(props: any) {
   const tempmodel = {
@@ -300,6 +303,23 @@ function detailsViewPresenter(props: any) {
     console.log(s)
     setSeason(s);
   } 
+  const [user, setUser] = useRecoilState(loggedInUserAtom);
+
+  function onUserModifiedList(title: Title) {
+    console.log(title);
+		if(user) {
+			let newWatchList = [...user.watchlist];
+
+			if(newWatchList.includes(title.id)) {
+				newWatchList = newWatchList.filter(id => id !== title.id);
+			}
+			else {
+				newWatchList.push(title.id);
+			}
+
+			setUser({...user, watchlist: newWatchList});
+		}
+	}	
 
   return (!(Object.keys(values).length === 0) ? 
     <div>
@@ -311,6 +331,9 @@ function detailsViewPresenter(props: any) {
         image = {values ? values.imageUrl : "spinner.svg"}
         seasons = {values ? values.seasons : null}
         setSelectedSeason = {setSelectedSeason}
+        userWatchlist={user ? user.watchlist : []}
+        onUserModifiedList = {onUserModifiedList}
+        values = {values ? values : null}
       ></DetailsView>
     </div>
     :
