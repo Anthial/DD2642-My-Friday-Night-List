@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 function PersonalListView(props: any) {
-  // console.log(props);
+  // console.log(props.region);
 
-  console.log(props.tvShow);
+  // console.log(props.tvShow.streamingInfo);
   return (
     <div className="flex flex-col xs:items-center  ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
@@ -17,6 +17,7 @@ function PersonalListView(props: any) {
           className="p-1 hover:shadow-lg bg-[#312244] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
           text-center min-w-full"
           onChange={(event) => props.saveSelectedRegion(event.target.value)}
+          value={props.region}
         >
           <option className="" disabled value="">
             - - - Select watch region - - -
@@ -34,9 +35,11 @@ function PersonalListView(props: any) {
 function renderSeasons(season: any, saveSelectedSeason: any) {
   return (
     <div key={season} className="mt-2 inline-block whitespace-pre pl-[120px]">
-      <Link to="/details" 
-      className="ml-2.5 bg-[#312244] py-0  px-1.5 hover:shadow-lg hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]" 
-      onClick={() => saveSelectedSeason(season)}>
+      <Link
+        to="/details"
+        className="ml-2.5 bg-[#312244] py-0  px-1.5 hover:shadow-lg hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
+        onClick={() => saveSelectedSeason(season)}
+      >
         Season {season}
       </Link>
     </div>
@@ -56,9 +59,6 @@ function renderLinks(links: any) {
       {capitalizeFirstLetter(links[0])}
     </a>
   );
-}
-function renderCountriesCB(country: string) {
-  return <span>{country} / </span>;
 }
 
 function generateRegions(props: any) {
@@ -110,10 +110,6 @@ function renderMainContent(tvShow: any, props: any) {
     // console.log(Object.entries(streamingInfo)); //gives me an array containing the keys for the streaming objects
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
-  function getCountriesCB(countries: any) {
-    // console.log(countries);
-    return <span>{countries.map(renderCountriesCB)}</span>;
-  }
   return (
     <div key={tvShow.id} className="flex flex-col text-lg mt-2  lg:w-[34%] ">
       <div className="lg:ml-2 items-center flex flex-col lg:flex-row text-lg mt-2">
@@ -143,16 +139,16 @@ function renderMainContent(tvShow: any, props: any) {
             {!tvShow.seasons && (
               <div className="flex lg:flex-row flex-col hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">
                 <Link to="/details">
-                <div>
-                  <span className="mr-2.5">{tvShow.name}</span>
                   <div>
-                    <span className="text-[#b7e4c7] whitespace-pre">
-                      Origin:{" "}
-                    </span>
-                    {/*getCountriesCB(tvShow.country)*/}
-                    <span>{tvShow.country}</span>
+                    <span className="mr-2.5">{tvShow.name}</span>
+                    <div>
+                      <span className="text-[#b7e4c7] whitespace-pre">
+                        Origin:{" "}
+                      </span>
+                      {/*getCountriesCB(tvShow.country)*/}
+                      <span>{tvShow.country}</span>
+                    </div>
                   </div>
-                </div>
                 </Link>
               </div>
             )}
@@ -170,10 +166,16 @@ function renderMainContent(tvShow: any, props: any) {
             )}
           </div>
           <div className="flex flex-col flex-wrap lg:flex-row pt-1">
-            <div className="flex flex-row flex-wrap text-[#b7e4c7]">
-              <span>Watch at: </span>
-              <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
-            </div>
+            {!(Object.keys(tvShow.streamingInfo).length === 0) ? (
+              <div className="flex flex-row flex-wrap text-[#b7e4c7]">
+                <span>Watch at: </span>
+                <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
+              </div>
+            ) : (
+              <div className="flex flex-row flex-wrap text-[#b7e4c7]">
+                <span>Not available in the chosen region</span>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -23,48 +23,42 @@ function PersonalList(props: any) {
   const [concatObject, setConcatObject] = useState<any>([]);
   const [titleList, setTitleList] = useState<any>([]);
 
-  const region = useRecoilValue(selectedRegionState);
-  console.log(region);
+  //const region = useRecoilValue(selectedRegionState);
+  const [region, setRegion] = useRecoilState(selectedRegionState);
+  // console.log(region);
   function handleContent(handle: any) {
-    console.log(handle);
+    // console.log(handle);
 
     return { ...handle[1], ...handle[0] };
   }
   // gladiator tt0172495
   //tt0118480 stargate
   useEffect(() => {
-    const mylist = ["tt1029360", "tt3230854"];
+    const mylist = ["tt0111161"];
     const fetchData = async (id: string) => {
       const response = await getTitleById(id, false);
       let networks = await getAvailabilityById(id, region, false).catch((error) => console.log(error));
       if (!networks){
         networks = {streamingInfo:{},imdbID: id, region: region}
       }
-      setIMDBResponse(response);
-      console.log(id + ": " + response.id);
-
       return [response, networks];
     };
     if (mylist) {
       Promise.all(
         mylist.map((titleId) => fetchData(titleId).then(handleContent))
       ).then((values) => setConcatObject(values));
-      console.log(concatObject);
+      // console.log(concatObject);
     }
   }, [region]);
 
   // const imdbData = fetchTitle(dummyFirebaseMyList[0]).then(handle);
   // console.log(imdbData);
 
-  function concatenateApis() {
-    let concatObject = { ...imdbResponse, ...availability };
-    return concatObject;
-  }
   const [, setSeason] = useRecoilState(selectedSeasonState);
   function saveSelectedSeason(seasonId: string) {
     setSeason(seasonId);
   }
-  const [, setRegion] = useRecoilState(selectedRegionState);
+  
   function saveSelectedRegion(regionName: string) {
     const findRegionObject = regions.find(({ name }) => name === regionName);
     // console.log(findRegionObject["alpha-2"].toLowerCase());
@@ -74,6 +68,9 @@ function PersonalList(props: any) {
       console.error("Region could not be set");
     }
   }
+  //console.log("Loaded presenter...");
+  const findRegionObject = regions.find((obj) => obj["alpha-2"].toLowerCase() == region);
+  // console.log(findRegionObject)
 
   return (
     <PersonalListView
@@ -82,6 +79,7 @@ function PersonalList(props: any) {
       saveSelectedSeason={saveSelectedSeason}
       saveSelectedRegion={saveSelectedRegion}
       regions={regions}
+      region={findRegionObject.name}
     />
     //<Spinner/>
   );

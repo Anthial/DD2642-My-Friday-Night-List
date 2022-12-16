@@ -15,10 +15,17 @@ export function getAvailabilityById(id: TitleId, region: string, usePlaceHolderD
         //Check if Firebase has title cached, if not fetch data from API and cache the data
         return getAvailabilityFromFirebase(id, region).catch(( )=> {
             return fetchAvailability(id, region).then(result =>{
+                // const test = Object.entries(result.streamingInfo)
+                // const test2 = new Set(Object.entries(result.streamingInfo))
+                // const [test3] = Object.entries(result.streamingInfo).slice(0,1);
+                // console.log("test: " + test)
+                // console.log("test2: " + test2)
+                // console.log("test3: " + test3)
+                console.log(region)
                 const availability = {
                     imdbID: result.imdbID,
                     streamingInfo: result.streamingInfo,
-                    region: Object.keys(Object.keys(result.streamingInfo)[0])[0]
+                    region: region
                 }
                 cacheAvailabilityInFirebase(availability);
                 return availability;
