@@ -311,7 +311,7 @@ function episodeViewPresenter(props: any) {
   }, []);
 
 
-  return (((Object.keys(values).length === 0) && episodes) ? 
+  return ((!(Object.keys(values).length === 0) && episodes) ? 
     <div>
       <EpisodeView
         title={title ? title : values ? values.name : tempmodel.title}

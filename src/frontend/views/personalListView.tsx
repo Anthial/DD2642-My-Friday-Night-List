@@ -11,13 +11,13 @@ function PersonalListView(props: any) {
         My list
       </h1>
       {props.tvShow.length !== 0 ? (
-        <div>
-          <div className="flex justify-center flex-wrap  max-w-[406px] items-center">
+        <div className="flex flex-col items-center justify-center">
+          <div className="flex flex-col justify-center flex-wrap max-w-[406px] items-center">
             <select
               name="selected-country"
               id="country-select"
-              className="p-1 hover:shadow-lg bg-[#312244] hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
-          text-center min-w-full"
+              className="hover:shadow-lg bg-[#312244] hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
+          text-center min-w-full p-1 flex items-center justify-center"
               onChange={(event) => props.saveSelectedRegion(event.target.value)}
               value={props.region}
             >
@@ -42,14 +42,21 @@ function PersonalListView(props: any) {
     </div>
   );
 }
+// function goToEpisodeView(season: any, saveSelectedSeason: any, saveSelectedTitle: any, id: string){
+//   saveSelectedTitle(id);
+//   saveSelectedSeason(season);
+// }
 
-function renderSeasons(season: any, saveSelectedSeason: any) {
+function renderSeasons(season: any, saveSelectedSeason: any, saveSelectedTitle: any, id: string) {
   return (
     <div key={season} className="mt-2 inline-block whitespace-pre pl-[120px]">
       <Link
-        to="/details"
+        to="/episodes"
         className="ml-2.5 bg-[#312244] py-0  px-1.5 hover:shadow-lg hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
-        onClick={() => saveSelectedSeason(season)}
+        onClick={() => {
+          saveSelectedTitle(id);
+          saveSelectedSeason(season);
+        }}
       >
         Season {season}
       </Link>
@@ -110,12 +117,12 @@ function renderMainContent(tvShow: any, props: any) {
       />
     );
   }
-  function expandedContentACB(seasons: any, saveSelectedSeason: any) {
+  function expandedContentACB(seasons: any, saveSelectedSeason: any, saveSelectedTitle: any, id: string) {
     if (expand) {
       return (
-        <div className="pl-6">
+        <div className="pl-6" id="test">
           {seasons.map((season: string) =>
-            renderSeasons(season, saveSelectedSeason)
+            renderSeasons(season, saveSelectedSeason, saveSelectedTitle, id)
           )}
         </div>
       );
@@ -129,32 +136,20 @@ function renderMainContent(tvShow: any, props: any) {
   return (
     <div key={tvShow.id} className="flex flex-col text-lg mt-2  lg:w-[34%] ">
       <div className="lg:ml-2 items-center flex flex-col lg:flex-row text-lg mt-2">
+        <Link to="/details"
+        onClick={() => props.saveSelectedTitle(tvShow.id)}>
         <img
           src={tvShow.imageUrl}
           className="inline w-[100px] object-cover rounded-lg mr-8"
         ></img>
+        </Link>
         <div className="flex flex-col ">
           <div className="flex flex-row border-box">
-            {tvShow.seasons && (
-              <div
-                className="hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer flex lg:flex-row flex-col"
-                onClick={expandACB}
-              >
-                <div>
-                  <span className="mr-2">{tvShow.name}</span>
-                  <div>
-                    <span className="text-[#b7e4c7] whitespace-pre">
-                      Origin:{" "}
-                    </span>
-                    {/*getCountriesCB(tvShow.country)*/}
-                    <span>{tvShow.country}</span>
-                  </div>
-                </div>
-              </div>
-            )}
-            {!tvShow.seasons && (
-              <div className="flex lg:flex-row flex-col hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">
-                <Link to="/details">
+            {/* Render Main text for show */}
+              <div 
+              className="flex lg:flex-row flex-col hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">
+                <Link to="/details"
+                onClick={() => props.saveSelectedTitle(tvShow.id)}>
                   <div>
                     <span className="mr-2.5">{tvShow.name}</span>
                     <div>
@@ -167,8 +162,8 @@ function renderMainContent(tvShow: any, props: any) {
                   </div>
                 </Link>
               </div>
-            )}
-
+            
+            {/* Render expand content button  */}
             {tvShow.seasons && (
               <div className="w-[30px] h-[30px]">
                 <button
@@ -198,7 +193,9 @@ function renderMainContent(tvShow: any, props: any) {
       </div>
       {expandedContentACB(
         tvShow.seasons ? tvShow.seasons : null,
-        props.saveSelectedSeason
+        props.saveSelectedSeason, 
+        props.saveSelectedTitle,
+        tvShow.id
       )}
     </div>
   );

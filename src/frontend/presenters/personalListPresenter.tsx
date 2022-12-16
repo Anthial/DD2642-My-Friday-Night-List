@@ -1,15 +1,17 @@
 import PersonalListView from "../views/personalListView";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import {
   selectedSeasonState,
   selectedRegionState,
   myListState,
+  selectedTitleAtom,
+  selectedTitle,
 } from "../../backend/model/atoms";
 import regions from "../../backend/data/ISO-3166-Alpha-2-country-codes";
 import Spinner from "../views/spinnerView";
 import { useState, useEffect } from "react";
 import { getTitleById } from "../../backend/model/imdb";
-import { Title, TitleType } from "../../backend/model/title";
+import { Title, TitleId, TitleType } from "../../backend/model/title";
 import { loggedInUserAtom } from "../../backend/model/user";
 import { getAvailabilityById } from "../../backend/model/streamingAvailability";
 
@@ -18,14 +20,10 @@ function PersonalList(props: any) {
   const [userData, setMyList] = useRecoilState(loggedInUserAtom);
   const [imdbResponse, setIMDBResponse] = useState<Title | null>(null);
   const [concatObject, setConcatObject] = useState<any>([]);
-  const [titleList, setTitleList] = useState<any>([]);
-
-  //const region = useRecoilValue(selectedRegionState);
   const [region, setRegion] = useRecoilState(selectedRegionState);
   // console.log(region);
   function handleContent(handle: any) {
     // console.log(handle);
-
     return { ...handle[1], ...handle[0] };
   }
   // gladiator tt0172495
@@ -49,7 +47,7 @@ function PersonalList(props: any) {
       ).then((values) => setConcatObject(values));
       // console.log(concatObject);
     }
-  }, [region]);
+  }, [region, userData]);
 
   // const imdbData = fetchTitle(dummyFirebaseMyList[0]).then(handle);
   // console.log(imdbData);
@@ -57,6 +55,13 @@ function PersonalList(props: any) {
   const [, setSeason] = useRecoilState(selectedSeasonState);
   function saveSelectedSeason(seasonId: string) {
     setSeason(seasonId);
+  }
+  const setSelectedTitleId = useSetRecoilState(selectedTitleAtom);
+	const setSelectedTitle = useSetRecoilState(selectedTitle);
+  function saveSelectedTitle(id: TitleId){
+    setSelectedTitle({} as Title);
+		setSelectedTitleId(id);
+    getTitleById(id, false).then((title) => setSelectedTitle(title)).catch((e: Error) => setSelectedTitle({} as Title))
   }
   
   function saveSelectedRegion(regionName: string) {
@@ -80,6 +85,7 @@ function PersonalList(props: any) {
       saveSelectedRegion={saveSelectedRegion}
       regions={regions}
       region={findRegionObject.name}
+      saveSelectedTitle={saveSelectedTitle}
     />
     //<Spinner/>
   );
