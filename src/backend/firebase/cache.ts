@@ -15,7 +15,7 @@ interface CachedImdbSearch {
 	cacheTime: number
 }
 
-interface CashedAvailability {
+interface CachedAvailability {
 	availability: Availability,
 	cacheTime: number,
 }
@@ -23,7 +23,7 @@ interface CashedAvailability {
 export function getAvailabilityFromFirebase(id: TitleId, region: string): Promise<Availability>{
 	const titleRef = ref(database, "cache/availability/title/" + id + "/" + region);
 	return get(titleRef).then(data => {
-		const cacheEntry = data.val() as CashedAvailability;
+		const cacheEntry = data.val() as CachedAvailability;
 
 		if(cacheEntry) {
 			if(isExpiredCacheEntry(cacheEntry.cacheTime)) {

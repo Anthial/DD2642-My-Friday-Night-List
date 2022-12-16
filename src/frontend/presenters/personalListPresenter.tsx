@@ -34,7 +34,7 @@ function PersonalList(props: any) {
   // gladiator tt0172495
   //tt0118480 stargate
   useEffect(() => {
-    const mylist = ["tt0111161"];
+    const mylist = ["tt0111161", "tt0118480"];
     const fetchData = async (id: string) => {
       const response = await getTitleById(id, false);
       let networks = await getAvailabilityById(id, region, false).catch((error) => console.log(error));

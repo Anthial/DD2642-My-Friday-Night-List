@@ -14,7 +14,7 @@ function PersonalListView(props: any) {
         <select
           name="selected-country"
           id="country-select"
-          className="p-1 hover:shadow-lg bg-[#312244] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
+          className="p-1 hover:shadow-lg bg-[#312244] hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]
           text-center min-w-full"
           onChange={(event) => props.saveSelectedRegion(event.target.value)}
           value={props.region}
@@ -52,7 +52,7 @@ function renderLinks(links: any) {
   const region: string = Object.keys(links[1])[0];
   return (
     <a key={links[0]}
-      className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white"
+      className="border bg-[#312244] border-[#312244] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white hover:bg-[#251a33]"
       href={links[1][region].link}
       target="_blank"
     >
@@ -157,7 +157,7 @@ function renderMainContent(tvShow: any, props: any) {
               <div className="w-[30px] h-[30px]">
                 <button
                   id="expand-icon"
-                  className="ml-2.5 bg-[#312244] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
+                  className="ml-2.5 bg-[#312244] hover:bg-[#251a33] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
                   onClick={expandACB}
                 >
                   {renderIconCB()}
