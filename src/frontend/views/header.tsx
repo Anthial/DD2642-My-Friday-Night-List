@@ -15,14 +15,18 @@ export default function Header(props:any){
     let func = () => {
       setMenuClicked(false);
     }
+    let style = "opacity-100 hover:shadow-lg";
     if (link === "search"){
       func = () => {
         setMenuClicked(false);
         props.search();
       }
+      if(!props.canSearch) {
+        style = "pointer-events-none opacity-80";
+      }
     }
     return (
-      <li key={link} className="grow hover:shadow-lg  opacity-100">
+      <li key={link} className={`grow ${style}`}>
         <Link to={link}>
           <button className="bg-[#312244] hover:bg-[#251a33]"  onClick={func}>
             {buttonContent}

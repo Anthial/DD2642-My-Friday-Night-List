@@ -1,28 +1,36 @@
 import Header from "../views/header"
+
 import { useState } from "react"
-import { useRecoilState } from "recoil"
+import { useRecoilState, useRecoilValue } from "recoil"
 import { searchValueState } from "../../backend/model/atoms";
-import { canSearchImdb } from "../../backend/model/imdb";
+import { imdbSearchRatelimitedAtom } from "../../backend/model/imdb";
+
+import { useLocation } from "react-router-dom";
 
 function HeaderPresenter(props:any){
-
     const [query, setQuery] = useState("");
-    const [, setGlobalSearchValue] = useRecoilState(searchValueState);
+    const currentPage = useLocation();
+    const searchRatelimited = useRecoilValue(imdbSearchRatelimitedAtom);
+    const [globalSearchValue, setGlobalSearchValue] = useRecoilState(searchValueState);
     
     function searchValue(){
         const value = query.trim();
         
-        if(value !== "" && canSearchImdb()) {
+        if(value !== "" && !searchRatelimited) {
             setGlobalSearchValue(value);
             window.location.href = window.location.href.split("#")[0] + "#/search";
         }
-        else {
-            /* TODO: show error if user went over rate limit */
-        }
     }
+
+    let allowedQuery = query.trim() != "";
+    if(currentPage.pathname === "/search") {
+        allowedQuery = allowedQuery && query.trim() !== globalSearchValue;
+    }
+
+    const canUseSearchButton = !searchRatelimited && allowedQuery;
     
     return (
-        <Header search={searchValue} setQuery={setQuery} value={query}></Header>
+        <Header search={searchValue} canSearch={canUseSearchButton} setQuery={setQuery} value={query}></Header>
     )
 }
 

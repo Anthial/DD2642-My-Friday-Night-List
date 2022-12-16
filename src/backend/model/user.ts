@@ -21,7 +21,17 @@ export interface UserData {
 
 export const loggedInUserAtom = atom({
 	key: "loggedInUser",
-	default: null as UserData | null
+	default: null as UserData | null,
+
+	effects: [
+		({onSet}) => {
+			onSet((newUser, oldUser) => {
+				if(newUser && oldUser) {
+					firebaseFunctions.syncUser(newUser);
+				}
+			});
+		},
+	],
 });
 
 const asciiNumbers = Array.from(Array(10).keys()).map(c => c + 48);
