@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { UserAccount } from "../../backend/model/user";
-import LoginView from "../views/LoginView";
+import React from "react";
+import { UserAccount, loginUserWithPassword } from "../../backend/model/user";
+import LoginView from "../views/loginView";
 //import { UserAccount, UserData } from "../../backend/model/user";
 //import modelthingy for logging users in.
 
-function Login(props: any /*Model*/) {
+function Login(/*props: any Model*/) {
   let userLoginData: UserAccount = { username: "", password: "" };
-  const [specifiedErrorText, setErrorText] = useState("");
+  const [specifiedErrorText, setErrorText] = React.useState("");
   function compareUserLoginInfoACB() {
     setErrorText("");
 
@@ -20,7 +20,7 @@ function Login(props: any /*Model*/) {
         setErrorText("Enter username & password"); //First run should set the text to the specified string
       else
         setErrorText("");
-      //props.model.loginUserWithPassword(userLoginData.username, userLoginData.password);
+      loginUserWithPassword(userLoginData);
     } catch (error: any /* Catch must have any type */) {
       setErrorText(error.message);
     }

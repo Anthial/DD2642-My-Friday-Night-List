@@ -16,8 +16,8 @@ function RegisterView(props: any /* Model */) {
   }
   function userRegisterACB() {}
   return (
-    <div className="px-5 py-7 flex justify-center">
-      <div>
+    <div className="container mx-auto max-w-sm m-8 bg-gradient-to-br from-[#312244] via-purple-900 to-[#312244] rounded-xl bg-contain mx-auto px-2 py-2 ">
+      <div className="bg-gradient-to-br from-[#101E34] via-purple-900 to-[#101E34] p-10 flex flex-col items-center rounded-lg">
         <label className="text-white" htmlFor="Login">
           Register an account
         </label>
