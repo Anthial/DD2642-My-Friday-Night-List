@@ -3,6 +3,7 @@ import { searchImdb, getTitleById, imdbSearchRatelimitedAtom } from "../../backe
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { selectedTitleAtom, searchValueState, selectedTitle, selectedSeasonState } from "../../backend/model/atoms";
 import { SearchResult, Title, TitleId } from "../../backend/model/title";
+import { useNavigate } from "react-router-dom";
 
 import SearchResultsView from "../views/searchResultsView";
 import Spinner from "../views/spinnerView";
@@ -31,8 +32,13 @@ export default function SearchResults() {
 	const setSelectedTitleId = useSetRecoilState(selectedTitleAtom);
 	const setSelectedTitle = useSetRecoilState(selectedTitle);
 	const setSelectedSeason = useSetRecoilState(selectedSeasonState);
-	
+	let navigate = useNavigate();
+
 	useEffect(() => {
+
+		if (!user){
+			navigate("/")
+		   }
 		/* We need this check if the user reloads the page when we run in development mode (because React will render components twice) */
 		if(!imdbRatelimited && searchValue !== results.query) {
 			/* Deep copy the current search value, in case it changes before the promise is finished */

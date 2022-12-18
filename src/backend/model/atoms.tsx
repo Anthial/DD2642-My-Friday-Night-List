@@ -3,7 +3,7 @@ import { atom } from "recoil";
 import { TitleId, Title } from "./title";
 
 
-const localStorageEffect = (key: string) => ({setSelf, onSet}) => {
+export const localStorageEffect = (key: string) => ({setSelf, onSet}) => {
   const savedValue = localStorage.getItem(key)
   if (savedValue != null) {
     setSelf(JSON.parse(savedValue));
