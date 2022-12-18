@@ -1,5 +1,6 @@
-import { database } from "./app";
+import { database, auth } from "./app";
 import { get, ref, remove, set  } from "firebase/database";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 
 import { SHA256, AES, enc } from "crypto-js";
 
@@ -43,9 +44,14 @@ function decryptObject<T>(encryptedObj: string, encryptionKey: string) {
 	}
 }
 
+export function createUser(accountInfo: UserAccount, nickname:string) {
+	createUserWithEmailAndPassword(auth, accountInfo.email, accountInfo.password).then((response) => {console.log(response);})
+}
+
+
 /* Promise returns: Decryption key or error */
-export function createUser(accountInfo: UserAccount, nickname: string) {
-	const userRef = ref(database, "user/" + accountInfo.username);
+export function createUserOld(accountInfo: UserAccount, nickname: string) {
+	const userRef = ref(database, "user/" + accountInfo.email);
 	
 	const randomSaltArray = new Uint8Array(16);
 	crypto.getRandomValues(randomSaltArray);
@@ -68,11 +74,11 @@ export function createUser(accountInfo: UserAccount, nickname: string) {
 
 /* Promise returns: UserData or error */
 export function loginUser(accountInfo: UserAccount, encryptionKey?: string) {
-	const userRef = ref(database, "user/" + accountInfo.username);
+	const userRef = ref(database, "user/" + accountInfo.email);
 	
 	return get(userRef).then((data): UserData => {
 		if(!data.exists()) {
-			throw new Error("User with name " + accountInfo.username + " does not exist");
+			throw new Error("User with name " + accountInfo.email + " does not exist");
 		}
 
 		const encryptedData = data.val() as EncryptedUserData;
@@ -90,7 +96,7 @@ export function loginUser(accountInfo: UserAccount, encryptionKey?: string) {
 		}
 
 		return {
-			username: accountInfo.username,
+			email: accountInfo.email,
 			encryptionKey: generatedEncryptionKey,
 
 			nickname: nickname,
@@ -101,8 +107,8 @@ export function loginUser(accountInfo: UserAccount, encryptionKey?: string) {
 
 /* Promise returns after name and watchlist sync is complete */
 export function syncUser(newData: UserData) {
-	const nicknameRef = ref(database, "user/" + newData.username + "/nickname");
-	const watchlistRef = ref(database, "user/" + newData.username + "/watchlist");
+	const nicknameRef = ref(database, "user/" + newData.email + "/nickname");
+	const watchlistRef = ref(database, "user/" + newData.email + "/watchlist");
 
 	const nicknameValue = encryptObject(newData.nickname, newData.encryptionKey);
 	const watchlistValue = encryptObject(newData.watchlist, newData.encryptionKey);
