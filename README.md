@@ -45,7 +45,6 @@ The folder structure is pretty straight forward, but is explained here:
 
 * src/   *The source folder*
     * src/frontend &nbsp; &nbsp; - &nbsp; &nbsp; *Where we deal with the presenters and views*
-         * src/frontend/header.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Our navigation bar at the top*
          * src/frontend/presenters &nbsp; &nbsp; - &nbsp; &nbsp; *Where we store our presenters*
          * src/frontend/views &nbsp; &nbsp; - &nbsp; &nbsp; *Where we store our views*
     * src/backend &nbsp; &nbsp; - &nbsp; &nbsp; *Where we deal with the model, Firebase and the APIs*
