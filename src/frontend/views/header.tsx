@@ -74,11 +74,11 @@ function NotLoggedInHeader(props:any){
     <div>
       <div className="px-5 py-7 flex justify-evenly items-center bg-[#312244]">
         <div className="hidden lg:flex">
-          <h1 className="font-bold text-2xl py-2 mr-20">My Friday Night List</h1>
+          <h1 className="font-bold text-2xl py-2">My Friday Night List</h1>
         </div>
         
         <div className="flex justify-center w-full items-center lg:hidden ">
-          <h1 className="font-bold text-xl mr-10">M.F.N.L</h1>
+          <h1 className="font-bold text-xl">M.F.N.L</h1>
         </div>
       </div>
     </div>);
