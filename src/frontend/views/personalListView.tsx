@@ -3,12 +3,10 @@ import { IconChevronsUp, IconX } from "@tabler/icons";
 import { IconChevronsDown } from "@tabler/icons";
 
 function PersonalListView(props: any) {
-  // console.log(props.tvShow);
-
   return (
     <div className="flex flex-col ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
-        My list
+        MY LIST
       </h1>
       {props.tvShow.length !== 0 ? (
         <div className="mb-10 flex flex-col ">
@@ -53,7 +51,7 @@ function renderSeasons(
     <div key={season} className="mt-2  whitespace-pre mx-2">
       <Link
         to="/episodes"
-        className=" bg-[#4d194d] py-0 px-1.5 hover:shadow-lg hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
+        className=" bg-[#4d194d]  py-0 px-1.5 hover:shadow-lg hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
         onClick={() => {
           saveSelectedTitle(id);
           saveSelectedSeason(season);
@@ -205,7 +203,7 @@ function renderMainContent(tvShow: any, props: any) {
           </div>
         </div>
       </div>
-      <div>
+      <div className="w-full">
         {expandedContentACB(
           tvShow.seasons ? tvShow.seasons : null,
           props.saveSelectedSeason,
