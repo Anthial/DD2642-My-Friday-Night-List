@@ -27,6 +27,7 @@ function LoginView(props: any) {
           id="email"
           placeholder="Email"
           onChange={emailValueChangedACB}
+          onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
           required
         ></input>
       </div>
@@ -38,6 +39,7 @@ function LoginView(props: any) {
           id="Password"
           placeholder="Password"
           onChange={passwordValueChangedACB}
+          onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
           required
         ></input>
       </div>

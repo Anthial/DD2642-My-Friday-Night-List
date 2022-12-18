@@ -29,6 +29,7 @@ function RegisterView(props: any /* Model */) {
             id="email"
             placeholder="Email"
             onChange={emailValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
@@ -40,6 +41,7 @@ function RegisterView(props: any /* Model */) {
             id="Nickname"
             placeholder="Nickname"
             onChange={nicknameValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
@@ -51,6 +53,7 @@ function RegisterView(props: any /* Model */) {
             id="Password"
             placeholder="Password"
             onChange={passwordValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
@@ -62,6 +65,7 @@ function RegisterView(props: any /* Model */) {
             id="PasswordRepeated"
             placeholder="Repeat password"
             onChange={repeatedPasswordValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
