@@ -18,14 +18,13 @@ import { getAvailabilityById } from "../../backend/model/streamingAvailability";
 function PersonalList(props: any) {
   // const [myList, setMyList] = useRecoilState(myListState);
   const [userData, setMyList] = useRecoilState(loggedInUserAtom);
-  const [imdbResponse, setIMDBResponse] = useState<Title | null>(null);
   const [concatObject, setConcatObject] = useState<any>([]);
   const [region, setRegion] = useRecoilState(selectedRegionState);
+  const [expandedState, setExpandedState] = useState<any>({});
+  const [isFetching, setIsFetching] = useState(true);
   // console.log(region);
-  function handleContent(handle: any) {
-    // console.log(handle);
-    return { ...handle[1], ...handle[0] };
-  }
+
+
   // gladiator tt0172495
   //tt0118480 stargate
   useEffect(() => {
@@ -42,12 +41,38 @@ function PersonalList(props: any) {
       return [response, networks];
     };
     if (myList) {
+      let newExpandedState = expandedState;
+
+      setIsFetching(true);
+
       Promise.all(
-        myList.map((titleId) => fetchData(titleId).then(handleContent))
-      ).then((values) => setConcatObject(values));
+        myList.map((titleId) => {
+          if(!newExpandedState[titleId]) {
+            newExpandedState[titleId] = false;
+          }
+          return fetchData(titleId).then(handleContent);
+        })
+      ).then((values) => {
+        setExpandedState(newExpandedState);
+        setConcatObject(values);
+        setIsFetching(false);
+
+      });
       // console.log(concatObject);
     }
   }, [region, userData]);
+  function handleContent(handle: any) {
+    // console.log(handle);
+    return { ...handle[1], ...handle[0] };
+  }
+  function removeTitleFromList(titleId: string) {
+		if(userData) {
+			let newWatchList = [...userData.watchlist];
+  
+      newWatchList = newWatchList.filter(id => id !== titleId);
+			setMyList({...userData, watchlist: newWatchList});
+		}
+	}	
 
   // const imdbData = fetchTitle(dummyFirebaseMyList[0]).then(handle);
   // console.log(imdbData);
@@ -77,6 +102,11 @@ function PersonalList(props: any) {
   const findRegionObject = regions.find((obj) => obj["alpha-2"].toLowerCase() == region);
   // console.log(findRegionObject)
 
+  
+
+  if(isFetching) {
+    return <Spinner/>;
+  }
   return (
     <PersonalListView
       // tvShow={[test, concatenateApis()]}
@@ -86,8 +116,14 @@ function PersonalList(props: any) {
       regions={regions}
       region={findRegionObject.name}
       saveSelectedTitle={saveSelectedTitle}
+      removeTitle={removeTitleFromList}
+      expandedState={expandedState}
+      toggleExpanded={(id: TitleId) => {
+        let newExpandedState = {...expandedState};
+        newExpandedState[id] = !newExpandedState[id];
+        setExpandedState(newExpandedState);
+      }}
     />
-    //<Spinner/>
   );
 }
 

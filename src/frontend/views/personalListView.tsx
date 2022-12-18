@@ -11,7 +11,7 @@ function PersonalListView(props: any) {
         My list
       </h1>
       {props.tvShow.length !== 0 ? (
-        <div className="flex flex-col justify-items-center justify-center items-center box-border">
+        <div className="mb-10 flex flex-col justify-items-center justify-center items-center box-border">
           <div className="flex flex-row box-border  self-stretch lg:px-[35%] md:px-[25%] px-[20%] w-full">
             <select
               name="selected-country"
@@ -27,14 +27,14 @@ function PersonalListView(props: any) {
               {generateRegions(props)}
             </select>
           </div>
-          <div className="flex lg:flex-row flex-col lg:justify-around justify-center max-lg:items-center flex-wrap w-full ">
+          <div className="mb-2 flex lg:flex-row flex-col lg:justify-items-start max-lg:items-center flex-wrap w-full ">
             {props.tvShow.map((tvshow: any) =>
               renderMainContent(tvshow, props)
             )}
           </div>
         </div>
       ) : (
-        <div className="flex flex-wrap justify-center  max-w-[50%] text-center w-full">
+        <div className="flex flex-wrap justify-center items-center  text-center w-full">
           Add movies and series from search to get your personal watchlist! Now
           with links to where you can watch them for a selected region!
         </div>
@@ -42,10 +42,6 @@ function PersonalListView(props: any) {
     </div>
   );
 }
-// function goToEpisodeView(season: any, saveSelectedSeason: any, saveSelectedTitle: any, id: string){
-//   saveSelectedTitle(id);
-//   saveSelectedSeason(season);
-// }
 
 function renderSeasons(season: any, saveSelectedSeason: any, saveSelectedTitle: any, id: string) {
   return (
@@ -91,14 +87,12 @@ function generateRegions(props: any) {
 }
 
 function renderMainContent(tvShow: any, props: any) {
-  const [expand, setExpand] = React.useState(false);
-
   function expandACB() {
-    setExpand(!expand);
+    props.toggleExpanded(tvShow.id);
   }
 
   function renderIconCB() {
-    if (expand) {
+    if (props.expandedState[tvShow.id]) {
       return (
         <img
           id="expand-icon"
@@ -118,7 +112,7 @@ function renderMainContent(tvShow: any, props: any) {
     );
   }
   function expandedContentACB(seasons: any, saveSelectedSeason: any, saveSelectedTitle: any, id: string) {
-    if (expand) {
+    if (props.expandedState[tvShow.id]) {
       return (
         <div className="pl-6" id="test">
           {seasons.map((season: string) =>
@@ -134,18 +128,21 @@ function renderMainContent(tvShow: any, props: any) {
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
   return (
-    <div key={tvShow.id} className="flex flex-col text-lg mt-2  lg:w-[34%] ">
-      <div className="lg:ml-2 items-center flex flex-col lg:flex-row text-lg mt-2">
+    <div key={tvShow.id} className="flex flex-col text-lg mt-4  lg:w-[33%] justify-items-start items-center">
+      <div className=" items-center flex flex-col lg:flex-row text-lg mt-2">
+        
         <Link to="/details"
         onClick={() => props.saveSelectedTitle(tvShow.id)}>
         <img
           src={tvShow.imageUrl}
-          className="inline w-[100px] object-cover rounded-lg mr-8"
+          className="w-[110px] h-[110px] object-cover rounded-lg mr-8"
         ></img>
         </Link>
+
         <div className="flex flex-col ">
-          <div className="flex flex-row border-box">
-            {/* Render Main text for show */}
+
+          {/* Render Main text for show */}
+          <div className="flex flex-row border-box">  
               <div 
               className="flex lg:flex-row flex-col hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">
                 <Link to="/details"
@@ -162,20 +159,26 @@ function renderMainContent(tvShow: any, props: any) {
                   </div>
                 </Link>
               </div>
-            
+             
+              
             {/* Render expand content button  */}
             {tvShow.seasons && (
-              <div className="w-[30px] h-[30px]">
+              <div className="w-[30px] h-[30px] ml-2.5 mr-2">
                 <button
                   id="expand-icon"
-                  className="ml-2.5 bg-[#312244] hover:bg-[#251a33] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
+                  className=" bg-[#312244] hover:bg-[#251a33] py-0 px-1.5 hover:shadow-lg w-[30px] h-[30px]"
                   onClick={expandACB}
                 >
                   {renderIconCB()}
                 </button>
               </div>
             )}
+            <Link to="/mylist">
+                <button className=" px-0 py-0 bg-[#880808] hover:bg-[#251a33] hover:shadow-lg w-[30px] h-[30px]" 
+                onClick={() => props.removeTitle(tvShow.id)}>x</button>
+                </Link>
           </div>
+          
           <div className="flex flex-col flex-wrap lg:flex-row pt-1">
             {/* {!(Object.keys(tvShow.streamingInfo).length === 0) ? ( */}
             {!tvShow.streamingInfo == false ? (
