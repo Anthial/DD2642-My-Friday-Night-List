@@ -2,19 +2,23 @@ import { TitleId } from "./title";
 import { atom } from "recoil";
 import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 
+import { auth } from "../firebase/app";
 import * as firebaseFunctions from "../firebase/accounts";
+import { FirebaseError } from "@firebase/util";
+import { onAuthStateChanged, signOut } from "@firebase/auth";
 
 /* This is information provided by the user when creating or logging in to an account */
 export interface UserAccount {
 	email: string,
-	password: string
+	password: string,
+
+	nickname?: string
 }
 
 /* This is everything the application needs to know about the user when logged in */
 export interface UserData {
-	email: string,
-	encryptionKey: string,
-	
+	userId: string,
+
 	nickname: string,
 	watchlist: TitleId[]
 }
@@ -34,16 +38,6 @@ export const loggedInUserAtom = atom({
 	],
 });
 
-const asciiNumbers = Array.from(Array(10).keys()).map(c => c + 48);
-const asciiUppercase = Array.from(Array(26).keys()).map(c => c + 65);
-const asciiLowercase = asciiUppercase.map(c => c + 32);
-const asciiSpecial = ['-'.charCodeAt(0), '_'.charCodeAt(0), '.'.charCodeAt(0)];
-
-/* A-Z, 0-9, -, _, . */
-const usernameAllowedCharacters = 
-	[...asciiNumbers, ...asciiUppercase, ...asciiLowercase, ...asciiSpecial]
-	.map(c => String.fromCharCode(c));
-
 function checkPassword(accountInfo: UserAccount) {
 	if(accountInfo.password.length < 6) {
 		throw new Error("Password needs to be at least 6 characters long");	
@@ -51,55 +45,76 @@ function checkPassword(accountInfo: UserAccount) {
 	return accountInfo;
 }
 
-export function createUser(accountInfo: UserAccount, nickname?: string) {
+export function createUser(accountInfo: UserAccount) {
 	const sanitizedAccountInfo = checkPassword(accountInfo);
-	const nicknameOrUsername = nickname ? nickname : sanitizedAccountInfo.email;
 
-	return firebaseFunctions.createUser(sanitizedAccountInfo, nicknameOrUsername).then((encryptionKey) => {
-			const user: UserData = {
-				email: sanitizedAccountInfo.email,
-				encryptionKey: encryptionKey,
-				
-				nickname: nicknameOrUsername,
-				watchlist: []
-			};
-
-			setCookie("username", user.email, { expires: 365 });
-			setCookie("key", user.encryptionKey, { expires: 365 });
-			
-			return user;
-		});
-}
-
-export function loginUserWithCookie() {
-	const username = getCookie("username");
-	const encryptionKey = getCookie("key");
-
-	if(username && encryptionKey) {
-		return firebaseFunctions.loginUserOld({ email: username, password: "" }, encryptionKey).then((userData) => {
-			/* Refresh cookies */
-			setCookie("username", username, { expires: 365 });
-			setCookie("key", encryptionKey, { expires: 365 });
-
-			return userData;
-		});
+	if(!sanitizedAccountInfo.nickname) { 
+		sanitizedAccountInfo.nickname = sanitizedAccountInfo.email.split("@")[0];
 	}
 
-	return Promise.reject(new Error("No cookie found"));
+	return firebaseFunctions.createUser(sanitizedAccountInfo)
+		.catch((error: FirebaseError) => {
+			const errorMessage = error.code.split("/")[1];
+
+			switch(errorMessage) {
+				case "email-already-in-use":
+					throw new Error("Email is already in use");
+				case "invalid-email":
+					throw new Error("Invalid email entered");
+				case "weak-password":
+					throw new Error("Password is too weak");
+			}
+
+			throw new Error("Firebase error: " + errorMessage);
+		});
 }
 
 export function loginUserWithPassword(accountInfo: UserAccount) {
 	const sanitizedAccountInfo = checkPassword(accountInfo);
 
-	return firebaseFunctions.logInUser(sanitizedAccountInfo, 1).then((userData) => {
-		setCookie("username", userData.email, { expires: 365 });
-		setCookie("key", userData.encryptionKey, { expires: 365 });
+	return firebaseFunctions.loginUser(sanitizedAccountInfo)
+		.catch((error: FirebaseError) => {
+			const errorMessage = error.code.split("/")[1];
 
-		return userData;
-	});
+			switch(errorMessage) {
+				case "wrong-password":
+					throw new Error("Invalid password entered");
+				case "user-not-found":
+					throw new Error("Invalid email entered");
+			}
+
+			throw new Error("Firebase error: " + errorMessage);
+		});
 }
 
 export function logoutUser() {
-	removeCookie("username");
-	removeCookie("key");
+	signOut(auth).then(() => {
+		console.log("Logged out");
+	}).catch((error: FirebaseError) => {console.log(error)})
 }
+
+type UserLoginObserver = (newUser: UserData | null) => void;
+let userLoginObservers: UserLoginObserver[] = [];
+
+export function addLoginObserver(observer: UserLoginObserver) {
+	userLoginObservers.push(observer);
+}
+
+export function removeLoginObserver(observer: UserLoginObserver) {
+	userLoginObservers = userLoginObservers.filter(o => o !== observer);
+}
+
+auth.onAuthStateChanged(user => {
+	if(user) {
+		try {
+			firebaseFunctions.fetchUser(user.uid)
+				.then((data: UserData) => userLoginObservers.map(observer => observer(data)));
+		}
+		catch {
+			/* Ignore any errors, the user database has probably not been created yet */
+		}
+	}
+	else {
+		userLoginObservers.map(observer => observer(null));
+	}
+});
