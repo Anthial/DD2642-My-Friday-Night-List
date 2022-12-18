@@ -163,7 +163,7 @@ function renderMainContent(tvShow: any, props: any) {
             </div>
             {/* Render watch at and links */}
             <div className="">
-              {(Object.keys(tvShow.streamingInfo).length !== 0) ? (
+              {tvShow.streamingInfo && (Object.keys(tvShow.streamingInfo).length !== 0) ? (
                 <div className="flex flex-row flex-wrap text-[#90e0ef]">
                   <span>Watch at: </span>
                   <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
