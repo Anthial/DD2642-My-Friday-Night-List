@@ -18,7 +18,7 @@ function Register(/*props: any*/) {
 
     //First error, user must input a name and password
     //Other error, passwords must match
-    //Third error, the username already exists
+    //Third error, the email already exists
     try {
       if (userRegistrationData.password === repeatedPassword) {
         setWaitingForPromise(true);
@@ -37,9 +37,9 @@ function Register(/*props: any*/) {
       setErrorText(error.message);
     }
   }
-  function updateUsernameInputACB(usernameString: string) {
+  function updateEmailInputACB(emailString: string) {
     setErrorText("");
-    setUserRegistrationData({...userRegistrationData, email: usernameString});
+    setUserRegistrationData({...userRegistrationData, email: emailString});
   }
   function updateNicknameInputACB(nicknameString: string) {
     setErrorText("");
@@ -62,7 +62,7 @@ function Register(/*props: any*/) {
     <RegisterView
       registerErrorMessage={specifiedErrorText}
       attemptRegistration={attemptUserRegistrationACB}
-      onUsernameChange={updateUsernameInputACB}
+      onEmailChange={updateEmailInputACB}
       onNicknameChange={updateNicknameInputACB}
       onPasswordChange={updatePasswordInputACB}
       onRepeatedPasswordChange={updateRepeatedPasswordInputACB}

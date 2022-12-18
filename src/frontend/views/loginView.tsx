@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
 function LoginView(props: any) {
-  function usernameValueChangedACB(e: any) {
-    props.onUsernameChange(e.target.value);
+  function emailValueChangedACB(e: any) {
+    props.onEmailChange(e.target.value);
   }
   function passwordValueChangedACB(e: any) {
     props.onPasswordChange(e.target.value);
@@ -23,10 +23,10 @@ function LoginView(props: any) {
         <input
           className="text-white mt-2 mb-1 px-2 py-1 rounded-lg bg-[#312244]"
           type="text"
-          name="Username"
-          id="Username"
-          placeholder="Username"
-          onChange={usernameValueChangedACB}
+          name="Email"
+          id="email"
+          placeholder="Email"
+          onChange={emailValueChangedACB}
           required
         ></input>
       </div>
@@ -61,7 +61,7 @@ function LoginView(props: any) {
         hidden={props.loginErrorMessage == ""}
       >
         {
-          props.loginErrorMessage /*"You must enter both username and password in order to log in"*/
+          props.loginErrorMessage /*"You must enter both email and password in order to log in"*/
         }
       </div>
       </div>

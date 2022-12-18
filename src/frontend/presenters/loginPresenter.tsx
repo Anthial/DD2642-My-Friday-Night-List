@@ -15,7 +15,7 @@ function Login(/*props: any Model*/) {
 
     try {
       if (userLoginData.email == "" || userLoginData.password == "")
-        setErrorText("Enter username & password"); //First run should set the text to the specified string
+        setErrorText("Enter email & password"); //First run should set the text to the specified string
       else
         setErrorText("");
       setWaitingForPromise(true);
@@ -27,9 +27,9 @@ function Login(/*props: any Model*/) {
       setWaitingForPromise(false);
     }
   }
-  function updateUsernameInputACB(usernameString: string) {
+  function updateEmailInputACB(emailString: string) {
     setErrorText("");
-    setUserLoginData({...userLoginData, email: usernameString});
+    setUserLoginData({...userLoginData, email: emailString});
   }
   function updatePasswordInputACB(passwordString: string) {
     setErrorText("");
@@ -44,7 +44,7 @@ function Login(/*props: any Model*/) {
     <LoginView
       loginErrorMessage={specifiedErrorText}
       attemptLogin={compareUserLoginInfoACB}
-      onUsernameChange={updateUsernameInputACB}
+      onEmailChange={updateEmailInputACB}
       onPasswordChange={updatePasswordInputACB}
     />
   );
