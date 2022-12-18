@@ -1,8 +1,8 @@
 # My Friday Night List
 
 Project app for the course DH2642 Interaction Programming and the Dynamic Web.
-An app that in the future will allow for browsing information about tv-series as well as a place where you can save and manage series you like or intend to watch. 
-By adding series or episodes to a "favorite" list you will easily be able to keep track of what you have watched and what you'd like to watch. My friday night list also shows you where you can watch different series and trivia about them. 
+An app that allows for browsing information about tv-series as well as a place where you can save and manage series you like or intend to watch. 
+By adding series or episodes to a "favorite" list you're able to easily keep track of what you have watched and what you'd like to watch. My Friday Night List also shows you where you can watch different series and trivia about them. 
 
 ## Setup
 
@@ -58,9 +58,9 @@ Your project file structure (short description/purpose of each file):
   * src/frontend/presenters/searchResultsPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Calls placeholder API to get fake search results after 500 ms (to simulate loading)*
   * src/frontend/views/searchResultsView.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *Shows search results from IMDB API*
   * src/frontend/views/loginView.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *shows the user the login prompt where they can input username and password, or redirect to registerView*
-  * src/frontend/presenters/loginPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *gets the userinfo from loginView and will in the future send userinfo to model for confirming correct logins*
+  * src/frontend/presenters/loginPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *gets the userinfo from loginView and sends userinfo to model for confirming correct logins*
   * src/frontend/views/registerView.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *shows the user a register prompt with input for username, nickname and password (twice)*
-  * src/frontend/presenters/registerPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *will in the future send the userinfo to the model so the user can get registered.*
+  * src/frontend/presenters/registerPresenter.tsx &nbsp; &nbsp; - &nbsp; &nbsp; *sends the userinfo to the model so the user can get registered.*
   * src/backend &nbsp; &nbsp; - &nbsp; &nbsp; *Where we deal with the model, Firebase and the APIs*
   * src/backend/imdb &nbsp; &nbsp; - &nbsp; &nbsp; *Where we store any functions relating to the IMDB API*
   * src/backend/accounts/placeholderData.ts &nbsp; &nbsp; - &nbsp; &nbsp; *Placeholder data for accounts (not used yet)*
