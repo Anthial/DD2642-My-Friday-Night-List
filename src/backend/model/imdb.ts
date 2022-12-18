@@ -1,7 +1,7 @@
 import { SearchResult, Title, TitleId, TitleType } from "./title";
 import { imdbPlaceholderData } from "../api/imdb/placeholderData";
 import { cacheSearchInFirebase, cacheTitleInFirebase, getTitleFromFirebase, searchImdbInFirebase } from "../firebase/cache";
-import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/IMDB";
+import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/imdb";
 import { atom } from "recoil";
 import { isValidResult } from "./util";
 

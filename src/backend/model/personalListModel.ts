@@ -1,7 +1,7 @@
-import { fetchTitle } from "../api/imdb/IMDB";
+import { fetchTitle } from "../api/imdb/imdb";
 import { fetchAvailability } from "../api/availability/streamingAvailability";
-import { Stargate } from "../../backend/model/dummyStargate";
-import availability from "../../backend/model/streamingAvailabilityDummyStargate";
+import { Stargate } from "./dummyStargate";
+import availability from "./streamingAvailabilityDummyStargate";
 import react from "react";
 
 const dummyFirebaseMyList = ["tt0118480", "tt0118480"];

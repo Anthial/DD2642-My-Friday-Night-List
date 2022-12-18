@@ -6,7 +6,7 @@ import {
   selectedTitleAtom,
   selectedTitle,
 } from "../../backend/model/atoms";
-import regions from "../../backend/data/ISO-3166-Alpha-2-country-codes";
+import regions from "../../backend/data/countryCodes";
 import Spinner from "../views/spinnerView";
 import { useState, useEffect } from "react";
 import { getTitleById } from "../../backend/model/imdb";
