@@ -1,6 +1,6 @@
 import {Header, NotLoggedInHeader} from "../views/header"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRecoilState, useRecoilValue } from "recoil"
 import { searchValueState } from "../../backend/model/atoms";
 import { imdbSearchRatelimitedAtom } from "../../backend/model/imdb";
@@ -8,7 +8,7 @@ import { imdbSearchRatelimitedAtom } from "../../backend/model/imdb";
 import { useLocation } from "react-router-dom";
 import { loggedInUserAtom } from "../../backend/model/user";
 
-function HeaderPresenter(props:any){
+function HeaderPresenter(){
     const [query, setQuery] = useState("");
     const currentPage = useLocation();
     const searchRatelimited = useRecoilValue(imdbSearchRatelimitedAtom);

@@ -1,9 +1,6 @@
 // Init Header
 import {Link} from "react-router-dom"
 import r from "react"
-import { set } from "firebase/database";
-
-
 
 function Header(props:any){
   const mobileMap = ["List","Log Out"]
@@ -74,7 +71,7 @@ function Header(props:any){
     </div>);
 }
 
-function NotLoggedInHeader(props:any){
+function NotLoggedInHeader(){
   return (
     <div>
       <div className="px-5 py-7 flex justify-evenly items-center bg-[#312244]">

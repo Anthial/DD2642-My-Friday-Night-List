@@ -26,19 +26,19 @@ export default function SearchResults() {
 	const [page, setPage] = useState(0);
 
 	const [user, setUser] = useRecoilState(loggedInUserAtom);
-	const [searchValue, setSearchValue] = useRecoilState(searchValueState);
+	const searchValue = useRecoilValue(searchValueState);
 	const [imdbRatelimited, setImdbRatelimited] = useRecoilState(imdbSearchRatelimitedAtom);
 	
 	const setSelectedTitleId = useSetRecoilState(selectedTitleAtom);
 	const setSelectedTitle = useSetRecoilState(selectedTitle);
 	const setSelectedSeason = useSetRecoilState(selectedSeasonState);
-	let navigate = useNavigate();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 
 		if (!user){
 			navigate("/")
-		   }
+		}
 		/* We need this check if the user reloads the page when we run in development mode (because React will render components twice) */
 		if(!imdbRatelimited && searchValue !== results.query) {
 			/* Deep copy the current search value, in case it changes before the promise is finished */
@@ -63,7 +63,7 @@ export default function SearchResults() {
 		setSelectedTitleId(id);
 		setSelectedSeason("");
 
-		getTitleById(id).then((title) => setSelectedTitle(title)).catch((e: Error) => setSelectedTitle({} as Title));
+		getTitleById(id).then((title) => setSelectedTitle(title)).catch(() => setSelectedTitle({} as Title));
 	}
 
 	function onUserModifiedList(title: SearchResult) {

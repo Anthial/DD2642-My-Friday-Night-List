@@ -5,11 +5,11 @@ import {
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { selectedSeasonState, selectedTitle } from "../../backend/model/atoms.js";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import Spinner from "../views/spinnerView.js";
 import { loggedInUserAtom } from "../../backend/model/user.js";
 
-function episodeViewPresenter(props: any) {
+function EpisodeViewPresenter() {
   const user = useRecoilValue(loggedInUserAtom);
   const [title, setTitle] = useState(null);
   const [year, setYear] = useState(null);
@@ -17,7 +17,7 @@ function episodeViewPresenter(props: any) {
   const values = useRecoilValue(selectedTitle);
   const id = values ? values.id : "";
   const season = useRecoilValue(selectedSeasonState);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user){
@@ -49,4 +49,4 @@ function episodeViewPresenter(props: any) {
   );
 }
 
-export default episodeViewPresenter;
+export default EpisodeViewPresenter;

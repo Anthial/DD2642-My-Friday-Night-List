@@ -14,7 +14,7 @@ export interface SearchResultsProps {
 	onModifyList: (title: SearchResult) => void,
 	onSelectTitle: (title: SearchResult) => void
 	onNavigatePage: (offset: number) => void
-};
+}
 
 function SearchEntry(props: SearchResultsProps, title: SearchResult) {
 	const addToDivStyle = props.isUserLoggedIn ? "" : "pointer-events-none";
@@ -35,9 +35,9 @@ function SearchEntry(props: SearchResultsProps, title: SearchResult) {
 					{title.name}
 				</span>
 				<div className="h-8 absolute -bottom-8 flex w-full justify-center transition-transform duration-100 group-hover:-translate-y-12">
-					<IconHeart onClick={e => props.onModifyList(title)} width="32" height="32" className={`${heartStyle}`}></IconHeart>
+					<IconHeart onClick={() => props.onModifyList(title)} width="32" height="32" className={`${heartStyle}`}></IconHeart>
 				</div>
-				<Link to="/details" onClick={e => props.onSelectTitle(title)}>
+				<Link to="/details" onClick={() => props.onSelectTitle(title)}>
 					<div className="w-full h-72 absolute top-0"></div>
 				</Link>
 			</div>
@@ -59,13 +59,13 @@ export default function SearchResultsView(props: SearchResultsProps) {
 			</div>
 			<div className="w-full h-6"></div>
 			{props.maxPage > 1 && <div className="flex bg-[#006466] w-32 h-10 rounded-md overflow-hidden">
-				<div className={`${leftStyle} flex shrink-0 grow-0 basis-10 h-10 justify-center items-center`} onClick={e => props.onNavigatePage(-1)}>
+				<div className={`${leftStyle} flex shrink-0 grow-0 basis-10 h-10 justify-center items-center`} onClick={() => props.onNavigatePage(-1)}>
 					<IconArrowLeft className="inline w-8 h-8"></IconArrowLeft>
 				</div>
 				<span className="shrink grow font-bold text-center leading-10 align-middle pointer-events-none">
 					{`${props.page+1}/${props.maxPage}`}
 				</span>
-				<div className={`${rightStyle} flex shrink-0 grow-0 basis-10 h-10 justify-center items-center`} onClick={e => props.onNavigatePage(1)}>
+				<div className={`${rightStyle} flex shrink-0 grow-0 basis-10 h-10 justify-center items-center`} onClick={() => props.onNavigatePage(1)}>
 					<IconArrowRight className="inline w-8 h-8"></IconArrowRight>
 				</div>
 			</div>}

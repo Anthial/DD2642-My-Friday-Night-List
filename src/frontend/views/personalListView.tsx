@@ -74,7 +74,7 @@ function renderLinks(links: any) {
       key={links[0]}
       className="border bg-[#4d194d] border-[#4d194d] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white hover:bg-[#251a33]"
       href={links[1][region].link}
-      target="_blank"
+      target="_blank" rel="noreferrer"
     >
       {capitalizeFirstLetter(links[0])}
     </a>

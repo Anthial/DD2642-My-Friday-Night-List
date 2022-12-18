@@ -1,8 +1,5 @@
 import DetailsView from "../views/detailsView.jsx";
-import {
-  getEpisodesByIDSeason
-} from "../../backend/model/imdb";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { selectedSeasonState, selectedTitle } from "../../backend/model/atoms.js";
 import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import Spinner from "../views/spinnerView.js";
@@ -11,11 +8,9 @@ import { loggedInUserAtom } from "../../backend/model/user";
 import { useNavigate } from "react-router-dom";
 
 
-function detailsViewPresenter(props: any) {
+function DetailsViewPresenter() {
   const [user, setUser] = useRecoilState(loggedInUserAtom);
   const values = useRecoilValue(selectedTitle);
-  const id = values ? values.id : "";
-  const season = useRecoilValue(selectedSeasonState);
   const setSeason = useSetRecoilState(selectedSeasonState);
 
   function setSelectedSeason (s: any) {
@@ -37,7 +32,7 @@ function detailsViewPresenter(props: any) {
 			setUser({...user, watchlist: newWatchList});
 		}
 	}	
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user){
@@ -64,4 +59,4 @@ function detailsViewPresenter(props: any) {
     <Spinner/>)
 }
 
-export default detailsViewPresenter;
+export default DetailsViewPresenter;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { HashRouter, Route, Routes } from "react-router-dom"
 
 import Header from "./frontend/presenters/headerPresenter"

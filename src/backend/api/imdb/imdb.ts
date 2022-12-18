@@ -1,7 +1,7 @@
 import {IMDB_API_KEY} from "./apiConfig"
 
 
-function handleResponse(response: any){
+function handleResponse(response: Response){
     if (response.status !== 200){
         throw new Error("Could not access data, status: " + response.status);
     }

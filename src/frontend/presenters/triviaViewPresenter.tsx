@@ -7,13 +7,13 @@ import { selectedTitle } from "../../backend/model/atoms.js";
 import { loggedInUserAtom } from "../../backend/model/user.js";
 import Spinner from "../views/spinnerView.js";
 
-function triviaViewPresenter(props: any) {
+function TriviaViewPresenter() {
   //const id = "tt1630029";
   //const query = "cats";
   const user = useRecoilValue(loggedInUserAtom);
   const [items, setItems] = useState(null);
   const title = useRecoilValue(selectedTitle);
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user){
@@ -47,4 +47,4 @@ function triviaViewPresenter(props: any) {
   );
 }
 
-export default triviaViewPresenter;
+export default TriviaViewPresenter;
