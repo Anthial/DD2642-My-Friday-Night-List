@@ -5,7 +5,7 @@ export enum ApiErrorReason {
     LimitReached
 }
 
-class ApiError extends Error {
+export class ApiError extends Error {
     reason: ApiErrorReason = ApiErrorReason.Unknown;
 
     constructor(message: string, reason: ApiErrorReason) {

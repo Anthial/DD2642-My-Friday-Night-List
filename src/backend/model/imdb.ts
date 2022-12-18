@@ -1,9 +1,20 @@
 import { SearchResult, Title, TitleId, TitleType } from "./title";
 import { imdbPlaceholderData } from "../api/imdb/placeholderData";
 import { cacheSearchInFirebase, cacheTitleInFirebase, getTitleFromFirebase, searchImdbInFirebase } from "../firebase/cache";
-import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/IMDB";
+import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia, ApiError } from "../api/imdb/IMDB";
 import { atom } from "recoil";
 import { isValidResult } from "./util";
+
+export type ImdbErrorObserver = (error: ApiError) => void;
+let imdbErrorObservers: ImdbErrorObserver[] = [];
+
+export function addImdbErrorObserver(observer: ImdbErrorObserver) {
+	imdbErrorObservers.push(observer);
+}
+
+export function removeImdbErrorObserver(observer: ImdbErrorObserver) {
+	imdbErrorObservers = imdbErrorObservers.filter(o => o !== observer);
+}
 
 export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<Title> {
 	if(usePlaceholderData) {
@@ -41,7 +52,14 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 
 				cacheTitleInFirebase(title);
 				return title;
-			});
+			})
+			.catch((e: Error) => {
+                if(e instanceof ApiError) {
+                    imdbErrorObservers.map(o => o(e));
+                }
+
+                throw e;
+            });
 		});
 	}
 }
@@ -89,14 +107,33 @@ export function searchImdb(query: string, usePlaceholderData: boolean): Promise<
 				cacheSearchInFirebase(query, results);
 				return results;
 			})
+			.catch((e: Error) => {
+                if(e instanceof ApiError) {
+                    imdbErrorObservers.map(o => o(e));
+                }
+
+                throw e;
+            });
 		});
 	}
 }
 
 export function getEpisodesByIDSeason(id: string, season: string): Promise<any> {
-	return fetchEpisodes(id, season);
+	return fetchEpisodes(id, season).catch((e: Error) => {
+		if(e instanceof ApiError) {
+			imdbErrorObservers.map(o => o(e));
+		}
+
+		throw e;
+	});
 }
 
 export function getTriviaByID(id: string): Promise<any> {
-	return fetchTrivia(id);
+	return fetchTrivia(id).catch((e: Error) => {
+		if(e instanceof ApiError) {
+			imdbErrorObservers.map(o => o(e));
+		}
+
+		throw e;
+	});
 }
