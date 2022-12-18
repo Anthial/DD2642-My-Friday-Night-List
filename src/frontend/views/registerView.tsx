@@ -27,7 +27,7 @@ function RegisterView(props: any /* Model */) {
             type="text"
             name="Username"
             id="Username"
-            placeholder="Username"
+            placeholder="Email"
             onChange={usernameValueChangedACB}
             required
           ></input>
@@ -38,7 +38,7 @@ function RegisterView(props: any /* Model */) {
             type="text"
             name="Nickname"
             id="Nickname"
-            placeholder="A fake nickname"
+            placeholder="Nickname"
             onChange={nicknameValueChangedACB}
             required
           ></input>

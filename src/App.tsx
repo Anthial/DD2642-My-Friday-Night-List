@@ -6,21 +6,23 @@ import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter"
 import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter"
 import PersonalList from "./frontend/presenters/personalListPresenter"
 import SearchResults from './frontend/presenters/searchResultsPresenter'
-import LoginViewPresenter from "./frontend/presenters/LoginPresenter"
+import LoginViewPresenter from "./frontend/presenters/loginPresenter"
 import RegisterViewPresenter from "./frontend/presenters/registerPresenter"
 import EpisodeViewPresenter from './frontend/presenters/episodeViewPresenter'
 
-import { loggedInUserAtom, loginUserWithCookie, UserData } from "./backend/model/user";
+import { addLoginObserver, removeLoginObserver, loggedInUserAtom, loginUserWithCookie, UserData } from "./backend/model/user";
 import { useRecoilState } from 'recoil';
 
 function App() {
   const [loggedInUser, setLoggedInUser] = useRecoilState(loggedInUserAtom);
+
   useEffect(() => {
-    if(!loggedInUser) {
-      loginUserWithCookie()
-        .then((userData: UserData) => setLoggedInUser(userData)) 
-        .catch((error: Error) => console.log("Login with cookie failed: " + error.message));
+    const observer = (data: UserData | null) => {
+      setLoggedInUser(data);
     }
+
+    addLoginObserver(observer);
+    return () => removeLoginObserver(observer);
   }, []);
 
   return (
