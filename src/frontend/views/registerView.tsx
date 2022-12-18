@@ -1,6 +1,6 @@
 function RegisterView(props: any /* Model */) {
-  function usernameValueChangedACB(e: any) {
-    props.onUsernameChange(e.target.value);
+  function emailValueChangedACB(e: any) {
+    props.onEmailChange(e.target.value);
   }
   function nicknameValueChangedACB(e: any) {
     props.onNicknameChange(e.target.value);
@@ -25,10 +25,11 @@ function RegisterView(props: any /* Model */) {
           <input
             className="text-white mt-2 mb-1 px-2 py-1 rounded-lg bg-[#312244]"
             type="text"
-            name="Username"
-            id="Username"
+            name="Email"
+            id="email"
             placeholder="Email"
-            onChange={usernameValueChangedACB}
+            onChange={emailValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
@@ -40,6 +41,7 @@ function RegisterView(props: any /* Model */) {
             id="Nickname"
             placeholder="Nickname"
             onChange={nicknameValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
@@ -51,6 +53,7 @@ function RegisterView(props: any /* Model */) {
             id="Password"
             placeholder="Password"
             onChange={passwordValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
@@ -62,6 +65,7 @@ function RegisterView(props: any /* Model */) {
             id="PasswordRepeated"
             placeholder="Repeat password"
             onChange={repeatedPasswordValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
@@ -75,7 +79,7 @@ function RegisterView(props: any /* Model */) {
         </div>
         <div className="mt-1 text-red-500 justify-end" hidden={props.registerErrorMessage == ""}>
           {props.registerErrorMessage
-          /* "Enter a name and password to register an account / Passwords must be the same / Username already taken" */
+          /* "Enter a name and password to register an account / Passwords must be the same / Email already taken" */
           }
         </div>
       </div>

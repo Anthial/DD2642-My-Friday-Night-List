@@ -27,6 +27,12 @@ function triviaViewPresenter(props: any) {
     if (title.id){
         fetchData();
     }
+    if (!(items && !(Object.keys(items).length === 0))){
+      setTimeout(() => {
+        if(!(items && !(Object.keys(items).length === 0))){
+          navigate("/");
+      }},
+  3000)}
   }, []);
 
   const tempItems = [

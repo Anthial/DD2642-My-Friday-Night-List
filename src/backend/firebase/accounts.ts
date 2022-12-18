@@ -9,13 +9,20 @@ export function createUser(accountInfo: UserAccount) {
 	return createUserWithEmailAndPassword(auth, accountInfo.email, accountInfo.password)
 		.then(response => {
 			const userRef = ref(database, "user/" + response.user.uid);
-			const userData = {
+			const userFirebaseData = {
 				nickname: accountInfo.nickname,
 				/* This is necessary for Firebase to sync an empty array */
 				watchlist: JSON.stringify([])
 			};
 
-			return set(userRef, userData);
+			return set(userRef, userFirebaseData)
+				.then(() => {
+					return {
+						userId: response.user.uid,
+						nickname: accountInfo.nickname,
+						watchlist: []
+					} as UserData;
+				});
 		});
 }
 

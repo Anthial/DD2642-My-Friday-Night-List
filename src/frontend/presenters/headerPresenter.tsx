@@ -31,7 +31,7 @@ function HeaderPresenter(props:any){
 
     const canUseSearchButton = !searchRatelimited && allowedQuery;
     return ((user && Object.keys(user).length !== 0) ? 
-        <Header search={searchValue} canSearch={canUseSearchButton} setQuery={setQuery} value={query}></Header>
+        <Header search={searchValue} canSearch={canUseSearchButton} setQuery={setQuery} value={query} user={user}></Header>
         : <NotLoggedInHeader></NotLoggedInHeader>
     )
 }

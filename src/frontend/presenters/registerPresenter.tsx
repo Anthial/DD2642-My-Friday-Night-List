@@ -1,63 +1,68 @@
 import RegisterView from "../views/registerView";
 import { useState } from "react";
-import { UserAccount, createUser, UserData } from "../../backend/model/user";
+import { UserAccount, createUser, UserData, loggedInUserAtom } from "../../backend/model/user";
 import { useSetRecoilState } from "recoil";
+import { useNavigate } from "react-router-dom";
+import Spinner from "../views/spinnerView";
 
 function Register(/*props: any*/) {
-  const userRegitrationData: UserAccount = { email: "", password: "", nickname: "" };
+  const [userRegistrationData, setUserRegistrationData] = useState({ email: "", password: "", nickname: "" } as UserAccount);
+  const [repeatedPassword, setRepeatedPassword] = useState("");
   const [specifiedErrorText, setErrorText] = useState("");
-  let repeatedPassword = "";
+  const [isWaitingForPromise, setWaitingForPromise] = useState(false);
+  const setLoggedInUser = useSetRecoilState(loggedInUserAtom);
+  const navigate = useNavigate();
+  
   function attemptUserRegistrationACB() {
     setErrorText("");
 
     //First error, user must input a name and password
     //Other error, passwords must match
-    //Third error, the username already exists
+    //Third error, the email already exists
     try {
-      if (userRegitrationData.password === repeatedPassword) {
-        console.log("SUCCESS");
-
-        let newUser = createUser(userRegitrationData).catch((e: Error) => setErrorText(e.message));
-        //let setUser = useSetRecoilState(newUser.catch.prototype);
+      if (userRegistrationData.password === repeatedPassword) {
+        setWaitingForPromise(true);
+        createUser(userRegistrationData)
+          .then((d: UserData) => {
+            setLoggedInUser(d);
+            navigate("/");
+          })
+          .catch((e: Error) => setErrorText(e.message))
+          .finally(() => setWaitingForPromise(false));
       } else {
-        console.log("NameBP: " + userRegitrationData.email);
-        console.log("NickBP: " + userRegitrationData.nickname);
-        console.log("Pass1BP: " + userRegitrationData.password);
-        console.log("Pass2BP: " + repeatedPassword);
-
-
         throw new Error("Passwords need to match");
       }
     } catch (error: any) {
+      setWaitingForPromise(false);
       setErrorText(error.message);
     }
   }
-  function updateUsernameInputACB(usernameString: string) {
-    console.log("Name: " + usernameString);
+  function updateEmailInputACB(emailString: string) {
     setErrorText("");
-    userRegitrationData.email = usernameString;
+    setUserRegistrationData({...userRegistrationData, email: emailString});
   }
   function updateNicknameInputACB(nicknameString: string) {
-    console.log("Nick: " + nicknameString);
     setErrorText("");
-    userRegitrationData.nickname = nicknameString;
+    setUserRegistrationData({...userRegistrationData, nickname: nicknameString});
   }
   function updatePasswordInputACB(passwordString: string) {
-    console.log("Pass1: " + passwordString);
     setErrorText("");
-    userRegitrationData.password = passwordString;
+    setUserRegistrationData({...userRegistrationData, password: passwordString});
   }
   function updateRepeatedPasswordInputACB(repeatedPasswordString: string) {
-    console.log("Pass2: " + repeatedPasswordString);
     setErrorText("");
-    repeatedPassword = repeatedPasswordString;
+    setRepeatedPassword(repeatedPasswordString);
+  }
+
+  if(isWaitingForPromise) {
+    return <Spinner/>;
   }
 
   return (
     <RegisterView
       registerErrorMessage={specifiedErrorText}
       attemptRegistration={attemptUserRegistrationACB}
-      onUsernameChange={updateUsernameInputACB}
+      onEmailChange={updateEmailInputACB}
       onNicknameChange={updateNicknameInputACB}
       onPasswordChange={updatePasswordInputACB}
       onRepeatedPasswordChange={updateRepeatedPasswordInputACB}
