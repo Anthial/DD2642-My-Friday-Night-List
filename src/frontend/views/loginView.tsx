@@ -2,11 +2,9 @@ import { Link } from "react-router-dom";
 
 function LoginView(props: any) {
   function usernameValueChangedACB(e: any) {
-    console.log("name V: " + e.target.value);
     props.onUsernameChange(e.target.value);
   }
   function passwordValueChangedACB(e: any) {
-    console.log("pass V: " + e.target.value);
     props.onPasswordChange(e.target.value);
   }
   function loginButtonPressedACB() {

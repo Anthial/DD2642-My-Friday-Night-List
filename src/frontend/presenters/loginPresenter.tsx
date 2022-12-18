@@ -1,40 +1,40 @@
-import React from "react";
+import { useState } from "react";
 import { UserAccount, loginUserWithPassword } from "../../backend/model/user";
 import LoginView from "../views/loginView";
+import Spinner from "../views/spinnerView"; 
 //import { UserAccount, UserData } from "../../backend/model/user";
 //import modelthingy for logging users in.
 
 function Login(/*props: any Model*/) {
-  let userLoginData: UserAccount = { email: "", password: "" };
-  const [specifiedErrorText, setErrorText] = React.useState("");
+  const [userLoginData, setUserLoginData] = useState({ email: "", password: "", nickname: "" } as UserAccount);
+  const [specifiedErrorText, setErrorText] = useState("");
+  const [isWaitingForPromise, setWaitingForPromise] = useState(false);
+
   function compareUserLoginInfoACB() {
     setErrorText("");
 
     try {
-      /*JUST FOR TESTING*/
-      console.log("name L: " + userLoginData.email);
-      console.log("pass L: " + userLoginData.password);
-      /*JUST FOR TESTING*/
-
       if (userLoginData.email == "" || userLoginData.password == "")
         setErrorText("Enter username & password"); //First run should set the text to the specified string
       else
         setErrorText("");
-      loginUserWithPassword(userLoginData);
+      setWaitingForPromise(true);
+      loginUserWithPassword(userLoginData).finally(() => setWaitingForPromise(false));
     } catch (error: any /* Catch must have any type */) {
       setErrorText(error.message);
     }
   }
   function updateUsernameInputACB(usernameString: string) {
-    /*JUST FOR TESTING*/ console.log("name: " + usernameString);
     setErrorText("");
-    userLoginData.email = usernameString;
+    setUserLoginData({...userLoginData, email: usernameString});
   }
   function updatePasswordInputACB(passwordString: string) {
-    /*JUST FOR TESTING*/ console.log("pass: " + passwordString);
-
     setErrorText("");
-    userLoginData.password = passwordString;
+    setUserLoginData({...userLoginData, password: passwordString});
+  }
+
+  if(isWaitingForPromise) {
+    return <Spinner/>;
   }
 
   return (

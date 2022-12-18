@@ -6,12 +6,12 @@ import { set } from "firebase/database";
 
 
 function Header(props:any){
-  const mobileMap = ["My List","Log Out"]
+  const mobileMap = ["List","Log Out"]
   const buttonMap = ["Search", ... mobileMap];
   const [menuClicked, setMenuClicked] = r.useState(false);
 
   function HeaderButtonsCB(buttonContent: string){
-    const link = buttonContent.toLowerCase().replaceAll(" ", "");
+    let link = buttonContent.toLowerCase().replaceAll(" ", "");
     let func = () => {
       setMenuClicked(false);
     }
@@ -25,6 +25,11 @@ function Header(props:any){
         style = "pointer-events-none opacity-80";
       }
     }
+    if (link === "list"){
+      link = "";
+      buttonContent = `${props.user.nickname}'s ${buttonContent}`;
+    }
+    link = "/"+link;
     return (
       <li key={link} className={`grow ${style}`}>
         <Link to={link}>

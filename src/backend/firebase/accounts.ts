@@ -15,7 +15,8 @@ export function createUser(accountInfo: UserAccount) {
 				watchlist: JSON.stringify([])
 			};
 
-			return set(userRef, userData);
+			return set(userRef, userData)
+				.then(() => userData);
 		});
 }
 

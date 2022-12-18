@@ -107,13 +107,10 @@ export function removeLoginObserver(observer: UserLoginObserver) {
 
 auth.onAuthStateChanged(user => {
 	if(user) {
-		try {
-			firebaseFunctions.fetchUser(user.uid)
-				.then((data: UserData) => userLoginObservers.map(observer => observer(data)));
-		}
-		catch {
+		firebaseFunctions.fetchUser(user.uid)
+			.then((data: UserData) => userLoginObservers.map(observer => observer(data)))
 			/* Ignore any errors, the user database has probably not been created yet */
-		}
+			.catch(() => {});
 	}
 	else {
 		userLoginObservers.map(observer => observer(null));
