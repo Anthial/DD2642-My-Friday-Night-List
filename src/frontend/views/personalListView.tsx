@@ -6,7 +6,7 @@ function PersonalListView(props: any) {
 
   // console.log(props.tvShow.streamingInfo);
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
         My list
       </h1>
@@ -34,7 +34,7 @@ function PersonalListView(props: any) {
           </div>
         </div>
       ) : (
-        <div className="flex flex-wrap justify-center items-center  text-center max-w-[50%]">
+        <div className="flex flex-wrap justify-center items-center  text-center w-full lg:px-[25%] md:px-[20%] px-[10%]">
           Add movies and series from search to get your personal watchlist! Now
           with links to where you can watch them for a selected region!
         </div>
