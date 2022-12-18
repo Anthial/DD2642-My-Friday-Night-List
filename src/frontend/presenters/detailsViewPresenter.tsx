@@ -8,6 +8,7 @@ import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import Spinner from "../views/spinnerView.js";
 import { Title } from "../../backend/model/title";
 import { loggedInUserAtom } from "../../backend/model/user";
+import { useNavigate } from "react-router-dom";
 
 
 function detailsViewPresenter(props: any) {
@@ -294,6 +295,7 @@ function detailsViewPresenter(props: any) {
     ],
     errorMessage: "",
   };
+  const [user, setUser] = useRecoilState(loggedInUserAtom);
   const values = useRecoilValue(selectedTitle);
   const id = values ? values.id : "";
   const season = useRecoilValue(selectedSeasonState);
@@ -303,8 +305,6 @@ function detailsViewPresenter(props: any) {
     console.log(s)
     setSeason(s);
   } 
-  const [user, setUser] = useRecoilState(loggedInUserAtom);
-
   function onUserModifiedList(title: Title) {
     console.log(title);
 		if(user) {
@@ -320,6 +320,15 @@ function detailsViewPresenter(props: any) {
 			setUser({...user, watchlist: newWatchList});
 		}
 	}	
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (!user){
+      setTimeout(() => {
+        if (!user) {navigate("/")}
+      }, 5000) // if you haven't received a user in 5s, you're probably not getting one. 
+     }
+  }, [])
 
   return (!(Object.keys(values).length === 0) ? 
     <div>

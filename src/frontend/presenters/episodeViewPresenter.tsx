@@ -3,9 +3,11 @@ import {
   getEpisodesByIDSeason
 } from "../../backend/model/imdb";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { selectedSeasonState, selectedTitle } from "../../backend/model/atoms.js";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import Spinner from "../views/spinnerView.js";
+import { loggedInUserAtom } from "../../backend/model/user.js";
 
 function episodeViewPresenter(props: any) {
   const tempmodel = {
@@ -291,13 +293,21 @@ function episodeViewPresenter(props: any) {
     ],
     errorMessage: "",
   };
+  const user = useRecoilValue(loggedInUserAtom);
   const [title, setTitle] = useState(null);
   const [year, setYear] = useState(null);
   const [episodes, setEpisodes] = useState(null);
   const values = useRecoilValue(selectedTitle);
   const id = values ? values.id : "";
   const season = useRecoilValue(selectedSeasonState);
+  let navigate = useNavigate();
+
   useEffect(() => {
+    if (!user){
+      setTimeout(() => {
+        if (!user) {navigate("/")}
+      }, 5000) // if you haven't received a user in 5s, you're probably not getting one. 
+     }
     const fetchData = async () => {
       const response = await getEpisodesByIDSeason(id, season);
       console.log(response);
