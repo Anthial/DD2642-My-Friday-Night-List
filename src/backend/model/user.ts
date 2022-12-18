@@ -4,8 +4,6 @@ import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 
 import * as firebaseFunctions from "../firebase/accounts";
 
-window.loginUserWithPassword = loginUserWithPassword;
-
 /* This is information provided by the user when creating or logging in to an account */
 export interface UserAccount {
 	username: string,
