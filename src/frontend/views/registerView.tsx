@@ -1,4 +1,4 @@
-function RegisterView(props: any) {
+function RegisterView(props: any /* Model */) {
   function usernameValueChangedACB(e: any) {
     props.onUsernameChange(e.target.value);
   }
@@ -16,8 +16,8 @@ function RegisterView(props: any) {
   }
   function userRegisterACB() {}
   return (
-    <div className="px-5 py-7 flex justify-center">
-      <div>
+    <div className="container mx-auto max-w-sm m-8 bg-gradient-to-br from-[#312244] via-purple-900 to-[#312244] rounded-xl bg-contain mx-auto px-2 py-2 ">
+      <div className="bg-gradient-to-br from-[#101E34] via-purple-900 to-[#101E34] p-10 flex flex-col items-center rounded-lg">
         <label className="text-white" htmlFor="Login">
           Register an account
         </label>
@@ -27,7 +27,7 @@ function RegisterView(props: any) {
             type="text"
             name="Username"
             id="Username"
-            placeholder="Username"
+            placeholder="Email"
             onChange={usernameValueChangedACB}
             required
           ></input>
@@ -38,7 +38,7 @@ function RegisterView(props: any) {
             type="text"
             name="Nickname"
             id="Nickname"
-            placeholder="A fake nickname"
+            placeholder="Nickname"
             onChange={nicknameValueChangedACB}
             required
           ></input>
@@ -73,9 +73,9 @@ function RegisterView(props: any) {
             Register account
           </button>
         </div>
-        <div className="mt-1 text-red-500 justify-end" hidden={true}>
-          {
-            "Enter a name and password to register an account / Passwords must be the same / Username already taken"
+        <div className="mt-1 text-red-500 justify-end" hidden={props.registerErrorMessage == ""}>
+          {props.registerErrorMessage
+          /* "Enter a name and password to register an account / Passwords must be the same / Username already taken" */
           }
         </div>
       </div>
