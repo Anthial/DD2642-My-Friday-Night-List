@@ -10,7 +10,7 @@ import LoginViewPresenter from "./frontend/presenters/LoginPresenter"
 import RegisterViewPresenter from "./frontend/presenters/registerPresenter"
 import EpisodeViewPresenter from './frontend/presenters/episodeViewPresenter'
 
-import { loggedInUserAtom, loginUserWithCookie } from "./backend/model/user";
+import { loggedInUserAtom, loginUserWithCookie, UserData } from "./backend/model/user";
 import { useRecoilState } from 'recoil';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
     if(!loggedInUser) {
       loginUserWithCookie()
-        .then((userData) => setLoggedInUser(userData)) 
+        .then((userData: UserData) => setLoggedInUser(userData)) 
         .catch((error: Error) => console.log("Login with cookie failed: " + error.message));
     }
   }, []);
