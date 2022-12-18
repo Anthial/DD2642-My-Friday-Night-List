@@ -39,19 +39,30 @@ export const loggedInUserAtom = atom({
 	],
 });
 
-function checkPassword(accountInfo: UserAccount) {
+function checkUserInfo(accountInfo: UserAccount) {
 	if(accountInfo.password.length < 6) {
 		throw new Error("Password needs to be at least 6 characters long");	
 	}
+
+	accountInfo.email = accountInfo.email.trim();
+	
+	if(accountInfo.nickname) {
+		if(accountInfo.nickname.length > 30) {
+			throw new Error("Nickname too long");	
+		}
+
+		accountInfo.nickname = accountInfo.nickname.trim();
+	}
+	
+	if(!accountInfo.nickname || accountInfo.nickname === "") { 
+		accountInfo.nickname = accountInfo.email.split("@")[0];
+	}
+
 	return accountInfo;
 }
 
 export function createUser(accountInfo: UserAccount) {
-	const sanitizedAccountInfo = checkPassword(accountInfo);
-
-	if(!sanitizedAccountInfo.nickname) { 
-		sanitizedAccountInfo.nickname = sanitizedAccountInfo.email.split("@")[0];
-	}
+	const sanitizedAccountInfo = checkUserInfo(accountInfo);
 
 	return firebaseFunctions.createUser(sanitizedAccountInfo)
 		.catch((error: FirebaseError) => {
@@ -71,7 +82,7 @@ export function createUser(accountInfo: UserAccount) {
 }
 
 export function loginUserWithPassword(accountInfo: UserAccount) {
-	const sanitizedAccountInfo = checkPassword(accountInfo);
+	const sanitizedAccountInfo = checkUserInfo(accountInfo);
 
 	return firebaseFunctions.loginUser(sanitizedAccountInfo)
 		.catch((error: FirebaseError) => {
