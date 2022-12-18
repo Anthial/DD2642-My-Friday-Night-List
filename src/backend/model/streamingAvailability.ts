@@ -16,7 +16,7 @@ export function getAvailabilityById(id: TitleId, region: string, usePlaceHolderD
         //Check if Firebase has title cached, if not fetch data from API and cache the data
         return getAvailabilityFromFirebase(id, region).catch(( )=> {
             return fetchAvailability(id, region).then(result =>{
-				if(!isValidResult(result, ["imdbID", "streamingInfo", "region"])) {
+				if(!isValidResult(result, ["imdbID", "streamingInfo"])) {
 					throw new Error("Invalid result object (API limit reached?)");
 				}
 
