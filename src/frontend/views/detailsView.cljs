@@ -1,28 +1,27 @@
 (ns frontend.views.detailsView
   (:require ["react-router-dom" :refer [Link]]
             ["react" :refer [createElement]]
-            ["react-router-dom" :refer [useNavigate]]
-            ["@tabler/icons" :refer [IconHeartPlus]]))
+            ["react-router-dom" :refer [useNavigate]]))
 
 (defn generate-stars [star]
-  #jsx [:div star])
+  #jsx [:div {:key (random-uuid)} star])
 
 (defn generate-button [season props]
-  #jsx [:Link {:to "/episodes"} [:button {:onClick (fn [event] ((.-setSelectedSeason props) season)) :className "m-2 bg-[#4D194D]" } season]])
+  #jsx [:div {:key (random-uuid)} [:Link {:to "/episodes" } [:button {:onClick (fn [event] ((.-setSelectedSeason props) season)) :className "m-2 bg-[#4D194D]" } season]]])
 
 (defn generate-movie-view [plot stars src seasons props] 
   (js/console.log props)
   #jsx [:div {:className "flex flex-col text-center items-center mt-4 bg-[#006466] h-full w-full lg:w-[50%] 
                           p-2 lg:px-16 m-2 lg:m-5 rounded-lg "}
-        [:div {:className "h-64 w-full bg-center bg-contain bg-no-repeat group overflow-hidden rounded-lg 
+        [:div {:className "select-none h-64 w-full bg-center bg-contain bg-no-repeat group overflow-hidden rounded-lg 
                            overflow-hidden relative" 
                :style (clj->js {:backgroundImage (str "url""("src")")})
                :onClick (fn [event] ((.-onUserModifiedList props) (.-values props)))}
-         [:div {:className "h-6 absolute -bottom-12 flex w-full justify-center 
+         [:div {:className "select-none h-6 absolute -bottom-12 flex w-full justify-center 
                             transition-transform duration-100 
                             group-hover:-translate-y-40 group-hover: scale-[600%]"}
-          (when (some #(= (.-id (.-values props)) %)(.-userWatchlist props)) #jsx [:div {:className "text-red-500"} "&#10084;"])
-          (when (not (some #(= (.-id (.-values props)) %) (.-userWatchlist props))) #jsx [:div {:className "text-white"} "&#9825;"] )]]  
+          (when (some #(= (.-id (.-values props)) %)(.-userWatchlist props)) #jsx [:div {:className "select-none text-red-500"} "&#10084;"])
+          (when (not (some #(= (.-id (.-values props)) %) (.-userWatchlist props))) #jsx [:div {:className "select-none text-white"} "&#9825;"] )]]  
         [:div {:className "text-left w-2/3 h-1/3 mt-4"} "Plot: " plot]
         [:div {:className "h-1/3 mt-4 flex flex-col"} "Stars: " (map generate-stars stars)]
         [:div {:className "self-start text-left w-2/3 h-1/3 mt-4 font-bold"} (if (seq seasons) "Seasons:" "")]
