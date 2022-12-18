@@ -24,14 +24,12 @@ function HeaderPresenter(props:any){
         }
     }
 
-    useEffect(() => {console.log(user)}, [user])
     let allowedQuery = query.trim() != "";
     if(currentPage.pathname === "/search") {
         allowedQuery = allowedQuery && query.trim() !== globalSearchValue;
     }
 
     const canUseSearchButton = !searchRatelimited && allowedQuery;
-    console.log(props);
     return ((user && Object.keys(user).length !== 0) ? 
         <Header search={searchValue} canSearch={canUseSearchButton} setQuery={setQuery} value={query}></Header>
         : <NotLoggedInHeader></NotLoggedInHeader>

@@ -17,10 +17,8 @@ function triviaViewPresenter(props: any) {
 
   useEffect(() => {
     if (!user){
-      setTimeout(() => {
-        if (!user) {navigate("/")}
-      }, 5000) // if you haven't received a user in 5s, you're probably not getting one. 
-     }
+      navigate("/")
+    }  
     const fetchData = async () => {
       const resp = await getTriviaByID(title.id);
       console.log(resp.items);

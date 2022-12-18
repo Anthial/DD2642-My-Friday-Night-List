@@ -304,9 +304,7 @@ function episodeViewPresenter(props: any) {
 
   useEffect(() => {
     if (!user){
-      setTimeout(() => {
-        if (!user) {navigate("/")}
-      }, 5000) // if you haven't received a user in 5s, you're probably not getting one. 
+      navigate("/")
      }
     const fetchData = async () => {
       const response = await getEpisodesByIDSeason(id, season);
