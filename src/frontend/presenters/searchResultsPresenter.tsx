@@ -48,7 +48,7 @@ export default function SearchResults() {
 			setResults(emptyResults);
 			setPage(0);
 
-			searchImdb(searchValue, false)
+			searchImdb(searchValue)
 				.then(t => setResults({
 					titles: t,
 					query: searchValueCopy
@@ -63,7 +63,7 @@ export default function SearchResults() {
 		setSelectedTitleId(id);
 		setSelectedSeason("");
 
-		getTitleById(id, false).then((title) => setSelectedTitle(title)).catch((e: Error) => setSelectedTitle({} as Title));
+		getTitleById(id).then((title) => setSelectedTitle(title)).catch((e: Error) => setSelectedTitle({} as Title));
 	}
 
 	function onUserModifiedList(title: SearchResult) {

@@ -30,7 +30,6 @@ function App() {
     <HashRouter>
       <div id="app" className="flex flex-col w-full h-full">
         <Header></Header>
-
         <Routes>
           <Route path="" element={loggedInUser ? <PersonalList/> : <LoginViewPresenter />}></Route>
           <Route path="register" element={<RegisterViewPresenter />}></Route>
@@ -44,10 +43,6 @@ function App() {
           ></Route>
           <Route path="logout" element={<LogoutPresenter></LogoutPresenter>}></Route>
         </Routes>
-
-        {/*<CherryworksButton x={count}></CherryworksButton>
-      <button onClick={() => setCount(count + 1)}>{count}</button>
-      */}
       </div>
     </HashRouter>
   );

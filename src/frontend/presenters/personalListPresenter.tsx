@@ -23,8 +23,8 @@ function PersonalList(props: any) {
   useEffect(() => {
     const myList = userData?.watchlist;
     const fetchData = async (id: string) => {
-      const response = await getTitleById(id, false);
-      let networks = await getAvailabilityById(id, region, false).catch(
+      const response = await getTitleById(id);
+      let networks = await getAvailabilityById(id, region).catch(
         (error) => console.log(error)
       );
       if (!networks) {
@@ -69,7 +69,7 @@ function PersonalList(props: any) {
   function saveSelectedTitle(id: TitleId) {
     setSelectedTitle({} as Title);
     setSelectedTitleId(id);
-    getTitleById(id, false)
+    getTitleById(id)
       .then((title) => setSelectedTitle(title))
       .catch((e: Error) => setSelectedTitle({} as Title));
   }
