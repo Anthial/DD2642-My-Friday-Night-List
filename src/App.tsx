@@ -6,7 +6,7 @@ import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter"
 import TriviaViewPresenter from "./frontend/presenters/triviaViewPresenter"
 import PersonalList from "./frontend/presenters/personalListPresenter"
 import SearchResults from './frontend/presenters/searchResultsPresenter'
-import LoginViewPresenter from "./frontend/presenters/LoginPresenter"
+import LoginViewPresenter from "./frontend/presenters/loginPresenter"
 import RegisterViewPresenter from "./frontend/presenters/registerPresenter"
 import EpisodeViewPresenter from './frontend/presenters/episodeViewPresenter'
 
