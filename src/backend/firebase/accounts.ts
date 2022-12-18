@@ -45,7 +45,7 @@ function decryptObject<T>(encryptedObj: string, encryptionKey: string) {
 }
 
 export function createUser(accountInfo: UserAccount, nickname:string) {
-	createUserWithEmailAndPassword(auth, accountInfo.email, accountInfo.password).then((response) => {console.log(response);})
+	createUserWithEmailAndPassword(auth, accountInfo.email, accountInfo.password).then((response) => {console.log(response); 1})
 }
 
 
@@ -72,8 +72,12 @@ export function createUserOld(accountInfo: UserAccount, nickname: string) {
 	});
 }
 
+export function logInUser(accountInfo: UserAccount, encryptionKey?:string){
+	signInWithEmailAndPassword(auth, accountInfo.email, accountInfo.password).then((response) => {console.log(response); 1})
+}
+
 /* Promise returns: UserData or error */
-export function loginUser(accountInfo: UserAccount, encryptionKey?: string) {
+export function loginUserOld(accountInfo: UserAccount, encryptionKey?: string) {
 	const userRef = ref(database, "user/" + accountInfo.email);
 	
 	return get(userRef).then((data): UserData => {

@@ -4,7 +4,7 @@ import { UserAccount, createUser, UserData } from "../../backend/model/user";
 import { useSetRecoilState } from "recoil";
 
 function Register(/*props: any*/) {
-  const userRegitrationData: UserAccount = { username: "", password: "" };
+  const userRegitrationData: UserAccount = { email: "", password: "" };
   const [specifiedErrorText, setErrorText] = useState("");
   let nickname = "";
   let repeatedPassword = "";
@@ -19,9 +19,9 @@ function Register(/*props: any*/) {
         console.log("SUCCESS");
 
         let newUser = createUser(userRegitrationData, nickname);
-        let setUser = useSetRecoilState(newUser.catch.prototype);
+        //let setUser = useSetRecoilState(newUser.catch.prototype);
       } else {
-        console.log("NameBP: " + userRegitrationData.username);
+        console.log("NameBP: " + userRegitrationData.email);
         console.log("NickBP: " + nickname);
         console.log("Pass1BP: " + userRegitrationData.password);
         console.log("Pass2BP: " + repeatedPassword);
@@ -36,7 +36,7 @@ function Register(/*props: any*/) {
   function updateUsernameInputACB(usernameString: string) {
     console.log("Name: " + usernameString);
     setErrorText("");
-    userRegitrationData.username = usernameString;
+    userRegitrationData.email = usernameString;
   }
   function updateNicknameInputACB(nicknameString: string) {
     console.log("Nick: " + nicknameString);

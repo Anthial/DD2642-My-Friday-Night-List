@@ -6,13 +6,13 @@ import * as firebaseFunctions from "../firebase/accounts";
 
 /* This is information provided by the user when creating or logging in to an account */
 export interface UserAccount {
-	username: string,
+	email: string,
 	password: string
 }
 
 /* This is everything the application needs to know about the user when logged in */
 export interface UserData {
-	username: string,
+	email: string,
 	encryptionKey: string,
 	
 	nickname: string,
@@ -44,45 +44,31 @@ const usernameAllowedCharacters =
 	[...asciiNumbers, ...asciiUppercase, ...asciiLowercase, ...asciiSpecial]
 	.map(c => String.fromCharCode(c));
 
-function checkAccountInfo(accountInfo: UserAccount) {
-	const sanitizedInfo = {...accountInfo}; 
-	sanitizedInfo.username = accountInfo.username.trim();
-
-	if(![...sanitizedInfo.username].every(charInUsername => usernameAllowedCharacters.some(c => charInUsername === c))) {
-		throw new Error("Username contains illegal characters (only A-Z, a-z, 0-9, -, _, . are allowed)");
-	}
-
+function checkPassword(accountInfo: UserAccount) {
 	if(accountInfo.password.length < 6) {
 		throw new Error("Password needs to be at least 6 characters long");	
 	}
-
-	return sanitizedInfo;
+	return accountInfo;
 }
 
 export function createUser(accountInfo: UserAccount, nickname?: string) {
-	const sanitizedAccountInfo = checkAccountInfo(accountInfo);
-	const nicknameOrUsername = nickname ? nickname : sanitizedAccountInfo.username;
+	const sanitizedAccountInfo = checkPassword(accountInfo);
+	const nicknameOrUsername = nickname ? nickname : sanitizedAccountInfo.email;
 
-	return firebaseFunctions.isUsernameTaken(sanitizedAccountInfo.username).then((isTaken) => {
-		if(isTaken) {
-			throw new Error("Username is already taken");
-		}
-
-		return firebaseFunctions.createUser(sanitizedAccountInfo, nicknameOrUsername).then((encryptionKey) => {
+	return firebaseFunctions.createUser(sanitizedAccountInfo, nicknameOrUsername).then((encryptionKey) => {
 			const user: UserData = {
-				username: sanitizedAccountInfo.username,
+				email: sanitizedAccountInfo.email,
 				encryptionKey: encryptionKey,
 				
 				nickname: nicknameOrUsername,
 				watchlist: []
 			};
 
-			setCookie("username", user.username, { expires: 365 });
+			setCookie("username", user.email, { expires: 365 });
 			setCookie("key", user.encryptionKey, { expires: 365 });
 			
 			return user;
 		});
-	})
 }
 
 export function loginUserWithCookie() {
@@ -90,7 +76,7 @@ export function loginUserWithCookie() {
 	const encryptionKey = getCookie("key");
 
 	if(username && encryptionKey) {
-		return firebaseFunctions.loginUser({ username: username, password: "" }, encryptionKey).then((userData) => {
+		return firebaseFunctions.loginUserOld({ email: username, password: "" }, encryptionKey).then((userData) => {
 			/* Refresh cookies */
 			setCookie("username", username, { expires: 365 });
 			setCookie("key", encryptionKey, { expires: 365 });
@@ -103,10 +89,10 @@ export function loginUserWithCookie() {
 }
 
 export function loginUserWithPassword(accountInfo: UserAccount) {
-	const sanitizedAccountInfo = checkAccountInfo(accountInfo);
+	const sanitizedAccountInfo = checkPassword(accountInfo);
 
-	return firebaseFunctions.loginUser(sanitizedAccountInfo).then((userData) => {
-		setCookie("username", userData.username, { expires: 365 });
+	return firebaseFunctions.logInUser(sanitizedAccountInfo, 1).then((userData) => {
+		setCookie("username", userData.email, { expires: 365 });
 		setCookie("key", userData.encryptionKey, { expires: 365 });
 
 		return userData;
