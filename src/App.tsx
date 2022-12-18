@@ -11,7 +11,7 @@ import RegisterViewPresenter from "./frontend/presenters/registerPresenter"
 import EpisodeViewPresenter from './frontend/presenters/episodeViewPresenter'
 import LogoutPresenter from "./frontend/presenters/logoutPresenter"
 
-import { addLoginObserver, removeLoginObserver, loggedInUserAtom, loginUserWithCookie, UserData } from "./backend/model/user";
+import { addLoginObserver, removeLoginObserver, loggedInUserAtom, UserData } from "./backend/model/user";
 import { useRecoilState } from 'recoil';
 
 function App() {

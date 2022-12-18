@@ -95,7 +95,7 @@ function PersonalList(props: any) {
       saveSelectedSeason={saveSelectedSeason}
       saveSelectedRegion={saveSelectedRegion}
       regions={regions}
-      region={findRegionObject.name}
+      region={findRegionObject ? findRegionObject.name : ""}
       saveSelectedTitle={saveSelectedTitle}
       removeTitle={removeTitleFromList}
       expandedState={expandedState}

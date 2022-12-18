@@ -1,6 +1,5 @@
 import { TitleId } from "./title";
 import { atom } from "recoil";
-import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 
 import { auth } from "../firebase/app";
 import * as firebaseFunctions from "../firebase/accounts";
