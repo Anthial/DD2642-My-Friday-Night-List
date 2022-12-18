@@ -19,9 +19,12 @@ function Login(/*props: any Model*/) {
       else
         setErrorText("");
       setWaitingForPromise(true);
-      loginUserWithPassword(userLoginData).finally(() => setWaitingForPromise(false));
+      loginUserWithPassword(userLoginData)
+        .catch((e: Error) => setErrorText(e.message))
+        .finally(() => setWaitingForPromise(false));
     } catch (error: any /* Catch must have any type */) {
       setErrorText(error.message);
+      setWaitingForPromise(false);
     }
   }
   function updateUsernameInputACB(usernameString: string) {
