@@ -1,5 +1,5 @@
 import { SearchResult, TitleId } from "../../backend/model/title";
-import { IconDots, IconHeartPlus, IconArrowLeft, IconArrowRight, IconHeartMinus } from '@tabler/icons';
+import { IconArrowLeft, IconArrowRight, IconHeart } from '@tabler/icons';
 import { Link } from "react-router-dom";
 
 export interface SearchResultsProps {
@@ -24,18 +24,15 @@ function SearchEntry(props: SearchResultsProps, title: SearchResult) {
 			<div style={{backgroundImage: `url(${title.imageUrl})`}} 
 				className={`${addToDivStyle} group overflow-hidden bg-cover basis-64 h-96 rounded-lg overflow-hidden relative`}>
 				<div className="w-64 h-64 bg-gradient-to-t from-black/90 to-transparent absolute bottom-0"></div>
-				<span className="text-center absolute bottom-0 w-full origin-bottom -translate-y-4 transition-transform duration-100 group-hover:-translate-y-14 pointer-events-none">
-					<span className="font-bold pl-1 pr-1">{title.name}</span>
+				<span className="font-bold text-center px-2 pb-4 absolute bottom-0 w-full origin-bottom -translate-y-0 transition-transform duration-100 group-hover:-translate-y-10">
+					{title.name}
 				</span>
-				<div className="h-6 absolute -bottom-6 flex w-full justify-center transition-transform duration-100 group-hover:-translate-y-10">
-					<Link to="/search" onClick={e => props.onModifyList(title)} className="hover:scale-110 active:scale-90">
-						{!props.userWatchlist.includes(title.id) && <IconHeartPlus className="inline align-middle mr-1"></IconHeartPlus>}
-						{props.userWatchlist.includes(title.id) && <IconHeartMinus className="inline align-middle mr-1"></IconHeartMinus>}
-					</Link>
-					<Link to="/details" onClick={e => props.onSelectTitle(title)} className="hover:scale-110 active:scale-90">
-						<IconDots className="inline align-middle mr-1"></IconDots>
-					</Link>
+				<div className="h-8 absolute -bottom-8 flex w-full justify-center transition-transform duration-100 group-hover:-translate-y-12">
+					<IconHeart onClick={e => props.onModifyList(title)} width="32" height="32" className="inline hover:cursor-pointer align-middle hover:scale-110 active:scale-90"></IconHeart>
 				</div>
+				<Link to="/details" onClick={e => props.onSelectTitle(title)}>
+					<div className="w-full h-72 absolute top-0"></div>
+				</Link>
 			</div>
 		</div>
 	);
