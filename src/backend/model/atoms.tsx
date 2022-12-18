@@ -33,12 +33,6 @@ export const selectedTitle = atom({
   ],
 });
 
-export const myListState = atom({
-  key: "myList", // unique ID (with respect to other atoms/selectors)
-  default: [] as Title[] | null, // default value (aka initial value)
-  effects: [localStorageEffect("myList"),
-],
-});
 export const selectedSeasonState = atom({
   key: "selectedSeason",
   default: "",

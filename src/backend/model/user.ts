@@ -7,8 +7,6 @@ import * as firebaseFunctions from "../firebase/accounts";
 import { FirebaseError } from "@firebase/util";
 import { onAuthStateChanged, signOut } from "@firebase/auth";
 
-window.loginUserWithPassword = loginUserWithPassword;
-
 /* This is information provided by the user when creating or logging in to an account */
 export interface UserAccount {
 	email: string,
