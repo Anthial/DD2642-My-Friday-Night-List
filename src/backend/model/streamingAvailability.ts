@@ -3,6 +3,7 @@ import { cacheAvailabilityInFirebase, getAvailabilityFromFirebase } from "../fir
 import { Availability } from "./availability";
 import streamingAvailabilityDummyStargate from "./streamingAvailabilityDummyStargate";
 import { TitleId } from "./title";
+import { isValidResult } from "./util";
 
 export function getAvailabilityById(id: TitleId, region: string, usePlaceHolderData: boolean): Promise<Availability> {
     if (usePlaceHolderData) {
@@ -15,13 +16,12 @@ export function getAvailabilityById(id: TitleId, region: string, usePlaceHolderD
         //Check if Firebase has title cached, if not fetch data from API and cache the data
         return getAvailabilityFromFirebase(id, region).catch(( )=> {
             return fetchAvailability(id, region).then(result =>{
-                // const test = Object.entries(result.streamingInfo)
-                // const test2 = new Set(Object.entries(result.streamingInfo))
-                // const [test3] = Object.entries(result.streamingInfo).slice(0,1);
-                // console.log("test: " + test)
-                // console.log("test2: " + test2)
-                // console.log("test3: " + test3)
-                console.log(region)
+				if(!isValidResult(result, ["imdbID", "streamingInfo", "region"])) {
+					throw new Error("Invalid result object (API limit reached?)");
+				}
+
+                console.log(region);
+
                 const availability = {
                     imdbID: result.imdbID,
                     streamingInfo: result.streamingInfo,
