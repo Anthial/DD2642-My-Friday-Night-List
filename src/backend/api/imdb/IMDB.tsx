@@ -5,7 +5,14 @@ function handleResponse(response: any){
     if (response.status !== 200){
         throw new Error("Could not access data, status: " + response.status);
     }
-    return response.json();
+
+    const responseObj = response.json();
+    
+    if (responseObj && responseObj.errorMessage) {
+        throw new Error("Could not access data, error message: " + responseObj.errorMessage);
+    }
+
+    return responseObj;
 
 }
 
