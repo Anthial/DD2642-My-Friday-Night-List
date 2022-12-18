@@ -193,7 +193,7 @@ function renderMainContent(tvShow: any, props: any) {
               </div>
             )}
             <div>
-              <Link to="/mylist">
+              <Link to="/list">
                 <button
                   className=" px-0 py-0 bg-[#880808] hover:bg-[#251a33] hover:shadow-lg  items-center"
                   onClick={() => props.removeTitle(tvShow.id)}
