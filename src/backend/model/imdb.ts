@@ -3,6 +3,7 @@ import { imdbPlaceholderData } from "../api/imdb/placeholderData";
 import { cacheSearchInFirebase, cacheTitleInFirebase, getTitleFromFirebase, searchImdbInFirebase } from "../firebase/cache";
 import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/IMDB";
 import { atom } from "recoil";
+import { isValidResult } from "./util";
 
 export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<Title> {
 	if(usePlaceholderData) {
@@ -18,6 +19,10 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 		// First check if Firebase has this title cached, if not use the IMDb API and cache the data in Firebase
 		return getTitleFromFirebase(id).catch(() => {			
 			return fetchTitle(id).then(result => { 
+				if(!isValidResult(result, ["id", "title", "image", "year", "countries", "plot"])) {
+					throw new Error("Invalid result object (API limit reached?)");
+				}
+
 				const title = {
 					id: result.id,
 					type: result.tvSeriesInfo ? TitleType.TVShow : TitleType.Movie,
@@ -33,6 +38,7 @@ export function getTitleById(id: TitleId, usePlaceholderData: boolean): Promise<
 					plot: result.plot,
 					stars: result.starList ? result.starList.map((star: { name: string }) => star.name) : []
 				};
+
 				cacheTitleInFirebase(title);
 				return title;
 			});
@@ -62,20 +68,27 @@ export function searchImdb(query: string, usePlaceholderData: boolean): Promise<
 	}
 	else {
 		return searchImdbInFirebase(query).catch(() => {
-			return fetchSearchResults(query)
-				.then(result => {
-					const results = result.results.map((t: any) => {
-						return {
-							id: t.id,
+			return fetchSearchResults(query).then(result => {
+				if(!isValidResult(result, ["results"])) {
+					throw new Error("Invalid results object (API limit reached?)");
+				}
 
-							name: t.title,
-							imageUrl: t.image
-						};
-					});
+				const results = result.results.map((t: any) => {
+					if(!isValidResult(t, ["id", "title", "image"])) {
+						throw new Error("Invalid result object (API limit reached?)");
+					}
 
-					cacheSearchInFirebase(query, results);
-					return results;
-				})
+					return {
+						id: t.id,
+
+						name: t.title,
+						imageUrl: t.image
+					};
+				});
+
+				cacheSearchInFirebase(query, results);
+				return results;
+			})
 		});
 	}
 }

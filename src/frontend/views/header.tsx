@@ -5,7 +5,7 @@ import { set } from "firebase/database";
 
 
 
-export default function Header(props:any){
+function Header(props:any){
   const mobileMap = ["My List","Log Out"]
   const buttonMap = ["Search", ... mobileMap];
   const [menuClicked, setMenuClicked] = r.useState(false);
@@ -68,3 +68,20 @@ export default function Header(props:any){
       </div>
     </div>);
 }
+
+function NotLoggedInHeader(props:any){
+  return (
+    <div>
+      <div className="px-5 py-7 flex justify-evenly items-center bg-[#312244]">
+        <div className="hidden lg:flex">
+          <h1 className="font-bold text-2xl py-2">My Friday Night List</h1>
+        </div>
+        
+        <div className="flex justify-center w-full items-center lg:hidden ">
+          <h1 className="font-bold text-xl">M.F.N.L</h1>
+        </div>
+      </div>
+    </div>);
+}
+
+export {Header, NotLoggedInHeader}

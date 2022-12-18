@@ -6,6 +6,7 @@ import { auth } from "../firebase/app";
 import * as firebaseFunctions from "../firebase/accounts";
 import { FirebaseError } from "@firebase/util";
 import { onAuthStateChanged, signOut } from "@firebase/auth";
+import { localStorageEffect } from "./atoms";
 
 /* This is information provided by the user when creating or logging in to an account */
 export interface UserAccount {
@@ -27,7 +28,7 @@ export const loggedInUserAtom = atom({
 	key: "loggedInUser",
 	default: null as UserData | null,
 
-	effects: [
+	effects: [localStorageEffect("loggedInUser"),
 		({onSet}) => {
 			onSet((newUser, oldUser) => {
 				if(newUser && oldUser) {
