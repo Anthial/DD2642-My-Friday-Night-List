@@ -1,7 +1,8 @@
 (ns frontend.views.detailsView
   (:require ["react-router-dom" :refer [Link]]
             ["react" :refer [createElement]]
-            ["react-router-dom" :refer [useNavigate]]))
+            ["react-router-dom" :refer [useNavigate]]
+            ["@tabler/icons" :refer [IconHeart]]))
 
 (defn generate-stars [star]
   #jsx [:div {:key (random-uuid)} star])
@@ -19,9 +20,9 @@
                :onClick (fn [event] ((.-onUserModifiedList props) (.-values props)))}
          [:div {:className "select-none h-6 absolute -bottom-12 flex w-full justify-center 
                             transition-transform duration-100 
-                            group-hover:-translate-y-40 group-hover: scale-[600%]"}
-          (when (some #(= (.-id (.-values props)) %)(.-userWatchlist props)) #jsx [:div {:className "select-none text-red-500"} "&#10084;"])
-          (when (not (some #(= (.-id (.-values props)) %) (.-userWatchlist props))) #jsx [:div {:className "select-none text-white"} "&#9825;"] )]]  
+                            group-hover:-translate-y-40 group-hover: scale-[400%]"}
+          (when (some #(= (.-id (.-values props)) %)(.-userWatchlist props)) #jsx [:IconHeart {:className "select-none stroke-red-500 fill-red-500"} ])
+          (when (not (some #(= (.-id (.-values props)) %) (.-userWatchlist props))) #jsx [:IconHeart {:className "select-none"}] )]]  
         [:div {:className "text-left w-2/3 h-1/3 mt-4"} "Plot: " plot]
         [:div {:className "h-1/3 mt-4 flex flex-col"} "Stars: " (map generate-stars stars)]
         [:div {:className "self-start text-left w-2/3 h-1/3 mt-4 font-bold"} (if (seq seasons) "Seasons:" "")]

@@ -18,6 +18,13 @@ export interface SearchResultsProps {
 
 function SearchEntry(props: SearchResultsProps, title: SearchResult) {
 	const addToDivStyle = props.isUserLoggedIn ? "" : "pointer-events-none";
+
+	const titleInWatchlist = props.userWatchlist.some(t => t === title.id);
+	let heartStyle = "inline hover:cursor-pointer align-middle hover:scale-110";
+
+	if(titleInWatchlist) {
+		heartStyle += " stroke-red-500 fill-red-500";
+	}
 	
 	return (
 		<div key={title.id} className="min-w-[16rem] h-96 mx-12 my-6 flex justify-center">
@@ -28,7 +35,7 @@ function SearchEntry(props: SearchResultsProps, title: SearchResult) {
 					{title.name}
 				</span>
 				<div className="h-8 absolute -bottom-8 flex w-full justify-center transition-transform duration-100 group-hover:-translate-y-12">
-					<IconHeart onClick={e => props.onModifyList(title)} width="32" height="32" className="inline hover:cursor-pointer align-middle hover:scale-110 active:scale-90"></IconHeart>
+					<IconHeart onClick={e => props.onModifyList(title)} width="32" height="32" className={`${heartStyle}`}></IconHeart>
 				</div>
 				<Link to="/details" onClick={e => props.onSelectTitle(title)}>
 					<div className="w-full h-72 absolute top-0"></div>
