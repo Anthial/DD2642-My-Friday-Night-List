@@ -12,6 +12,10 @@ https://my-friday-night-list.web.app/
 
 See https://github.com/Anthial/my-friday-night-list/blob/main/Prototype%20User%20Consultation.txt and https://github.com/Anthial/my-friday-night-list/blob/main/Formative%20Evaluation%20User%20Consultation.txt
 
+The Prototype User Consultation helped us realise that we had some core issues with our app functionality that we neeeded to resolve to make the application intutive to use. We resolved the requested changes since we thought that they made a lot of sense.
+
+The Formative Evaluation User Consultation, helped us clean up our application where there was previously clutter. A cleaner and more unified experience makes for a better application over all.  
+
 ## Setup
 
 Installing dependencies is done with:
