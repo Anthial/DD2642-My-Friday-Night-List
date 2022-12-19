@@ -70,6 +70,8 @@ export const firebaseConfig: FirebaseOptions = {
       },
     },
     "cache": {
+      ".write": "auth != null",
+      ".read": "auth != null",
       "imdb": {
         "search": {
           ".indexOn": "cacheTime"
