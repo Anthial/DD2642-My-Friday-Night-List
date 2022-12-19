@@ -1,5 +1,5 @@
 import { SearchResult, Title, TitleId, TitleType } from "./title";
-import { cacheSearchInFirebase, cacheTitleInFirebase, getTitleFromFirebase, searchImdbInFirebase } from "../firebase/cache";
+import { cacheSearchInFirebase, cacheTitleInFirebase, cacheEpisodesInFirebase, cacheTriviaInFirebase, getTitleFromFirebase, searchImdbInFirebase, getEpisodesFromFirebase, getTriviaFromFirebase} from "../firebase/cache";
 import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/imdb";
 import { atom } from "recoil";
 import { isValidResult } from "./util";
@@ -72,10 +72,28 @@ export function searchImdb(query: string): Promise<SearchResult[]> {
 	});
 }
 
+
+
 export function getEpisodesByIDSeason(id: string, season: string): Promise<any> {
-	return fetchEpisodes(id, season);
+	return getEpisodesFromFirebase(id, season).catch(() => {
+		return fetchEpisodes(id, season).then(result => {
+			if(!isValidResult(result, ["imDbId", "title", "fullTitle", "type", "year", "episodes", "errorMessage"])) {
+				throw new Error("Invalid result object (API limit reached?)");
+			}
+			cacheEpisodesInFirebase(result, id, season)
+			return result;
+		});
+	});
 }
 
 export function getTriviaByID(id: string): Promise<any> {
-	return fetchTrivia(id);
+	return getTriviaFromFirebase(id).catch(() => {
+		return fetchTrivia(id).then(result => {
+			if(!isValidResult(result, ["imDbId", "title", "fullTitle", "type", "year", "items", "spoilerItems", "errorMessage"])) {
+				throw new Error("Invalid result object (API limit reached?)");
+			}
+			cacheTriviaInFirebase(result, id)
+			return result;
+		});
+	});
 }
