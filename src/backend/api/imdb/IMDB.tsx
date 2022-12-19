@@ -2,7 +2,8 @@ import {IMDB_API_KEY} from "./apiConfig"
 
 export enum ApiErrorReason {
     Unknown,
-    LimitReached
+    LimitReached,
+    InvalidKey
 }
 
 export class ApiError extends Error {
@@ -18,6 +19,10 @@ function handleResponse(response: any){
     let errorReason = ApiErrorReason.Unknown;
 
     if (response.status !== 200){
+        /* Forbidden */
+        if(response.status === 403) {
+            errorReason = ApiErrorReason.InvalidKey;
+        }
         /* Too Many Requests */
         if(response.status === 429) {
             errorReason = ApiErrorReason.LimitReached;
@@ -26,17 +31,21 @@ function handleResponse(response: any){
         throw new ApiError("Could not access data, status: " + response.status, errorReason);
     }
 
-    const responseObj = response.json();
-    
-    if (responseObj && responseObj.errorMessage) {
-        if(responseObj.errorMessage.includes("Maximum usage")) {
-            errorReason = ApiErrorReason.LimitReached;
+    return response.json().then((responseObj: any) => {    
+        if(responseObj && responseObj.errorMessage) {
+            if(responseObj.errorMessage.includes("Maximum usage")) {
+                errorReason = ApiErrorReason.LimitReached;
+            }
+            
+            if(responseObj.errorMessage.includes("Invalid API Key")) {
+                errorReason = ApiErrorReason.InvalidKey;
+            }
+            
+            throw new ApiError("Could not access data, error message: " + responseObj.errorMessage, errorReason);
         }
 
-        throw new ApiError("Could not access data, error message: " + responseObj.errorMessage, errorReason);
-    }
-
-    return responseObj;
+        return responseObj;
+    });
 }
 
 function fetchSearchResults(query: string){
