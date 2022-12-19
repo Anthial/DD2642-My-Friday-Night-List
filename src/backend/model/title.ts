@@ -14,6 +14,13 @@ export interface Episode {
 	episode: number
 }
 
+export interface SearchResult {
+    id: TitleId,
+
+    name: string,
+    imageUrl: string,
+}
+
 export interface Title {
     id: TitleId,
     type: TitleType,
@@ -21,7 +28,7 @@ export interface Title {
     name: string,
     imageUrl: string,
 
-    seasons: number,
+    seasons: string[],
     year: number,
 
     plot: string,

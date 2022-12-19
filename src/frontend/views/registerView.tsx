@@ -1,6 +1,9 @@
-function RegisterView(props: any) {
-  function usernameValueChangedACB(e: any) {
-    props.onUsernameChange(e.target.value);
+import { Link } from "react-router-dom";
+import react from "react";
+import { useState } from "react";
+function RegisterView(props: any /* Model */) {
+  function emailValueChangedACB(e: any) {
+    props.onEmailChange(e.target.value);
   }
   function nicknameValueChangedACB(e: any) {
     props.onNicknameChange(e.target.value);
@@ -14,10 +17,13 @@ function RegisterView(props: any) {
   function loginButtonPressedACB() {
     props.attemptRegistration();
   }
-  function userRegisterACB() {}
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
-    <div className="px-5 py-7 flex justify-center">
-      <div>
+    <div className="container mx-auto max-w-sm m-8 bg-gradient-to-br from-[#312244] via-purple-900 to-[#312244] rounded-xl bg-contain mx-auto px-2 py-2 ">
+      <div className="bg-gradient-to-br from-[#101E34] via-purple-900 to-[#101E34]">
+      <Link to="/"><button className="hover:bg-[#4D194D] bg-transparent rounded-none rounded-r-lg">Back</button></Link>
+      <div className=" pb-10 flex flex-col items-center rounded-lg">  
         <label className="text-white" htmlFor="Login">
           Register an account
         </label>
@@ -25,10 +31,11 @@ function RegisterView(props: any) {
           <input
             className="text-white mt-2 mb-1 px-2 py-1 rounded-lg bg-[#312244]"
             type="text"
-            name="Username"
-            id="Username"
-            placeholder="Username"
-            onChange={usernameValueChangedACB}
+            name="Email"
+            id="email"
+            placeholder="Email"
+            onChange={emailValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
@@ -38,22 +45,28 @@ function RegisterView(props: any) {
             type="text"
             name="Nickname"
             id="Nickname"
-            placeholder="A fake nickname"
+            placeholder="Nickname"
             onChange={nicknameValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
         <div>
+          <label className="mt-1 mb-1 px-2 py-1">Show Password</label><input type="checkbox" value="Show Password" onChange={() => setShowPassword(!showPassword)}></input>
+        </div>
+        <div>
           <input
             className="text-white mt-1 mb-1 px-2 py-1 rounded-lg bg-[#312244]"
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="Password"
             id="Password"
             placeholder="Password"
             onChange={passwordValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
+        
         <div>
           <input
             className="text-white mt-1 mb-2 px-2 py-1 rounded-lg bg-[#312244]"
@@ -62,6 +75,7 @@ function RegisterView(props: any) {
             id="PasswordRepeated"
             placeholder="Repeat password"
             onChange={repeatedPasswordValueChangedACB}
+            onKeyDown={(e)=> {if (e.key === "Enter") loginButtonPressedACB()}}
             required
           ></input>
         </div>
@@ -73,11 +87,12 @@ function RegisterView(props: any) {
             Register account
           </button>
         </div>
-        <div className="mt-1 text-red-500 justify-end" hidden={true}>
-          {
-            "Enter a name and password to register an account / Passwords must be the same / Username already taken"
+        <div className="mt-1 text-red-500 justify-end" hidden={props.registerErrorMessage == ""}>
+          {props.registerErrorMessage
+          /* "Enter a name and password to register an account / Passwords must be the same / Email already taken" */
           }
         </div>
+      </div>
       </div>
     </div>
   );
