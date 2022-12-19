@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { HashRouter, Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom"
 
 import Header from "./frontend/presenters/headerPresenter"
 import DetailsViewPresenter from "./frontend/presenters/detailsViewPresenter"
@@ -72,39 +72,41 @@ function App() {
   }, []);
 
   const showBanner = imdbApiLimitReached || availApiLimitReached || invalidKeys;
-  const apiList = 
+  const apiList =
     (imdbApiLimitReached && availApiLimitReached) ? "IMDB and the Streaming Availability API" :
     imdbApiLimitReached ? "IMDB" :
     availApiLimitReached ? "The Streaming Availability API" : "";
-  const bannerMessage = 
+  const bannerMessage =
     invalidKeys ? "Invalid API keys. Make sure to set up the project correctly." :
     `The daily limit has been reached for ${apiList}. The app will not continue to work correctly.`;
 
   return (
-    <HashRouter>
-      <div id="app" className="flex flex-col w-full h-full">
-        <Header></Header>
-        {showBanner ? <ErrorBanner message={bannerMessage}/> : false}
-        {loggedInUser ?
-        <Routes>
-          <Route path="" element={<PersonalList/>}></Route>
-          <Route path="details" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route>
-          <Route path="episodes" element={<EpisodeViewPresenter></EpisodeViewPresenter>}></Route>
-          <Route path="trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
-          <Route path="list" element={<PersonalList></PersonalList>}></Route>
-          <Route
-            path="search"
-            element={<SearchResults></SearchResults>}
-          ></Route>
-          <Route path="logout" element={<LogoutPresenter></LogoutPresenter>}></Route>
-        </Routes>
-        : 
-        <Routes>
-          <Route path="" element={<LoginViewPresenter />}></Route>
-          <Route path="register" element={<RegisterViewPresenter />}></Route>
-        </Routes>}
-      </div>
-    </HashRouter>
+    <div id="app" className="flex flex-col w-full h-full">
+      <Header></Header>
+      {showBanner ? <ErrorBanner message={bannerMessage}/> : false}
+      {loggedInUser ?
+      <Routes>
+        <Route path="" element={<PersonalList/>}></Route>
+        <Route path="register" element={<Navigate to={"/"}></Navigate>}></Route>
+        <Route path="details" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route>
+        <Route path="episodes" element={<EpisodeViewPresenter></EpisodeViewPresenter>}></Route>
+        <Route path="trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
+        <Route path="list" element={<PersonalList></PersonalList>}></Route>
+        <Route path="search" element={<SearchResults></SearchResults>}></Route>
+        <Route path="logout" element={<LogoutPresenter></LogoutPresenter>}></Route>
+      </Routes>
+      :
+      <Routes>
+        <Route path="" element={<LoginViewPresenter />}></Route>
+        <Route path="register" element={<RegisterViewPresenter />}></Route>
+        <Route path="details" element={<Navigate to={"/"}></Navigate>}></Route>
+        <Route path="episodes" element={<Navigate to={"/"}></Navigate>}></Route>
+        <Route path="trivia" element={<Navigate to={"/"}></Navigate>}></Route>
+        <Route path="list" element={<Navigate to={"/"}></Navigate>}></Route>
+        <Route path="search" element={<Navigate to={"/"}></Navigate>}></Route>
+        <Route path="logout" element={<Navigate to={"/"}></Navigate>}></Route>
+      </Routes>}
+    </div>
   );
 }
 
