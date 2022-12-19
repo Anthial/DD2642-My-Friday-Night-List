@@ -23,9 +23,9 @@ function PersonalList() {
   useEffect(() => {
     const myList = userData?.watchlist;
     const fetchData = async (id: string) => {
-      let response = await getTitleById(id).catch(error => console.error(error));
+      let response = await getTitleById(id).catch(error => console.log("Fetching title failed."));
       let networks = await getAvailabilityById(id, region).catch(
-        (error) => console.log(error)
+        (error) => console.log("Fetching availability failed.")
       );
       if (!networks) {
         networks = { streamingInfo: {}, imdbID: id, region: region };

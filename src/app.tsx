@@ -59,6 +59,9 @@ function App() {
       else if(error.reason == ApiErrorReason.InvalidKey) {
         setInvalidKeys(true);
       }
+      else if (error.reason === ApiErrorReason.BadRequest){
+        console.log("Error 404: There was a request that could not be fulfilled.")
+      }
       else {
         window.alert("Streaming Availability API error - " + error.message);
       }
