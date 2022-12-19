@@ -1,11 +1,10 @@
 import { TitleId } from "./title";
 import { atom } from "recoil";
-import { getCookie, removeCookie, setCookie } from 'typescript-cookie';
 
 import { auth } from "../firebase/app";
 import * as firebaseFunctions from "../firebase/accounts";
 import { FirebaseError } from "@firebase/util";
-import { onAuthStateChanged, signOut } from "@firebase/auth";
+import { signOut } from "@firebase/auth";
 import { localStorageEffect } from "./atoms";
 
 /* This is information provided by the user when creating or logging in to an account */

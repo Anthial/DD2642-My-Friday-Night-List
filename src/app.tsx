@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { HashRouter, Route, Routes } from "react-router-dom"
 
 import Header from "./frontend/presenters/headerPresenter"
@@ -11,7 +11,7 @@ import RegisterViewPresenter from "./frontend/presenters/registerPresenter"
 import EpisodeViewPresenter from './frontend/presenters/episodeViewPresenter'
 import LogoutPresenter from "./frontend/presenters/logoutPresenter"
 
-import { addLoginObserver, removeLoginObserver, loggedInUserAtom, loginUserWithCookie, UserData } from "./backend/model/user";
+import { addLoginObserver, removeLoginObserver, loggedInUserAtom, UserData } from "./backend/model/user";
 import { useRecoilState } from 'recoil';
 
 function App() {
@@ -30,7 +30,6 @@ function App() {
     <HashRouter>
       <div id="app" className="flex flex-col w-full h-full">
         <Header></Header>
-
         <Routes>
           <Route path="" element={loggedInUser ? <PersonalList/> : <LoginViewPresenter />}></Route>
           <Route path="register" element={<RegisterViewPresenter />}></Route>
@@ -44,10 +43,6 @@ function App() {
           ></Route>
           <Route path="logout" element={<LogoutPresenter></LogoutPresenter>}></Route>
         </Routes>
-
-        {/*<CherryworksButton x={count}></CherryworksButton>
-      <button onClick={() => setCount(count + 1)}>{count}</button>
-      */}
       </div>
     </HashRouter>
   );
