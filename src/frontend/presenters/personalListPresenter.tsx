@@ -6,15 +6,15 @@ import {
   selectedTitleAtom,
   selectedTitle,
 } from "../../backend/model/atoms";
-import regions from "../../backend/data/ISO-3166-Alpha-2-country-codes";
+import regions from "../../backend/data/countryCodes";
 import Spinner from "../views/spinnerView";
 import { useState, useEffect } from "react";
 import { getTitleById } from "../../backend/model/imdb";
-import { Title, TitleId, TitleType } from "../../backend/model/title";
+import { Title, TitleId } from "../../backend/model/title";
 import { loggedInUserAtom } from "../../backend/model/user";
 import { getAvailabilityById } from "../../backend/model/streamingAvailability";
 
-function PersonalList(props: any) {
+function PersonalList() {
   const [userData, setMyList] = useRecoilState(loggedInUserAtom);
   const [concatObject, setConcatObject] = useState<any>([]);
   const [region, setRegion] = useRecoilState(selectedRegionState);
@@ -23,8 +23,8 @@ function PersonalList(props: any) {
   useEffect(() => {
     const myList = userData?.watchlist;
     const fetchData = async (id: string) => {
-      const response = await getTitleById(id, false);
-      let networks = await getAvailabilityById(id, region, false).catch(
+      const response = await getTitleById(id);
+      let networks = await getAvailabilityById(id, region).catch(
         (error) => console.log(error)
       );
       if (!networks) {
@@ -33,7 +33,7 @@ function PersonalList(props: any) {
       return [response, networks];
     };
     if (myList) {
-      let newExpandedState = expandedState;
+      const newExpandedState = expandedState;
       setIsFetching(true);
       Promise.all(
         myList.map((titleId) => {
@@ -69,9 +69,9 @@ function PersonalList(props: any) {
   function saveSelectedTitle(id: TitleId) {
     setSelectedTitle({} as Title);
     setSelectedTitleId(id);
-    getTitleById(id, false)
+    getTitleById(id)
       .then((title) => setSelectedTitle(title))
-      .catch((e: Error) => setSelectedTitle({} as Title));
+      .catch(() => setSelectedTitle({} as Title));
   }
 
   function saveSelectedRegion(regionName: string) {
@@ -95,12 +95,12 @@ function PersonalList(props: any) {
       saveSelectedSeason={saveSelectedSeason}
       saveSelectedRegion={saveSelectedRegion}
       regions={regions}
-      region={findRegionObject.name}
+      region={findRegionObject ? findRegionObject.name : ""}
       saveSelectedTitle={saveSelectedTitle}
       removeTitle={removeTitleFromList}
       expandedState={expandedState}
       toggleExpanded={(id: TitleId) => {
-        let newExpandedState = { ...expandedState };
+        const newExpandedState = { ...expandedState };
         newExpandedState[id] = !newExpandedState[id];
         setExpandedState(newExpandedState);
       }}

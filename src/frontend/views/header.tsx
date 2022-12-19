@@ -1,9 +1,7 @@
 // Init Header
 import {Link} from "react-router-dom"
 import r from "react"
-import { set } from "firebase/database";
-
-
+import { IconMenu2 } from "@tabler/icons";
 
 function Header(props:any){
   const mobileMap = ["List","Log Out"]
@@ -62,8 +60,8 @@ function Header(props:any){
               <input className="outline-none w-full rounded-lg bg-[#212F45] pl-4" type="text" placeholder="Search..." value={props.value} onChange={(e) => props.setQuery(e.target.value)} onKeyDown={(e)=> {if (e.key === "Enter") props.search()}}/>
           </div>
           <div className="flex justify-end items-end">
-            <button className="bg-[#312244]" onClick={()=> setMenuClicked(!menuClicked)}><img src="https://cpb-us-w2.wpmucdn.com/sites.widener.edu/dist/7/57/files/2019/03/Hamburger_icon_svg.png" 
-              className="w-full h-12 outline-white"></img>
+            <button className="bg-[#312244] w-full h-12" onClick={()=> setMenuClicked(!menuClicked)}> 
+              <IconMenu2></IconMenu2>
             </button>
           </div>
         </div>
@@ -74,7 +72,7 @@ function Header(props:any){
     </div>);
 }
 
-function NotLoggedInHeader(props:any){
+function NotLoggedInHeader(){
   return (
     <div>
       <div className="px-5 py-7 flex justify-evenly items-center bg-[#312244]">

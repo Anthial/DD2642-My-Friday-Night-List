@@ -1,5 +1,5 @@
 import { STREAMING_AVAILABILITY_API_KEY } from "../imdb/apiConfig";
-import { handleResponse } from "../imdb/IMDB";
+import { handleResponse } from "../imdb/imdb";
 
 function fetchAvailability(id: string, alpha_2_country_code :string) {
   const options = {

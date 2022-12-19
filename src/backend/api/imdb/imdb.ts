@@ -15,7 +15,7 @@ export class ApiError extends Error {
     }
 }
 
-function handleResponse(response: any){
+function handleResponse(response: Response){
     let errorReason = ApiErrorReason.Unknown;
 
     if (response.status !== 200){

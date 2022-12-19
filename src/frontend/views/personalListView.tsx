@@ -3,8 +3,6 @@ import { IconChevronsUp, IconX } from "@tabler/icons";
 import { IconChevronsDown } from "@tabler/icons";
 
 function PersonalListView(props: any) {
-  // console.log(props.tvShow);
-
   return (
     <div className="flex flex-col ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
@@ -74,7 +72,7 @@ function renderLinks(links: any) {
       key={links[0]}
       className="border bg-[#4d194d] border-[#4d194d] px-2 rounded-lg hover:border-[#646cff] mx-2 text-white hover:bg-[#251a33]"
       href={links[1][region].link}
-      target="_blank"
+      target="_blank" rel="noreferrer"
     >
       {capitalizeFirstLetter(links[0])}
     </a>
@@ -114,7 +112,6 @@ function renderMainContent(tvShow: any, props: any) {
     return <div></div>;
   }
   function generateStreamingLinksCB(streamingInfo: object) {
-    // console.log(Object.entries(streamingInfo)); //gives me an array containing the keys for the streaming objects
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
 
@@ -163,7 +160,7 @@ function renderMainContent(tvShow: any, props: any) {
             </div>
             {/* Render watch at and links */}
             <div className="">
-              {(Object.keys(tvShow.streamingInfo).length !== 0) ? (
+              {tvShow.streamingInfo && (Object.keys(tvShow.streamingInfo).length !== 0) ? (
                 <div className="flex flex-row flex-wrap text-[#90e0ef]">
                   <span>Watch at: </span>
                   <span> {generateStreamingLinksCB(tvShow.streamingInfo)}</span>
@@ -193,7 +190,7 @@ function renderMainContent(tvShow: any, props: any) {
               </div>
             )}
             <div>
-              <Link to="/mylist">
+              <Link to="/list">
                 <button
                   className=" px-0 py-0 bg-[#880808] hover:bg-[#251a33] hover:shadow-lg  items-center"
                   onClick={() => props.removeTitle(tvShow.id)}

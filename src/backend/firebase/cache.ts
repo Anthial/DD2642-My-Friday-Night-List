@@ -1,6 +1,6 @@
 import { SearchResult, Title, TitleId } from "../model/title";
 import { database } from "./app";
-import { get, ref, remove, set, query, orderByChild, limitToLast, DataSnapshot, limitToFirst, Database, DatabaseReference } from "firebase/database";
+import { get, ref, remove, set, query, orderByChild, limitToFirst, DatabaseReference } from "firebase/database";
 import { SHA256 } from "crypto-js";
 import { Availability } from "../model/availability";
 

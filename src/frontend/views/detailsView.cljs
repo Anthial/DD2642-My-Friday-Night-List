@@ -11,7 +11,6 @@
   #jsx [:div {:key (random-uuid)} [:Link {:to "/episodes" } [:button {:onClick (fn [event] ((.-setSelectedSeason props) season)) :className "m-2 bg-[#4D194D]" } season]]])
 
 (defn generate-movie-view [plot stars src seasons props] 
-  (js/console.log props)
   #jsx [:div {:className "flex flex-col text-center items-center mt-4 bg-[#006466] h-full w-full lg:w-[50%] 
                           p-2 lg:px-16 m-2 lg:m-5 rounded-lg "}
         [:div {:className "select-none h-64 w-full bg-center bg-contain bg-no-repeat group overflow-hidden rounded-lg 

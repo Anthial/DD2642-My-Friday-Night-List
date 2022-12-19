@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { HashRouter, Route, Routes } from "react-router-dom"
 
 import Header from "./frontend/presenters/headerPresenter"
@@ -11,9 +11,9 @@ import RegisterViewPresenter from "./frontend/presenters/registerPresenter"
 import EpisodeViewPresenter from './frontend/presenters/episodeViewPresenter'
 import LogoutPresenter from "./frontend/presenters/logoutPresenter"
 
-import { addLoginObserver, removeLoginObserver, loggedInUserAtom, loginUserWithCookie, UserData } from "./backend/model/user";
+import { addLoginObserver, removeLoginObserver, loggedInUserAtom, UserData } from "./backend/model/user";
 import { useRecoilState } from 'recoil';
-import { ApiError, ApiErrorReason } from './backend/api/imdb/IMDB'
+import { ApiError, ApiErrorReason } from './backend/api/imdb/imdb'
 import { addImdbErrorObserver, removeImdbErrorObserver } from './backend/model/imdb'
 import ErrorBanner from './frontend/views/errorBanner'
 import { addStreamingAvailabilityErrorObserver, removeStreamingAvailabilityErrorObserver } from './backend/model/streamingAvailability'
@@ -96,10 +96,6 @@ function App() {
           ></Route>
           <Route path="logout" element={<LogoutPresenter></LogoutPresenter>}></Route>
         </Routes>
-
-        {/*<CherryworksButton x={count}></CherryworksButton>
-      <button onClick={() => setCount(count + 1)}>{count}</button>
-      */}
       </div>
     </HashRouter>
   );

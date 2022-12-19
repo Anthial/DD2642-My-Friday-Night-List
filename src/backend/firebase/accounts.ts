@@ -1,9 +1,8 @@
 import { database, auth } from "./app";
-import { get, ref, remove, set  } from "firebase/database";
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { get, ref, set  } from "firebase/database";
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
 
 import { UserAccount, UserData } from "../model/user";
-import { TitleId } from "../model/title";
 
 export function createUser(accountInfo: UserAccount) {
 	return createUserWithEmailAndPassword(auth, accountInfo.email, accountInfo.password)
