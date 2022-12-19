@@ -70,7 +70,7 @@ function RegisterView(props: any /* Model */) {
         <div>
           <input
             className="text-white mt-1 mb-2 px-2 py-1 rounded-lg bg-[#312244]"
-            type="password"
+            type={showPassword ? "text" : "password"}
             name="PasswordRepeated"
             id="PasswordRepeated"
             placeholder="Repeat password"
