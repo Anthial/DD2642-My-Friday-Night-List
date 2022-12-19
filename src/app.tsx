@@ -82,10 +82,9 @@ function App() {
       <div id="app" className="flex flex-col w-full h-full">
         <Header></Header>
         {showBanner ? <ErrorBanner message={bannerMessage}/> : false}
-
+        {loggedInUser ?
         <Routes>
-          <Route path="" element={loggedInUser ? <PersonalList/> : <LoginViewPresenter />}></Route>
-          <Route path="register" element={<RegisterViewPresenter />}></Route>
+          <Route path="" element={<PersonalList/>}></Route>
           <Route path="details" element={<DetailsViewPresenter></DetailsViewPresenter>}></Route>
           <Route path="episodes" element={<EpisodeViewPresenter></EpisodeViewPresenter>}></Route>
           <Route path="trivia" element={<TriviaViewPresenter></TriviaViewPresenter>}></Route>
@@ -96,6 +95,11 @@ function App() {
           ></Route>
           <Route path="logout" element={<LogoutPresenter></LogoutPresenter>}></Route>
         </Routes>
+        : 
+        <Routes>
+          <Route path="" element={<LoginViewPresenter />}></Route>
+          <Route path="register" element={<RegisterViewPresenter />}></Route>
+        </Routes>}
       </div>
     </HashRouter>
   );
