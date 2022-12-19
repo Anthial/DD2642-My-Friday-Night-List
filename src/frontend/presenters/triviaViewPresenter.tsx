@@ -11,7 +11,7 @@ function TriviaViewPresenter() {
   //const id = "tt1630029";
   //const query = "cats";
   const user = useRecoilValue(loggedInUserAtom);
-  const [items, setItems] = useState<any>(null);
+  const [items, setItems] = useState(null);
   const title = useRecoilValue(selectedTitle);
   const navigate = useNavigate();
 
@@ -26,12 +26,12 @@ function TriviaViewPresenter() {
     if (title.id){
         fetchData();
     }
-  }, []);
+  }, [items]);
  
 
-  return ((items && items.length !== 0 ) ? 
+  return ((title) ? 
       <TriviaView
-        items={items}
+        items={items ? items : null}
         title={title ? title.name : "Loading..."}
         year={title && title.year ? title.year.toString() : "Loading..."}
         image={title ? title.imageUrl : "spinner.svg"}
