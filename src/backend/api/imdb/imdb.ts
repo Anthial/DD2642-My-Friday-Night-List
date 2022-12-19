@@ -3,7 +3,8 @@ import {IMDB_API_KEY} from "./apiConfig"
 export enum ApiErrorReason {
     Unknown,
     LimitReached,
-    InvalidKey
+    InvalidKey,
+    BadRequest
 }
 
 export class ApiError extends Error {
@@ -26,6 +27,10 @@ function handleResponse(response: Response){
         /* Too Many Requests */
         if(response.status === 429) {
             errorReason = ApiErrorReason.LimitReached;
+        }
+
+        if(response.status === 404) {
+            errorReason = ApiErrorReason.BadRequest
         }
 
         throw new ApiError("Could not access data, status: " + response.status, errorReason);

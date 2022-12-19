@@ -2,7 +2,6 @@ import RegisterView from "../views/registerView";
 import { useState } from "react";
 import { UserAccount, createUser, UserData, loggedInUserAtom } from "../../backend/model/user";
 import { useSetRecoilState } from "recoil";
-import { useNavigate } from "react-router-dom";
 import Spinner from "../views/spinnerView";
 
 function Register(/*props: any*/) {
@@ -11,8 +10,7 @@ function Register(/*props: any*/) {
   const [specifiedErrorText, setErrorText] = useState("");
   const [isWaitingForPromise, setWaitingForPromise] = useState(false);
   const setLoggedInUser = useSetRecoilState(loggedInUserAtom);
-  const navigate = useNavigate();
-  
+
   function attemptUserRegistrationACB() {
     setErrorText("");
 
@@ -25,7 +23,6 @@ function Register(/*props: any*/) {
         createUser(userRegistrationData)
           .then((d: UserData) => {
             setLoggedInUser(d);
-            navigate("/");
           })
           .catch((e: Error) => setErrorText(e.message))
           .finally(() => setWaitingForPromise(false));

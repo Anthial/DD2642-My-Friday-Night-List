@@ -10,7 +10,7 @@ import regions from "../../backend/data/countryCodes";
 import Spinner from "../views/spinnerView";
 import { useState, useEffect } from "react";
 import { getTitleById } from "../../backend/model/imdb";
-import { Title, TitleId } from "../../backend/model/title";
+import { Title, TitleId, TitleType } from "../../backend/model/title";
 import { loggedInUserAtom } from "../../backend/model/user";
 import { getAvailabilityById } from "../../backend/model/streamingAvailability";
 
@@ -23,14 +23,27 @@ function PersonalList() {
   useEffect(() => {
     const myList = userData?.watchlist;
     const fetchData = async (id: string) => {
-      const response = await getTitleById(id);
+      let response = await getTitleById(id).catch(error => console.log("Fetching title failed."));
       let networks = await getAvailabilityById(id, region).catch(
-        (error) => console.log(error)
+        (error) => console.log("Fetching availability failed.")
       );
       if (!networks) {
         networks = { streamingInfo: {}, imdbID: id, region: region };
       }
-      return [response, networks];
+      if(!response){
+        response =  {
+          id: crypto.randomUUID(),
+          type: TitleType.Movie,
+  
+          name: "Could not load",
+          imageUrl: "https://via.placeholder.com/150",
+  
+          seasons: [],
+          year: 0,
+            
+          plot: "Could not load.",
+          stars: []} as Title}
+      return [response as Title, networks];
     };
     if (myList) {
       const newExpandedState = expandedState;
