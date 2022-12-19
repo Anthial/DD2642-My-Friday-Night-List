@@ -14,11 +14,9 @@ function DetailsViewPresenter() {
   const setSeason = useSetRecoilState(selectedSeasonState);
 
   function setSelectedSeason (s: any) {
-    console.log(s)
     setSeason(s);
   } 
   function onUserModifiedList(title: Title) {
-    console.log(title);
 		if(user) {
 			let newWatchList = [...user.watchlist];
 

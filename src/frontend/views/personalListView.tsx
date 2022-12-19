@@ -3,8 +3,6 @@ import { IconChevronsUp, IconX } from "@tabler/icons";
 import { IconChevronsDown } from "@tabler/icons";
 
 function PersonalListView(props: any) {
-  // console.log(props.tvShow);
-
   return (
     <div className="flex flex-col ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
@@ -114,7 +112,6 @@ function renderMainContent(tvShow: any, props: any) {
     return <div></div>;
   }
   function generateStreamingLinksCB(streamingInfo: object) {
-    // console.log(Object.entries(streamingInfo)); //gives me an array containing the keys for the streaming objects
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
 

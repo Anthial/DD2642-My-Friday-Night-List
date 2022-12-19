@@ -21,7 +21,6 @@ function TriviaViewPresenter() {
     }  
     const fetchData = async () => {
       const resp = await getTriviaByID(title.id);
-      console.log(resp.items);
       setItems(resp.items);
     };
     if (title.id){

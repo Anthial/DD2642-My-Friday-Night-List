@@ -11,13 +11,12 @@ export function getAvailabilityById(id: TitleId, region: string): Promise<Availa
                 throw new Error("Invalid result object (API limit reached?)");
             }
 
-            console.log(region);
-
             const availability = {
                 imdbID: result.imdbID,
                 streamingInfo: result.streamingInfo,
                 region: region
             }
+            
             cacheAvailabilityInFirebase(availability);
             return availability;
         })

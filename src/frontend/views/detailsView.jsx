@@ -14,7 +14,6 @@ return props["setSelectedSeason"].call(null, season);
 }
 ;
 var generate_movie_view = function (plot, stars, src, seasons, props) {
-console.log(props);
 return <div className="flex flex-col text-center items-center mt-4 bg-[#006466] h-full w-full lg:w-[50%] \n                          p-2 lg:px-16 m-2 lg:m-5 rounded-lg "><div className="select-none h-64 w-full bg-center bg-contain bg-no-repeat group overflow-hidden rounded-lg \n                           overflow-hidden relative" style={clj__GT_js.call(null, arrayMap(keyword("backgroundImage"), str.call(null, "url", "(", src, ")")))} onClick={function (event) {
 return props["onUserModifiedList"].call(null, props["values"]);
 }}><div className="select-none h-6 absolute -bottom-12 flex w-full justify-center \n                            transition-transform duration-100 \n                            group-hover:-translate-y-40 group-hover: scale-[400%]">{(some.call(null, function (_PERCENT_1) {
