@@ -31,7 +31,7 @@ export const selectedTitle = atom({
     localStorageEffect("selectedTitle"),
   ],
 });
-
+ 
 export const selectedSeasonState = atom({
   key: "selectedSeason",
   default: "",

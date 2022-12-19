@@ -20,6 +20,65 @@ interface CachedAvailability {
 	cacheTime: number,
 }
 
+interface CachedEpisodes {
+	episodes: any,
+	cacheTime: number,
+}
+
+interface CachedTrivia {
+	trivia: any,
+	cacheTime: number,
+}
+
+export function getTriviaFromFirebase(id: TitleId): Promise<any> {
+	const triviaRef = ref(database, "cache/imdb/trivia/" + id);
+
+	return get(triviaRef).then(data => {
+		const cacheEntry = data.val() as CachedEpisodes;
+
+		if(cacheEntry) {
+			if(isExpiredCacheEntry(cacheEntry.cacheTime)) {
+				remove(triviaRef);
+				throw new Error("Cached data is too old, removing");
+			}
+
+			return cacheEntry.episodes;
+		}
+
+		throw new Error("Not found in Firebase cache");
+	});
+}
+
+export function cacheTriviaInFirebase(result: any, id: TitleId) {
+	const triviaRef = ref(database, "cache/imdb/trivia/" + id);
+	set(triviaRef, { episodes: result, cacheTime: Math.floor(Date.now() / 1000) });
+}
+
+
+export function getEpisodesFromFirebase(id: TitleId, season: string): Promise<any> {
+	const episodeRef = ref(database, "cache/imdb/episodes/" + id +"/" + season);
+
+	return get(episodeRef).then(data => {
+		const cacheEntry = data.val() as CachedEpisodes;
+
+		if(cacheEntry) {
+			if(isExpiredCacheEntry(cacheEntry.cacheTime)) {
+				remove(episodeRef);
+				throw new Error("Cached data is too old, removing");
+			}
+
+			return cacheEntry.episodes;
+		}
+
+		throw new Error("Not found in Firebase cache");
+	});
+}
+
+export function cacheEpisodesInFirebase(result: any, id: TitleId, season: string) {
+	const episodeRef = ref(database, "cache/imdb/episodes/" + id +"/" + season);
+	set(episodeRef, { episodes: result, cacheTime: Math.floor(Date.now() / 1000) });
+}
+
 export function getAvailabilityFromFirebase(id: TitleId, region: string): Promise<Availability>{
 	const titleRef = ref(database, "cache/availability/title/" + id + "/" + region);
 	return get(titleRef).then(data => {

@@ -11,7 +11,7 @@ function TriviaViewPresenter() {
   //const id = "tt1630029";
   //const query = "cats";
   const user = useRecoilValue(loggedInUserAtom);
-  const [items, setItems] = useState(null);
+  const [items, setItems] = useState<any>(null);
   const title = useRecoilValue(selectedTitle);
   const navigate = useNavigate();
 
@@ -26,15 +26,10 @@ function TriviaViewPresenter() {
     if (title.id){
         fetchData();
     }
-    if (!(items && !(Object.keys(items).length === 0))){
-      setTimeout(() => {
-        if(!(items && !(Object.keys(items).length === 0))){
-          navigate("/");
-      }},
-  3000)}
   }, []);
+ 
 
-  return ((items && !(Object.keys(items).length === 0)) ? 
+  return ((items && items.length !== 0 ) ? 
       <TriviaView
         items={items}
         title={title ? title.name : "Loading..."}
