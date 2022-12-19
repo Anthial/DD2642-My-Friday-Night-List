@@ -3,16 +3,14 @@ import { IconChevronsUp, IconX } from "@tabler/icons";
 import { IconChevronsDown } from "@tabler/icons";
 
 function PersonalListView(props: any) {
-  // console.log(props.tvShow);
-
   return (
     <div className="flex flex-col ">
       <h1 className="flex justify-center underline decoration-solid decoration-4 underline-offset-4  mt-4 mb-4">
-        My list
+        MY LIST
       </h1>
       {props.tvShow.length !== 0 ? (
         <div className="mb-10 flex flex-col ">
-          <div className="flex flex-row box-border  self-stretch lg:px-[35%] md:px-[25%] px-[20%] w-full">
+          <div className="flex flex-row box-border self-stretch lg:px-[35%] md:px-[25%] px-[20%] w-full">
             <select
               name="selected-country"
               id="country-select"
@@ -53,7 +51,7 @@ function renderSeasons(
     <div key={season} className="mt-2  whitespace-pre mx-2">
       <Link
         to="/episodes"
-        className=" bg-[#4d194d] py-0 px-1.5 hover:shadow-lg hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
+        className=" bg-[#4d194d]  py-0 px-1.5 hover:shadow-lg hover:bg-[#251a33] rounded-lg border-transparent hover:border-[#646cff] outline-[0px] hover:outline hover:outline-[1px] outline-[#646cff]"
         onClick={() => {
           saveSelectedTitle(id);
           saveSelectedSeason(season);
@@ -114,7 +112,6 @@ function renderMainContent(tvShow: any, props: any) {
     return <div></div>;
   }
   function generateStreamingLinksCB(streamingInfo: object) {
-    // console.log(Object.entries(streamingInfo)); //gives me an array containing the keys for the streaming objects
     return <div>{Object.entries(streamingInfo).map(renderLinks)}</div>;
   }
 
@@ -146,12 +143,12 @@ function renderMainContent(tvShow: any, props: any) {
           {/* title, origin, watch at */}
           <div className="flex flex-col w-full">
             {/* title and origin text for show */}
-            <div className="flex lg:flex-row flex-col hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">
-              <Link
+            <div className="flex lg:flex-row flex-col ">
+              <Link className="hover:cursor-auto"
                 to="/details"
                 onClick={() => props.saveSelectedTitle(tvShow.id)}
               >
-                <div className="mr-2.5">{tvShow.name}</div>
+                <div className="mr-2.5 hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">{tvShow.name}</div>
                 <div>
                   <span className="text-[#90e0ef] whitespace-pre">
                     Origin:{" "}
@@ -205,7 +202,7 @@ function renderMainContent(tvShow: any, props: any) {
           </div>
         </div>
       </div>
-      <div>
+      <div className="w-full">
         {expandedContentACB(
           tvShow.seasons ? tvShow.seasons : null,
           props.saveSelectedSeason,

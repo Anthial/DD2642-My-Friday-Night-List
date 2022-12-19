@@ -25,7 +25,6 @@ function EpisodeViewPresenter() {
      }
     const fetchData = async () => {
       const response = await getEpisodesByIDSeason(id, season);
-      console.log(response);
       setTitle(response.title);
       setYear(response.year);
       setEpisodes(response.episodes);
