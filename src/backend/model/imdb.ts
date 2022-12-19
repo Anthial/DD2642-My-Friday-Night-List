@@ -1,8 +1,19 @@
 import { SearchResult, Title, TitleId, TitleType } from "./title";
 import { cacheSearchInFirebase, cacheTitleInFirebase, cacheEpisodesInFirebase, cacheTriviaInFirebase, getTitleFromFirebase, searchImdbInFirebase, getEpisodesFromFirebase, getTriviaFromFirebase} from "../firebase/cache";
-import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia } from "../api/imdb/imdb";
+import { fetchSearchResults, fetchTitle, fetchEpisodes, fetchTrivia, ApiError } from "../api/imdb/imdb";
 import { atom } from "recoil";
 import { isValidResult } from "./util";
+
+export type ImdbErrorObserver = (error: ApiError) => void;
+let imdbErrorObservers: ImdbErrorObserver[] = [];
+
+export function addImdbErrorObserver(observer: ImdbErrorObserver) {
+	imdbErrorObservers.push(observer);
+}
+
+export function removeImdbErrorObserver(observer: ImdbErrorObserver) {
+	imdbErrorObservers = imdbErrorObservers.filter(o => o !== observer);
+}
 
 export function getTitleById(id: TitleId): Promise<Title> {
 	// First check if Firebase has this title cached, if not use the IMDb API and cache the data in Firebase
@@ -30,6 +41,13 @@ export function getTitleById(id: TitleId): Promise<Title> {
 
 			cacheTitleInFirebase(title);
 			return title;
+		})
+		.catch((e: Error) => {
+			if(e instanceof ApiError) {
+				imdbErrorObservers.map(o => o(e));
+			}
+
+			throw e;
 		});
 	});
 }
@@ -69,6 +87,13 @@ export function searchImdb(query: string): Promise<SearchResult[]> {
 			cacheSearchInFirebase(query, results);
 			return results;
 		})
+		.catch((e: Error) => {
+			if(e instanceof ApiError) {
+				imdbErrorObservers.map(o => o(e));
+			}
+
+			throw e;
+		});
 	});
 }
 
@@ -82,7 +107,13 @@ export function getEpisodesByIDSeason(id: string, season: string): Promise<any> 
 			}
 			cacheEpisodesInFirebase(result, id, season)
 			return result;
-		});
+		}).catch((e: Error) => {
+			if(e instanceof ApiError) {
+				imdbErrorObservers.map(o => o(e));
+			}
+
+			throw e;
+			});
 	});
 }
 
@@ -94,6 +125,12 @@ export function getTriviaByID(id: string): Promise<any> {
 			}
 			cacheTriviaInFirebase(result, id)
 			return result;
-		});
+		}).catch((e: Error) => {
+			if(e instanceof ApiError) {
+				imdbErrorObservers.map(o => o(e));
+			}
+
+			throw e;
+			});
 	});
 }

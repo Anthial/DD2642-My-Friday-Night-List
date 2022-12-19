@@ -35,12 +35,12 @@ export default function SearchResults() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-
-		if (!user){
-			navigate("/")
+		if(!user) {
+			navigate("/");
 		}
+
 		/* We need this check if the user reloads the page when we run in development mode (because React will render components twice) */
-		if(!imdbRatelimited && searchValue !== results.query) {
+		if(!imdbRatelimited && searchValue.trim() !== results.query.trim()) {
 			/* Deep copy the current search value, in case it changes before the promise is finished */
 			const searchValueCopy = `${searchValue}`;
 
@@ -53,10 +53,14 @@ export default function SearchResults() {
 					titles: t,
 					query: searchValueCopy
 				}))
-				.catch((e: Error) => window.alert("Search failed: " + e.message))
+				/* User will be informed by banner */
+				.catch(() => setResults({
+					titles: [],
+					query: searchValueCopy
+				}))
 				.finally(() => setTimeout(() => setImdbRatelimited(false), 1000));
 		}
-	}, [searchValue]);
+	}, [searchValue, imdbRatelimited]);
 
 	function onSelectTitle(id: TitleId){
 		setSelectedTitle({} as Title);
