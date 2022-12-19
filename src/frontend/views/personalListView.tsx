@@ -10,7 +10,7 @@ function PersonalListView(props: any) {
       </h1>
       {props.tvShow.length !== 0 ? (
         <div className="mb-10 flex flex-col ">
-          <div className="flex flex-row box-border  self-stretch lg:px-[35%] md:px-[25%] px-[20%] w-full">
+          <div className="flex flex-row box-border self-stretch lg:px-[35%] md:px-[25%] px-[20%] w-full">
             <select
               name="selected-country"
               id="country-select"
@@ -144,12 +144,12 @@ function renderMainContent(tvShow: any, props: any) {
           {/* title, origin, watch at */}
           <div className="flex flex-col w-full">
             {/* title and origin text for show */}
-            <div className="flex lg:flex-row flex-col hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">
-              <Link
+            <div className="flex lg:flex-row flex-col ">
+              <Link className="hover:cursor-auto"
                 to="/details"
                 onClick={() => props.saveSelectedTitle(tvShow.id)}
               >
-                <div className="mr-2.5">{tvShow.name}</div>
+                <div className="mr-2.5 hover:border-b hover:pb-0 pb-[1px] border-solid border-[#b7e4c7] hover:cursor-pointer">{tvShow.name}</div>
                 <div>
                   <span className="text-[#90e0ef] whitespace-pre">
                     Origin:{" "}
