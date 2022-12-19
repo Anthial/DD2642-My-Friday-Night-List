@@ -8,6 +8,10 @@ By adding series or episodes to a "favorite" list you're able to easily keep tra
 
 https://my-friday-night-list.web.app/
 
+## User Evaluation
+
+See https://github.com/Anthial/my-friday-night-list/blob/main/Prototype%20User%20Consultation.txt and https://github.com/Anthial/my-friday-night-list/blob/main/Formative%20Evaluation%20User%20Consultation.txt
+
 ## Setup
 
 Installing dependencies is done with:
