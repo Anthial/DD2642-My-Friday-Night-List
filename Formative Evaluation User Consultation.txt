@@ -1,0 +1,9 @@
+While essentially being finished with the functionality and the design of the application, we had a user sit down with it for 45 minutes, without any prompts and asked them to interact with the site.
+
+- For Register, a back button would make sense. 
+- When registering, there should be an option to show one's password, especially since one has to repeat it!
+- In the list, it would be cleaner if the underscore would only be for the title, not both the title and the origin of the title.
+- When looking at episode details, the plot text should expand a little bit more to not show the scrollbar too soon.
+- The boxes in episode details should be more standardised for a cleaner look, with for example, the release date really at the bottom.
+- The My List text in the list would look better capitalised.
+- The width in the list when expanding and looking at seasons is a bit uneven, it would be nice if it was of a fixed width instead.

@@ -1,0 +1,8 @@
+While still building functionality of the application, we had a user sit down with it for thirty minutes, with a pseudo-functional prototype without any prompts and asked them to interact with the site.
+
+The user had the following to say about the prototype functionality:
+- There should be some kind of feedback when one adds something to one's list.
+- When one interacts with images in the search, one should be taken to the details of that item.
+- When one interacts with images or the text in the list, one should be taken to the details of that item.
+- Why can't I like things when looking at the details of an item, I want to see the details before I decide if I want to add it to my list.
+- Why can't I navigate out of the details or the trivia? Please add clear back buttons!
